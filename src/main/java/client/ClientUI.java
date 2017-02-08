@@ -1,12 +1,11 @@
+package client;
+
+import javax.swing.*;
+
 /**
  * Created by ali on 2/8/17.
  */
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 public class ClientUI {
-
     public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 

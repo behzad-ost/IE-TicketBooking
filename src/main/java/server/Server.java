@@ -14,24 +14,19 @@ public class Server {
 
         Socket clientSocket = server.accept();
 
-//        DataInputStream in = new DataInputStream(clientSocket.getInputStream());
-//        DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
         BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        PrintWriter output = new PrintWriter(clientSocket.getOutputStream());
-
+        PrintStream output = new PrintStream(clientSocket.getOutputStream());
 
         String line;
-        while(true) {
-            line = input.readLine();
-            if (line != null) {
-                output.write("kir");
-                System.out.println(line);
-            }
+        while((line = input.readLine()) != null) {
+            output.println("behx");
+            System.out.println("data from client: " + line);
+            output.flush();
         }
 
-//        in.close();
-//        out.close();
-//        server.close();
+        input.close();
+        output.close();
+        server.close();
 
     }
 }

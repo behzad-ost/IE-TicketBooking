@@ -21,6 +21,8 @@ public class Server {
         server.accept();
         while(true) {
             String request = server.receive();
+            if (request == null || request == "" || request == "\n")
+                break;
             System.out.println("request: " + request);
 
 //            transceiver.send(request);
@@ -31,7 +33,13 @@ public class Server {
 
         CommandHandler ch = new CommandHandler(request);
         ch.parseCommand();
-        String commandType = ch.getCommandType();
+        String commandType;
+        try {
+            commandType = ch.getCommandType();
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            server.send("Haroomi Dorost Type Kon!");
+            continue;
+        }
 
         switch (commandType) {
             case "search":
@@ -40,6 +48,18 @@ public class Server {
             break;
             case "reserve":
                 System.out.println("reserve!");
+                int numOfPeople;
+                ClientReserveQuery crq = ch.createReserveQuery();
+                numOfPeople = crq.getNumOfPeople();
+                System.out.println("num: " + numOfPeople);
+
+                for (int i = 0; i < numOfPeople; i++) {
+                    String personInfo = server.receive();
+                    System.out.println("person: " + personInfo);
+                    crq.addPerson(personInfo);
+                }
+
+                System.out.println("end!");
                 break;
             case "finalize":
                 System.out.println("finalize!");

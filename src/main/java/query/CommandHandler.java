@@ -19,10 +19,8 @@ public class CommandHandler {
         this.commandArgs = this.command.split("\\s+");
     }
 
-
-    private String parseClientSearch(String command) {
-        System.out.println("parsing client query");
-        return command;
+    public ClientReserveQuery createReserveQuery() {
+        return new ClientReserveQuery(commandArgs);
     }
 
     public ClientSearchQuery createSearchQuery(){

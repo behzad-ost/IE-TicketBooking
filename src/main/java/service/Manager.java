@@ -1,6 +1,7 @@
 package service;
 
 import common.Flight;
+import common.Pair;
 import common.Reservation;
 import common.Transceiver;
 import query.ClientReserveQuery;
@@ -44,22 +45,44 @@ public class Manager {
         reservations.add(tmp);
     }
 
+    public String transceive(String data) throws IOException {
+        String res;
+        transceiver.send(data);
+        res = transceiver.receive();
+        return res;
+    }
+
     public void search (ClientSearchQuery csq) throws IOException {
         String requestToHelper = "AV ";
         requestToHelper += csq.originCode + " " + csq.destCode + " " + csq.date + "\n";
-        transceiver.send(requestToHelper);
-        String helperResponse = transceiver.receive();
+
+        String helperResponse = transceive(requestToHelper);
         System.out.println(helperResponse);
 
         String[] lines = helperResponse.split("\\n");
         setFlights(lines);
-        System.out.println(flights);
+
+
     }
 
-    private void setFlights(String[] lines) {
+    private void setFlights(String[] lines) throws IOException {
         for(int i = 0 ; i < lines.length-1 ; i=i+2){
             Flight newFlight = new Flight(lines[i], lines[i+1]);
+            setPrices(newFlight);
             flights.add(newFlight);
+
+        }
+    }
+
+    private void setPrices(Flight newFlight) throws IOException {
+        ArrayList<Pair<String,Integer>> classes = newFlight.getClasses();
+        for(int i = 0 ; i < classes.size() ; i++){
+            String requestToHelper = "PRICE ";
+            requestToHelper += newFlight.getOrigin() + " " +
+                    newFlight.getDestination() + " " + newFlight.getCode() + " " +
+                    classes.get(i).getFirst()+ "\n";
+            String response = transceive(requestToHelper);
+            newFlight.addPrice(classes.get(i).getFirst(), response);
         }
     }
 }

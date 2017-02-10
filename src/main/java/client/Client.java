@@ -1,33 +1,29 @@
 package client;
 
+import common.Transceiver;
+
 import java.io.*;
 import java.net.Socket;
 
 /**
  * Created by ali on 2/9/17.
  */
+
+
 public class Client {
     public static void main(String[] args) throws IOException {
-//        Socket clientSocket = new Socket("188.166.78.119", 8081);
-        Socket clientSocket = new Socket("localhost", 8081);
+        Transceiver transceiver = new Transceiver("188.166.78.119", 8081);
+//        Transceiver transceiver = new Transceiver("localhost", 8081);
 
-        BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        PrintWriter output = new PrintWriter(clientSocket.getOutputStream());
+        String cmd;
+        BufferedReader inFromUser = new BufferedReader( new InputStreamReader(System.in));
+        cmd= inFromUser.readLine();
 
-        output.write("AV THR MHD 05Feb\n");
-        System.out.println("Wrote!");
-        output.flush();
+        transceiver.send(cmd);
 
-        System.out.println("reading from server");
-        String response;
-        while ((response = input.readLine()) != null) {
-            System.out.println("data from server: " + response);
-        }
+        String answer = transceiver.receive();
+        System.out.println(answer);
 
-        System.out.println("Done!");
-
-        output.close();
-        input.close();
-        clientSocket.close();
+        transceiver.close();
     }
 }

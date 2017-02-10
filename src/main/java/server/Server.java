@@ -1,6 +1,7 @@
 package server;
 import common.ServerTransceiver;
 import common.Transceiver;
+import query.ClientReserveQuery;
 import query.ClientSearchQuery;
 import query.CommandHandler;
 
@@ -21,27 +22,28 @@ public class Server {
             String request = server.receive();
             System.out.println("request: " + request);
 
-            transceiver.send(request);
-            String helperResponse = transceiver.receive();
-            System.out.println("helper :\n" + helperResponse);
+//            transceiver.send(request);
+//            String helperResponse = transceiver.receive();
+//            System.out.println("helper :\n" + helperResponse);
+//
+//            server.send(helperResponse);
 
-            server.send(helperResponse);
+        CommandHandler ch = new CommandHandler(request);
+        ch.parseCommand();
+        String commandType = ch.getCommandType();
 
-//        CommandHandler ch = new CommandHandler(request);
-//        ch.parseCommand();
-//        String commandType = ch.getCommandType();
-//        switch (commandType) {
-//            case "search":
-////                ClientSearchQuery csq = new ClientSearchQuery();
-//                System.out.println("search!!");
-//                break;
-//            case "reserve":
-//                System.out.println("reserve!");
-//                break;
-//            case "finalize":
-//                System.out.println("finalize!");
-//                break;
-//        }
+        switch (commandType) {
+            case "search":
+                System.out.println("search!!");
+                ClientSearchQuery csq = ch.createSearchQuery();
+            break;
+            case "reserve":
+                System.out.println("reserve!");
+                break;
+            case "finalize":
+                System.out.println("finalize!");
+                break;
+        }
 
 
 //        PrintStream output = new PrintStream(clientSocket.getOutputStream());

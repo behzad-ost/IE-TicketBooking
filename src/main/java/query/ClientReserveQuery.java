@@ -6,6 +6,10 @@ import java.util.ArrayList;
  * Created by ali on 2/10/17.
  */
 public class ClientReserveQuery {
+    public ClientReserveQuery(String[] args) {
+
+    }
+
     private class Person{
         protected String firstName;
         protected String sureName;

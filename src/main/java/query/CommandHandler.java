@@ -11,6 +11,10 @@ public class CommandHandler {
         this.command = command;
     }
 
+    public ClientSearchQuery createSearchQuery(){
+        return new ClientSearchQuery(commandArgs);
+    }
+
     public String getCommandType() {
         return this.commandArgs[0];
     }

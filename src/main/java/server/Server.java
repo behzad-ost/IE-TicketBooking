@@ -14,21 +14,19 @@ public class Server {
 
     public static void main(String[] args) throws IOException {
         Transceiver transceiver = new Transceiver("188.166.78.119", 8081);
-//        ServerSocket server = new ServerSocket(8081);
+
         ServerTransceiver server = new ServerTransceiver(8081);
         System.out.println("Server is running");
         server.accept();
-//        Socket clientSocket = server.accept();
+        while(true) {
+            String request = server.receive();
+            System.out.println("request: " + request);
 
-//        String request = receive(clientSocket);
-        String request = server.receive();
-        System.out.println("request: " + request);
+            transceiver.send(request);
+            String helperResponse = transceiver.receive();
+            System.out.println("helper :\n" + helperResponse);
 
-        transceiver.send(request);
-        String helperResponse = transceiver.receive();
-        System.out.println("helper :\n" + helperResponse);
-
-        server.send(helperResponse);
+            server.send(helperResponse);
 
 //        CommandHandler ch = new CommandHandler(request);
 //        ch.parseCommand();
@@ -47,12 +45,11 @@ public class Server {
 //        }
 
 
-
 //        PrintStream output = new PrintStream(clientSocket.getOutputStream());
 //        output.println("behx");
 //        output.flush();
 //        output.close();
-
-        server.close();
+        }
+//        server.close();
     }
 }

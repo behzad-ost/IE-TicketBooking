@@ -16,11 +16,12 @@ public class Client {
 
         String cmd;
         BufferedReader inFromUser = new BufferedReader( new InputStreamReader(System.in));
-        cmd= inFromUser.readLine() + '\n';
-        transceiver.send(cmd);
-
-        String answer = transceiver.receive();
-        System.out.println(answer);
+        while((cmd= inFromUser.readLine()) != null) {
+            cmd += '\n';
+            transceiver.send(cmd);
+            String answer = transceiver.receive();
+            System.out.println(answer);
+        }
 
         transceiver.close();
     }

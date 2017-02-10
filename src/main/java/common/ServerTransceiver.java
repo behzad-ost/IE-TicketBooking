@@ -16,9 +16,11 @@ public class ServerTransceiver {
 
     public ServerTransceiver(int port) throws IOException {
         serverSocket = new ServerSocket(port);
-        socket = serverSocket.accept();
     }
 
+    public void accept() throws IOException {
+        socket = serverSocket.accept();
+    }
 
     public String receive() throws IOException {
         String res = "";

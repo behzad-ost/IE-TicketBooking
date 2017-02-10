@@ -16,6 +16,7 @@ public class Server {
         Transceiver transceiver = new Transceiver("188.166.78.119", 8081);
         ServerTransceiver server = new ServerTransceiver(8081);
         System.out.println("Server is running");
+        server.accept();
         while(true) {
             String request = server.receive();
             System.out.println("request: " + request);

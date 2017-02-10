@@ -1,22 +1,13 @@
 package query;
 
+import common.Person;
+
 import java.util.ArrayList;
 
 /**
  * Created by ali on 2/10/17.
  */
 public class ClientReserveQuery {
-    private class Person{
-        protected String firstName;
-        protected String sureName;
-        protected String nationalId;
-
-        public Person(String firstName, String sureName, String nationalId) {
-            this.firstName = firstName;
-            this.sureName = sureName;
-            this.nationalId = nationalId;
-        }
-    }
 
     private String originCode;
     private String destCode;

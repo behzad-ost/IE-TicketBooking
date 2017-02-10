@@ -16,7 +16,7 @@ public class Server {
 
     public static void main(String[] args) throws IOException {
         Transceiver transceiver = new Transceiver("188.166.78.119", 8081);
-        ServerTransceiver server = new ServerTransceiver(8081);
+        ServerTransceiver server = new ServerTransceiver(8082);
         System.out.println("Server is running");
         server.accept();
         while(true) {

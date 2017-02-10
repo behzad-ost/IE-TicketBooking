@@ -21,21 +21,25 @@ public class Manager {
 
     public void makeReservation (ClientReserveQuery crq) throws IOException {
         Reservation tmp = new Reservation(crq);
-        String requestToHelper = "RES ";
-        requestToHelper +=
-             crq.originCode +" "+ crq.destCode+" "+crq.airlineCode+" "+crq.flightNumber+" "+crq.seatClass+
-                        " "+crq.adults+" "+crq.childs+" "+crq.infants+"\n" ;
-        for(int i = 0 ; i < crq.people.size() ; i++){
+        String requestToHelper = "RES " + crq.originCode + " " + crq.destCode + " " +
+                crq.date + " " + crq.airlineCode +
+                " " + crq.flightNumber + " " + crq.seatClass +
+                " " + crq.adults + " " + crq.childs + " " + crq.infants + "\n";
+        transceiver.send(requestToHelper);
+
+        for(int i = 0 ; i < crq.people.size() ; i++) {
+            requestToHelper = "";
             requestToHelper += crq.people.get(i).getFirstName()+" "
                             +crq.people.get(i).getSurName()+" "
                             +crq.people.get(i).getNationalId()+"\n";
+            transceiver.send(requestToHelper);
         }
-        transceiver.send(requestToHelper);
-        String helperResponse = transceiver.receive();
-        System.out.println(helperResponse);
 
-        reservations.add(tmp);
+        String helperResponse = transceiver.receive();
+        System.out.println("response: " + helperResponse);
+//        reservations.add(tmp);
     }
+
     public void search (ClientSearchQuery csq) throws IOException {
         String requestToHelper = "AV ";
 //        requestToHelper += csq.

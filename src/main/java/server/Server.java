@@ -16,7 +16,7 @@ import java.net.Socket;
 public class Server {
 
     public static void main(String[] args) throws IOException {
-        ServerTransceiver server = new ServerTransceiver(8082);
+        ServerTransceiver server = new ServerTransceiver(8083);
         System.out.println("Server is running");
         server.accept();
         while(true) {

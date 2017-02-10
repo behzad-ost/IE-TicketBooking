@@ -21,6 +21,8 @@ public class Reservation{
     private String token;
     private boolean verified;
 
+    public boolean validity;
+
     public Reservation(ClientReserveQuery crq){
         this.originCode = crq.originCode;
         this.destCode = crq.destCode;
@@ -31,6 +33,7 @@ public class Reservation{
         this.childs = crq.childs;
         this.infants= crq.infants;
         this.people = crq.people;
+        this.validity = true;
     }
 
     public void verify() {

@@ -19,6 +19,8 @@ public class Manager {
 
     public Manager() throws IOException {
         transceiver = new Transceiver("188.166.78.119", 8081);
+        flights = new ArrayList<Flight>();
+        reservations = new ArrayList<Reservation>();
     }
 
     public void makeReservation (ClientReserveQuery crq) throws IOException {
@@ -39,27 +41,25 @@ public class Manager {
 
         String helperResponse = transceiver.receive();
         System.out.println("response: " + helperResponse);
-//        reservations.add(tmp);
+        reservations.add(tmp);
     }
 
     public void search (ClientSearchQuery csq) throws IOException {
         String requestToHelper = "AV ";
-//        requestToHelper += csq.
+        requestToHelper += csq.originCode + " " + csq.destCode + " " + csq.date + "\n";
         transceiver.send(requestToHelper);
         String helperResponse = transceiver.receive();
         System.out.println(helperResponse);
 
         String[] lines = helperResponse.split("\\n");
         setFlights(lines);
-
-
-
+        System.out.println(flights);
     }
 
     private void setFlights(String[] lines) {
-        for(int i = 0 ; i < lines.length ; i=i+2){
+        for(int i = 0 ; i < lines.length-1 ; i=i+2){
             Flight newFlight = new Flight(lines[i], lines[i+1]);
-
+            flights.add(newFlight);
         }
     }
 }

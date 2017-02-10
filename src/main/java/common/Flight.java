@@ -1,6 +1,7 @@
 package common;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Created by behzad on 2/10/17.
@@ -28,6 +29,20 @@ public class Flight {
         dTime = line1Args[5];
         aTime = line1Args[6];
         planeModel= line1Args[7];
+        classes = new ArrayList<Pair<String,Integer>>();
 
+        for(int i = 0 ; i < line2Args.length ; i++){
+            int free;
+            if(Objects.equals(line2Args[i].substring(1, 2), "C"))
+                free = 0;
+            else if(Objects.equals(line2Args[i].substring(1, 2), "A"))
+                free = 9;
+            else
+                free = Integer.parseInt(line2Args[i].substring(1,2));
+
+            Pair<String,Integer> newPair = new Pair<>(line2Args[i].substring(0,1),free);
+            System.out.println("f: "+newPair.getFirst()+ " s: "+newPair.getSecond());
+            classes.add(newPair);
+        }
     }
 }

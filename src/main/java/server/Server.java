@@ -16,7 +16,6 @@ import java.net.Socket;
 public class Server {
 
     public static void main(String[] args) throws IOException {
-
         ServerTransceiver server = new ServerTransceiver(8082);
         System.out.println("Server is running");
         server.accept();
@@ -38,23 +37,23 @@ public class Server {
         try {
             commandType = ch.getCommandType();
         } catch (ArrayIndexOutOfBoundsException ex) {
-            server.send("Bad Request!");
+            server.send("Haroomi Dorost Type Kon!");
             continue;
         }
-            Manager manager = new Manager();
+
+        Manager manager = new Manager();
         switch (commandType) {
             case "search":
                 System.out.println("search!!");
                 ClientSearchQuery csq = ch.createSearchQuery();
                 manager.search(csq);
-            break;
+                break;
             case "reserve":
                 System.out.println("reserve!");
-                int numOfPeople;
                 ClientReserveQuery crq = ch.createReserveQuery();
-                numOfPeople = crq.getNumOfPeople();
-                System.out.println("num: " + numOfPeople);
 
+                int numOfPeople;
+                numOfPeople = crq.getNumOfPeople();
                 for (int i = 0; i < numOfPeople; i++) {
                     String personInfo = server.receive();
                     System.out.println("person: " + personInfo);
@@ -74,6 +73,6 @@ public class Server {
 //        output.flush();
 //        output.close();
         }
-//        server.close();
+        server.close();
     }
 }

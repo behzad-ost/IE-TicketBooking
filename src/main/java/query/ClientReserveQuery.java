@@ -11,6 +11,7 @@ public class ClientReserveQuery {
 
     public String originCode;
     public String destCode;
+    public String date;
     public String airlineCode;
     public String flightNumber;
     public String seatClass;
@@ -22,12 +23,13 @@ public class ClientReserveQuery {
     public ClientReserveQuery(String[] args) {
         this.originCode = args[1];
         this.destCode = args[2];
-        this.airlineCode = args[3];
-        this.flightNumber = args[4];
-        this.seatClass = args[5];
-        this.adults = Integer.parseInt(args[6]);
-        this.childs = Integer.parseInt(args[7]);
-        this.infants = Integer.parseInt(args[8]);
+        this.date = args[3];
+        this.airlineCode = args[4];
+        this.flightNumber = args[5];
+        this.seatClass = args[6];
+        this.adults = Integer.parseInt(args[7]);
+        this.childs = Integer.parseInt(args[8]);
+        this.infants = Integer.parseInt(args[9]);
         this.people = new ArrayList<>();
     }
 

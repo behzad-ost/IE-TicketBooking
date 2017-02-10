@@ -44,5 +44,4 @@ public class Reservation{
         this.token = t;
     }
 
-
 }

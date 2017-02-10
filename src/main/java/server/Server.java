@@ -59,6 +59,7 @@ public class Server {
                     System.out.println("person: " + personInfo);
                     crq.addPerson(personInfo);
                 }
+                System.out.println("end!");
                 manager.makeReservation(crq);
                 break;
             case "finalize":

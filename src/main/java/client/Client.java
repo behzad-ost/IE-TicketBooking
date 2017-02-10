@@ -9,7 +9,6 @@ import java.net.Socket;
  * Created by ali on 2/9/17.
  */
 
-
 public class Client {
     public static void main(String[] args) throws IOException {
 //        Transceiver transceiver = new Transceiver("188.166.78.119", 8081);

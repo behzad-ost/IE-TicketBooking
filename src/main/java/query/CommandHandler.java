@@ -11,10 +11,6 @@ public class CommandHandler {
         this.command = command;
     }
 
-    public ClientSearchQuery createSearchQuery(){
-        return new ClientSearchQuery(commandArgs);
-    }
-
     public String getCommandType() {
         return this.commandArgs[0];
     }
@@ -23,9 +19,18 @@ public class CommandHandler {
         this.commandArgs = this.command.split("\\s+");
     }
 
+
     private String parseClientSearch(String command) {
         System.out.println("parsing client query");
         return command;
+    }
+
+    public ClientSearchQuery createSearchQuery(){
+        return new ClientSearchQuery(commandArgs);
+    }
+
+    public ClientFinalizeQuery createFinalizeQuery(){
+        return new ClientFinalizeQuery(commandArgs);
     }
 
 }

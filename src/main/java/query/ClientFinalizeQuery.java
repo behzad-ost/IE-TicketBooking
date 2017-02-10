@@ -5,4 +5,8 @@ package query;
  */
 public class ClientFinalizeQuery {
     private String token;
+
+    public ClientFinalizeQuery(String[] commandArgs) {
+        token = commandArgs[1];
+    }
 }

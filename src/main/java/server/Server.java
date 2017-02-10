@@ -1,6 +1,7 @@
 package server;
 import common.ServerTransceiver;
 import common.Transceiver;
+import query.ClientFinalizeQuery;
 import query.ClientReserveQuery;
 import query.ClientSearchQuery;
 import query.CommandHandler;
@@ -42,6 +43,7 @@ public class Server {
                 break;
             case "finalize":
                 System.out.println("finalize!");
+                ClientFinalizeQuery cfq = ch.createFinalizeQuery();
                 break;
         }
 

@@ -12,13 +12,12 @@ import java.net.Socket;
 
 public class Client {
     public static void main(String[] args) throws IOException {
-        Transceiver transceiver = new Transceiver("188.166.78.119", 8081);
-//        Transceiver transceiver = new Transceiver("localhost", 8081);
+//        Transceiver transceiver = new Transceiver("188.166.78.119", 8081);
+        Transceiver transceiver = new Transceiver("localhost", 8081);
 
         String cmd;
         BufferedReader inFromUser = new BufferedReader( new InputStreamReader(System.in));
-        cmd= inFromUser.readLine();
-
+        cmd= inFromUser.readLine() + '\n';
         transceiver.send(cmd);
 
         String answer = transceiver.receive();

@@ -1,11 +1,13 @@
 package common;
 
+import query.ClientReserveQuery;
+
 import java.util.ArrayList;
 
 /**
  * Created by behzad on 2/10/17.
  */
-public class Reservation {
+public class Reservation{
     private String originCode;
     private String destCode;
     private String airlineCode;
@@ -19,8 +21,24 @@ public class Reservation {
     private String token;
     private boolean verified;
 
+    public Reservation(ClientReserveQuery crq){
+        this.originCode = crq.originCode;
+        this.destCode = crq.destCode;
+        this.airlineCode = crq.airlineCode;
+        this.flightNumber = crq.flightNumber;
+        this.seatClass = crq.seatClass;
+        this.adults = crq.adults;
+        this.childs = crq.childs;
+        this.infants= crq.infants;
+        this.people = crq.people;
+    }
+
     public void verify() {
         this.verified = true;
+    }
+
+    public void setToken(String t) {
+        this.token = t;
     }
 
 

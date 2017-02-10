@@ -9,15 +9,15 @@ import java.util.ArrayList;
  */
 public class ClientReserveQuery {
 
-    private String originCode;
-    private String destCode;
-    private String airlineCode;
-    private String flightNumber;
-    private String seatClass;
-    private int adults;
-    private int childs;
-    private int infants;
-    private ArrayList<Person> people;
+    public String originCode;
+    public String destCode;
+    public String airlineCode;
+    public String flightNumber;
+    public String seatClass;
+    public int adults;
+    public int childs;
+    public int infants;
+    public ArrayList<Person> people;
 
     public ClientReserveQuery(String[] args) {
         this.originCode = args[1];

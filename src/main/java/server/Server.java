@@ -5,6 +5,7 @@ import query.ClientFinalizeQuery;
 import query.ClientReserveQuery;
 import query.ClientSearchQuery;
 import query.CommandHandler;
+import service.Manager;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -15,7 +16,7 @@ import java.net.Socket;
 public class Server {
 
     public static void main(String[] args) throws IOException {
-        Transceiver transceiver = new Transceiver("188.166.78.119", 8081);
+
         ServerTransceiver server = new ServerTransceiver(8082);
         System.out.println("Server is running");
         server.accept();
@@ -37,14 +38,15 @@ public class Server {
         try {
             commandType = ch.getCommandType();
         } catch (ArrayIndexOutOfBoundsException ex) {
-            server.send("Haroomi Dorost Type Kon!");
+            server.send("Bad Request!");
             continue;
         }
-
+            Manager manager = new Manager();
         switch (commandType) {
             case "search":
                 System.out.println("search!!");
                 ClientSearchQuery csq = ch.createSearchQuery();
+                manager.search(csq);
             break;
             case "reserve":
                 System.out.println("reserve!");
@@ -58,8 +60,7 @@ public class Server {
                     System.out.println("person: " + personInfo);
                     crq.addPerson(personInfo);
                 }
-
-                System.out.println("end!");
+                manager.makeReservation(crq);
                 break;
             case "finalize":
                 System.out.println("finalize!");

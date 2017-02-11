@@ -1,7 +1,5 @@
 package service;
 
-import common.Pair;
-
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -9,6 +7,33 @@ import java.util.Objects;
  * Created by behzad on 2/10/17.
  */
 public class Flight {
+    public class Seat {
+        private String className;
+        private int available;
+        private int adultPrice;
+        private int childPrice;
+        private int infantPrice;
+
+        public Seat(String cName , int free){
+            className = cName;
+            available = free;
+        }
+        public String getClassName() {
+            return className;
+        }
+
+        public int getAdultPrice() {
+            return adultPrice;
+        }
+
+        public int getChildPrice() {
+            return childPrice;
+        }
+
+        public int getInfantPrice() {
+            return infantPrice;
+        }
+    }
     private String code;
     private String number;
     private String date;
@@ -17,8 +42,7 @@ public class Flight {
     private String dTime;
     private String aTime;
     private String planeModel;
-    private ArrayList<Pair<String,Integer>> classes;
-    private ArrayList<Pair<String,String[]>> prices;
+    private ArrayList<Seat> seats;
 
     public String getCode() {
         return code;
@@ -52,8 +76,8 @@ public class Flight {
         return planeModel;
     }
 
-    public ArrayList<Pair<String, String[]>> getPrices() {
-        return prices;
+    public ArrayList<Seat> getSeats() {
+        return seats;
     }
 
 
@@ -68,8 +92,7 @@ public class Flight {
         dTime = line1Args[5];
         aTime = line1Args[6];
         planeModel= line1Args[7];
-        classes = new ArrayList<>();
-        prices = new ArrayList<>();
+        seats = new ArrayList<>();
 
         this.setClasses(line2);
     }
@@ -84,18 +107,17 @@ public class Flight {
                 free = 9;
             else
                 free = Integer.parseInt(line2Args[i].substring(1,2));
-            Pair<String,Integer> newPair = new Pair<>(line2Args[i].substring(0,1),free);
+            Seat newSeat= new Seat(line2Args[i].substring(0,1),free);
 //            System.out.println("f: "+newPair.getFirst()+ " s: "+newPair.getSecond());
-            classes.add(newPair);
+            seats.add(newSeat);
         }
     }
 
-    public void addPrice(String className, String ps){
+    public void addPrice(Seat seat, String ps){
         String[] tokenPrices = ps.split("\\s+");
-        prices.add(new Pair<>(className, tokenPrices));
+        seat.adultPrice = Integer.parseInt(tokenPrices[0]);
+        seat.childPrice = Integer.parseInt(tokenPrices[0]);
+        seat.infantPrice= Integer.parseInt(tokenPrices[0]);
     }
 
-    public ArrayList<Pair<String, Integer>> getClasses() {
-        return classes;
-    }
 }

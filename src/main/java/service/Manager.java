@@ -1,6 +1,5 @@
 package service;
 
-import common.Pair;
 import common.Transceiver;
 import query.ClientReserveQuery;
 import query.ClientSearchQuery;
@@ -82,11 +81,11 @@ public class Manager {
 
     private String calcPrices(Flight flight, int adults, int childs, int infants) {
         String res = "";
-        for(int j = 0 ; j < flight.getPrices().size() ; j++ ){
-            double tPrice = adults * Double.parseDouble(flight.getPrices().get(j).getSecond()[0]) +
-                            childs * Double.parseDouble(flight.getPrices().get(j).getSecond()[1]) +
-                            infants * Double.parseDouble(flight.getPrices().get(j).getSecond()[2]);
-            res+= "Class: " + flight.getPrices().get(j).getFirst() + " Price: " + tPrice + "\n";
+        for(int j = 0 ; j < flight.getSeats().size() ; j++ ){
+            int tPrice = adults * flight.getSeats().get(j).getAdultPrice() +
+                            childs * flight.getSeats().get(j).getChildPrice() +
+                            infants * flight.getSeats().get(j).getInfantPrice();
+            res+= "Class: " + flight.getSeats().get(j).getClassName() + " Price: " + tPrice + "\n";
         }
         return res;
     }
@@ -100,14 +99,14 @@ public class Manager {
     }
 
     private void setPrices(Flight newFlight) throws IOException {
-        ArrayList<Pair<String,Integer>> classes = newFlight.getClasses();
-        for(int i = 0 ; i < classes.size() ; i++){
+        ArrayList<Flight.Seat> seats = newFlight.getSeats();
+        for(int i = 0 ; i < seats.size() ; i++){
             String requestToHelper = "PRICE ";
             requestToHelper += newFlight.getOrigin() + " " +
                     newFlight.getDestination() + " " + newFlight.getCode() + " " +
-                    classes.get(i).getFirst()+ "\n";
+                    seats.get(i).getClassName()+ "\n";
             String response = transceive(requestToHelper);
-            newFlight.addPrice(classes.get(i).getFirst(), response);
+            newFlight.addPrice(seats.get(i), response);
         }
     }
 }

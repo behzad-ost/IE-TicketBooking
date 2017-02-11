@@ -53,11 +53,13 @@ public class Server {
                         crq.addPerson(personInfo);
                     }
                     System.out.println("end!");
-                    manager.makeReservation(crq);
+                    response = manager.makeReservation(crq);
+                    server.send(response);
                     break;
                 case "finalize":
                     System.out.println("finalize!");
                     ClientFinalizeQuery cfq = ch.createFinalizeQuery();
+
                     break;
                 default:
                     server.send("Haroomi Dorost Type Kon!");

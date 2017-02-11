@@ -1,11 +1,14 @@
 package service;
 
+import common.Person;
 import common.Transceiver;
+import query.ClientFinalizeQuery;
 import query.ClientReserveQuery;
 import query.ClientSearchQuery;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Created by behzad on 2/10/17.
@@ -14,10 +17,12 @@ public class Manager {
     private Transceiver transceiver;
     private ArrayList<Reservation> reservations;
     private ArrayList<Flight> flights;
+    private int ticketNumber;
 
     public Manager() throws IOException {
         transceiver = new Transceiver("188.166.78.119", 8081);
         reservations = new ArrayList<Reservation>();
+        ticketNumber = 1;
     }
 
     public String makeReservation (ClientReserveQuery crq) throws IOException {
@@ -27,6 +32,7 @@ public class Manager {
                 crq.date + " " + crq.airlineCode +
                 " " + crq.flightNumber + " " + crq.seatClass +
                 " " + crq.adults + " " + crq.childs + " " + crq.infants + "\n";
+        newReserve.setClass(crq.seatClass);
         transceiver.send(requestToHelper);
 
         for(int i = 0 ; i < crq.people.size() ; i++) {
@@ -39,7 +45,9 @@ public class Manager {
 
         String helperResponse = transceiver.receive();
 //        System.out.println("response: " + helperResponse);
-        String response = helperResponse.split("\\s+")[0];
+        String token = helperResponse.split("\\s+")[0];
+        String response = token ;
+        newReserve.setToken(token);
         newReserve.parseHelperResponse(helperResponse, crq.adults, crq.childs, crq.infants);
         response += " " + newReserve.getTotalPrice() +"\n";
         this.reservations.add(newReserve);
@@ -108,5 +116,47 @@ public class Manager {
             String response = transceive(requestToHelper);
             newFlight.addPrice(seats.get(i), response);
         }
+    }
+
+    public String finalizeReservation(ClientFinalizeQuery cfq){
+        String response = "";
+        for(int i = 0 ; i < reservations.size() ; i++){
+            if(Objects.equals(reservations.get(i).getToken(), cfq.getToken())){
+                reservations.get(i).verify();
+                response += getTickets(reservations.get(i));
+            }
+        }
+
+        return response;
+    }
+
+
+    private String getTickets(Reservation reservation) {
+        String res = "";
+        ArrayList<Person> people = reservation.getPeople();
+        String[] DAM = findPlane(reservation.getFlightNumber(), reservation.getOriginCode() ,reservation.getDestCode());
+        for(int i = 0 ; i < people.size() ; i++){
+            res += people.get(i).getFirstName() + " " + people.get(i).getSurName() + " " + "XXXX " +
+                    ticketNumber + " " + reservation.getOriginCode() + " " + reservation.getDestCode() + " " +
+                    reservation.getAirlineCode() + " " + reservation.getFlightNumber() + " " +
+                    reservation.getSeatClass() + " " + DAM[0] + " " + DAM[1] + " " + DAM[2] + "\n";
+            ticketNumber++;
+        }
+        return res;
+    }
+
+    private String[] findPlane(String flightNumber, String originCode, String destCode) {
+        String[] res = new String[3];
+        for(int i = 0 ; i < flights.size() ; i++){
+            if(Objects.equals(flights.get(i).getNumber(), flightNumber) &&
+               Objects.equals(flights.get(i).getOrigin(), originCode) &&
+               Objects.equals(flights.get(i).getDestination(), destCode)
+              ){
+                res[0] = flights.get(i).getdTime();
+                res[1] = flights.get(i).getaTime();
+                res[2] = flights.get(i).getPlaneModel();
+            }
+        }
+        return res;
     }
 }

@@ -18,12 +18,30 @@ public class Reservation{
     private int childs;
     private int infants;
     private ArrayList<Person> people;
-
     private String token;
     private boolean verified;
-
     public int totalPrice;
     public boolean validity;
+
+    public String getOriginCode() {
+        return originCode;
+    }
+
+    public String getDestCode() {
+        return destCode;
+    }
+
+    public String getAirlineCode() {
+        return airlineCode;
+    }
+
+    public String getFlightNumber() {
+        return flightNumber;
+    }
+
+    public String getSeatClass() {
+        return seatClass;
+    }
 
     public Reservation(ClientReserveQuery crq){
         this.originCode = crq.originCode;
@@ -66,5 +84,17 @@ public class Reservation{
 
     public int getTotalPrice() {
         return totalPrice;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public ArrayList<Person> getPeople() {
+        return people;
+    }
+
+    public void setClass(String seatClass) {
+        this.seatClass = seatClass;
     }
 }

@@ -9,4 +9,8 @@ public class ClientFinalizeQuery {
     public ClientFinalizeQuery(String[] commandArgs) {
         token = commandArgs[1];
     }
+
+    public String getToken() {
+        return token;
+    }
 }

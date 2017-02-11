@@ -59,7 +59,8 @@ public class Server {
                 case "finalize":
                     System.out.println("finalize!");
                     ClientFinalizeQuery cfq = ch.createFinalizeQuery();
-
+                    response = manager.finalizeReservation(cfq);
+                    server.send(response);
                     break;
                 default:
                     server.send("Haroomi Dorost Type Kon!");

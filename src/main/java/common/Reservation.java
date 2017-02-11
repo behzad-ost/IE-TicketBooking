@@ -21,6 +21,7 @@ public class Reservation{
     private String token;
     private boolean verified;
 
+    public int totalPrice;
     public boolean validity;
 
     public Reservation(ClientReserveQuery crq){
@@ -34,6 +35,7 @@ public class Reservation{
         this.infants= crq.infants;
         this.people = crq.people;
         this.validity = true;
+        this.totalPrice = 0;
     }
 
     public void verify() {
@@ -44,4 +46,20 @@ public class Reservation{
         this.token = t;
     }
 
+    public void parseHelperResponse(String helperResponse, int adults, int childs, int infants) {
+        String[] args = helperResponse.split("\\s+");
+        setToken(args[0]);
+        this.totalPrice = Integer.parseInt(args[1]) * adults + Integer.parseInt(args[2]) * childs + Integer.parseInt(args[3]) * infants;
+    }
+
+    public void printReservation() {
+        System.out.println(this.originCode + " -> " + this.destCode +
+                        " | Airline: " + airlineCode + " flight: " + flightNumber  + " class: " + this.seatClass +  "\n" +
+                        "totalPrice: " + this.totalPrice + "\n");
+        for (Person p: people) {
+            System.out.println("name: " + p.getFirstName() + "\n" +
+                                "family name: " + p.getSurName() + "\n" +
+                                "national id: " + p.getNationalId());
+        }
+    }
 }

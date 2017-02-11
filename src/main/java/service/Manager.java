@@ -25,7 +25,8 @@ public class Manager {
     }
 
     public void makeReservation (ClientReserveQuery crq) throws IOException {
-        Reservation tmp = new Reservation(crq);
+        Reservation newReserve = new Reservation(crq);
+
         String requestToHelper = "RES " + crq.originCode + " " + crq.destCode + " " +
                 crq.date + " " + crq.airlineCode +
                 " " + crq.flightNumber + " " + crq.seatClass +
@@ -41,8 +42,12 @@ public class Manager {
         }
 
         String helperResponse = transceiver.receive();
-        System.out.println("response: " + helperResponse);
-        reservations.add(tmp);
+//        System.out.println("response: " + helperResponse);
+
+        newReserve.parseHelperResponse(helperResponse, crq.adults, crq.childs, crq.infants);
+        this.reservations.add(newReserve);
+        this.reservations.get(0).printReservation();
+        System.out.println("num of reserves: " + reservations.size());
     }
 
     public String transceive(String data) throws IOException {

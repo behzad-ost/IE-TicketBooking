@@ -1,6 +1,5 @@
 package server;
 import common.ServerTransceiver;
-import common.Transceiver;
 import query.ClientFinalizeQuery;
 import query.ClientReserveQuery;
 import query.ClientSearchQuery;
@@ -8,8 +7,7 @@ import query.CommandHandler;
 import service.Manager;
 
 import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
+
 /**
  * Created by ali on 2/9/17.
  */
@@ -19,6 +17,7 @@ public class Server {
         ServerTransceiver server = new ServerTransceiver(8083);
         System.out.println("Server is running");
         server.accept();
+        Manager manager = new Manager();
         while(true) {
             String request = server.receive();
             if (request == null || request == "" || request == "\n")
@@ -41,7 +40,6 @@ public class Server {
             continue;
         }
 
-        Manager manager = new Manager();
         switch (commandType) {
             case "search":
                 System.out.println("search!!");

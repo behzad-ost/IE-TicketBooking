@@ -1,4 +1,6 @@
-package common;
+package service;
+
+import common.Pair;
 
 import java.util.ArrayList;
 import java.util.Objects;

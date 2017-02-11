@@ -1,8 +1,6 @@
 package service;
 
-import common.Flight;
 import common.Pair;
-import common.Reservation;
 import common.Transceiver;
 import query.ClientReserveQuery;
 import query.ClientSearchQuery;
@@ -41,7 +39,7 @@ public class Manager {
         }
 
         String helperResponse = transceiver.receive();
-        System.out.println("response: " + helperResponse);
+//        System.out.println("response: " + helperResponse);
         String response = helperResponse.split("\\s+")[0];
         newReserve.parseHelperResponse(helperResponse, crq.adults, crq.childs, crq.infants);
         response += " " + newReserve.getTotalPrice() +"\n";

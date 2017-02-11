@@ -1,5 +1,6 @@
-package common;
+package service;
 
+import common.Person;
 import query.ClientReserveQuery;
 
 import java.util.ArrayList;
@@ -54,12 +55,12 @@ public class Reservation{
 
     public void printReservation() {
         System.out.println(this.originCode + " -> " + this.destCode +
-                        " | Airline: " + airlineCode + " flight: " + flightNumber  + " class: " + this.seatClass +  "\n" +
-                        "totalPrice: " + this.totalPrice + "\n");
+                " | Airline: " + airlineCode + " flight: " + flightNumber  + " class: " + this.seatClass +  "\n" +
+                "totalPrice: " + this.totalPrice + "\n");
         for (Person p: people) {
             System.out.println("name: " + p.getFirstName() + "\n" +
-                                "family name: " + p.getSurName() + "\n" +
-                                "national id: " + p.getNationalId());
+                    "family name: " + p.getSurName() + "\n" +
+                    "national id: " + p.getNationalId());
         }
     }
 

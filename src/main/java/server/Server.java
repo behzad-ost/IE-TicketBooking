@@ -39,17 +39,18 @@ public class Server {
             server.send("Haroomi Dorost Type Kon!");
             continue;
         }
-            String response;
+
         switch (commandType) {
             case "search":
                 System.out.println("search!!");
                 ClientSearchQuery csq = ch.createSearchQuery();
-                response = manager.search(csq);
+                String response = manager.search(csq);
                 server.send(response);
                 break;
             case "reserve":
                 System.out.println("reserve!");
                 ClientReserveQuery crq = ch.createReserveQuery();
+
                 int numOfPeople;
                 numOfPeople = crq.getNumOfPeople();
                 for (int i = 0; i < numOfPeople; i++) {
@@ -58,8 +59,7 @@ public class Server {
                     crq.addPerson(personInfo);
                 }
                 System.out.println("end!");
-                response = manager.makeReservation(crq);
-                server.send(response);
+                manager.makeReservation(crq);
                 break;
             case "finalize":
                 System.out.println("finalize!");

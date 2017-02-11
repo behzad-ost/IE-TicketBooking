@@ -20,11 +20,10 @@ public class Manager {
 
     public Manager() throws IOException {
         transceiver = new Transceiver("188.166.78.119", 8081);
-        flights = new ArrayList<Flight>();
         reservations = new ArrayList<Reservation>();
     }
 
-    public void makeReservation (ClientReserveQuery crq) throws IOException {
+    public String makeReservation (ClientReserveQuery crq) throws IOException {
         Reservation newReserve = new Reservation(crq);
 
         String requestToHelper = "RES " + crq.originCode + " " + crq.destCode + " " +
@@ -42,12 +41,14 @@ public class Manager {
         }
 
         String helperResponse = transceiver.receive();
-//        System.out.println("response: " + helperResponse);
-
+        System.out.println("response: " + helperResponse);
+        String response = helperResponse.split("\\s+")[0];
         newReserve.parseHelperResponse(helperResponse, crq.adults, crq.childs, crq.infants);
+        response += " " + newReserve.getTotalPrice() +"\n";
         this.reservations.add(newReserve);
         this.reservations.get(0).printReservation();
         System.out.println("num of reserves: " + reservations.size());
+        return response;
     }
 
     public String transceive(String data) throws IOException {
@@ -65,6 +66,7 @@ public class Manager {
         System.out.println(helperResponse);
 
         String[] lines = helperResponse.split("\\n");
+        flights = new ArrayList<Flight>();
         setFlights(lines);
 
         String response = "";

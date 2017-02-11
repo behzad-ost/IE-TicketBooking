@@ -62,4 +62,8 @@ public class Reservation{
                                 "national id: " + p.getNationalId());
         }
     }
+
+    public int getTotalPrice() {
+        return totalPrice;
+    }
 }

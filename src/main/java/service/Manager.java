@@ -52,7 +52,7 @@ public class Manager {
         return res;
     }
 
-    public void search (ClientSearchQuery csq) throws IOException {
+    public String search (ClientSearchQuery csq) throws IOException {
         String requestToHelper = "AV ";
         requestToHelper += csq.originCode + " " + csq.destCode + " " + csq.date + "\n";
 
@@ -62,7 +62,28 @@ public class Manager {
         String[] lines = helperResponse.split("\\n");
         setFlights(lines);
 
+        String response = "";
+        for(int i = 0 ; i < flights.size() ; i++){
+            response += "Flight: " + flights.get(i).getCode() + " " + flights.get(i).getNumber() + " " +
+                    "Departure: " + flights.get(i).getdTime() + " Arrival: " + flights.get(i).getaTime()+ " "+
+                    "Airplane: "+ flights.get(i).getPlaneModel() + "\n";
+            response+= calcPrices(flights.get(i), csq.adults, csq.childs , csq.infants);
+            if(i != flights.size()-1)
+                response += "***\n";
+        }
+        return response;
 
+    }
+
+    private String calcPrices(Flight flight, int adults, int childs, int infants) {
+        String res = "";
+        for(int j = 0 ; j < flight.getPrices().size() ; j++ ){
+            double tPrice = adults * Double.parseDouble(flight.getPrices().get(j).getSecond()[0]) +
+                            childs * Double.parseDouble(flight.getPrices().get(j).getSecond()[1]) +
+                            infants * Double.parseDouble(flight.getPrices().get(j).getSecond()[2]);
+            res+= "Class: " + flight.getPrices().get(j).getFirst() + " Price: " + tPrice + "\n";
+        }
+        return res;
     }
 
     private void setFlights(String[] lines) throws IOException {
@@ -70,7 +91,6 @@ public class Manager {
             Flight newFlight = new Flight(lines[i], lines[i+1]);
             setPrices(newFlight);
             flights.add(newFlight);
-
         }
     }
 

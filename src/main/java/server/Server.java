@@ -46,7 +46,8 @@ public class Server {
             case "search":
                 System.out.println("search!!");
                 ClientSearchQuery csq = ch.createSearchQuery();
-                manager.search(csq);
+                String response = manager.search(csq);
+                server.send(response);
                 break;
             case "reserve":
                 System.out.println("reserve!");

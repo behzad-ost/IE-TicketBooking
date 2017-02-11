@@ -83,7 +83,7 @@ public class Flight {
             else
                 free = Integer.parseInt(line2Args[i].substring(1,2));
             Pair<String,Integer> newPair = new Pair<>(line2Args[i].substring(0,1),free);
-            System.out.println("f: "+newPair.getFirst()+ " s: "+newPair.getSecond());
+//            System.out.println("f: "+newPair.getFirst()+ " s: "+newPair.getSecond());
             classes.add(newPair);
         }
     }

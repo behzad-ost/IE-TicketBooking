@@ -50,9 +50,10 @@ public class Manager {
         newReserve.setToken(token);
         newReserve.parseHelperResponse(helperResponse, crq.adults, crq.childs, crq.infants);
         response += " " + newReserve.getTotalPrice() +"\n";
+
         this.reservations.add(newReserve);
         this.reservations.get(0).printReservation();
-        System.out.println("num of reserves: " + reservations.size());
+//        System.out.println("num of reserves: " + reservations.size());
         return response;
     }
 

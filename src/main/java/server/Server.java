@@ -36,28 +36,28 @@ public class Server {
 
             switch (commandType) {
                 case "search":
-                    System.out.println("search!!");
+//                    System.out.println("search!!");
                     ClientSearchQuery csq = ch.createSearchQuery();
                     String response = manager.search(csq);
                     server.send(response);
                     break;
                 case "reserve":
-                    System.out.println("reserve!");
+//                    System.out.println("reserve!");
                     ClientReserveQuery crq = ch.createReserveQuery();
 
                     int numOfPeople;
                     numOfPeople = crq.getNumOfPeople();
                     for (int i = 0; i < numOfPeople; i++) {
                         String personInfo = server.receive();
-                        System.out.println("person: " + personInfo);
+//                        System.out.println("person: " + personInfo);
                         crq.addPerson(personInfo);
                     }
-                    System.out.println("end!");
+//                    System.out.println("end!");
                     response = manager.makeReservation(crq);
                     server.send(response);
                     break;
                 case "finalize":
-                    System.out.println("finalize!");
+//                    System.out.println("finalize!");
                     ClientFinalizeQuery cfq = ch.createFinalizeQuery();
                     response = manager.finalizeReservation(cfq);
                     server.send(response);

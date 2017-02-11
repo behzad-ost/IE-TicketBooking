@@ -36,9 +36,9 @@ public class ClientReserveQuery {
 
     public void addPerson(String command) {
         String[] person = command.split("\\s+");
-        for (int j = 0; j < person.length; j++) {
-            System.out.println(person[j]);
-        }
+//        for (int j = 0; j < person.length; j++) {
+//            System.out.println(person[j]);
+//        }
         Person newPerson = new Person(person[0], person[1], person[2]);
         this.people.add(newPerson);
     }

@@ -18,9 +18,11 @@ public class Reservation{
     private int childs;
     private int infants;
     private ArrayList<Person> people;
+
     private String token;
     private boolean verified;
-    public int totalPrice;
+
+    private int totalPrice;
     public boolean validity;
 
     public String getOriginCode() {

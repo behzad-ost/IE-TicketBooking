@@ -16,7 +16,6 @@ public class ManagerTest {
     CommandHandler ch;
     ClientReserveQuery crq;
     Reservation rs;
-    String a;
 
     @Test
     public void priceCalculateTest1() throws IOException {

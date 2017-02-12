@@ -1,6 +1,8 @@
 package client;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by ali on 2/8/17.
@@ -51,12 +53,12 @@ public class ClientUI {
         JButton myButton = new JButton("جست‌وجو");
         myButton.setBounds(150, 450, 200, 50);
 
-//        myButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                sourceText.setText("شهیدی؟");
-//            }
-//        });
+        myButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sourceText.setText("شهیدی؟");
+            }
+        });
 
         myFrame.add(myButton);
         myFrame.add(sourceText);

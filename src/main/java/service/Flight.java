@@ -34,7 +34,7 @@ public class Flight {
             return infantPrice;
         }
     }
-    private String code;
+    private String airlineCode;
     private String number;
     private String date;
     private String origin;
@@ -44,8 +44,8 @@ public class Flight {
     private String planeModel;
     private ArrayList<Seat> seats;
 
-    public String getCode() {
-        return code;
+    public String getAirlineCode() {
+        return airlineCode;
     }
 
     public String getNumber() {
@@ -84,7 +84,7 @@ public class Flight {
     public Flight(String line1 , String line2){
         String[] line1Args = line1.split("\\s+");
 
-        code = line1Args[0];
+        airlineCode = line1Args[0];
         number = line1Args[1];
         date = line1Args[2];
         origin = line1Args[3];

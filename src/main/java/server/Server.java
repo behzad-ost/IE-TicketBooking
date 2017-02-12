@@ -47,12 +47,31 @@ public class Server {
 
                     int numOfPeople;
                     numOfPeople = crq.getNumOfPeople();
-                    for (int i = 0; i < numOfPeople; i++) {
+
+                    if (numOfPeople == crq.adults + crq.childs + crq.infants) {
+                        System.out.println("sag: " + numOfPeople);
+                    } else
+                        break;
+
+                    System.out.println("adults: " + crq.adults);
+                    System.out.println("childs: " + crq.childs);
+                    System.out.println("infants: " + crq.infants);
+
+                    for (int i = 0; i < crq.adults; i++) {
                         String personInfo = server.receive();
-//                        System.out.println("person: " + personInfo);
-                        crq.addPerson(personInfo);
+                        crq.addPerson(personInfo, "adult");
                     }
-//                    System.out.println("end!");
+                    for (int i = 0; i < crq.childs; i++) {
+                        String personInfo = server.receive();
+                        crq.addPerson(personInfo, "child");
+                    }
+                    for (int i = 0; i < crq.infants; i++) {
+                        String personInfo = server.receive();
+                        crq.addPerson(personInfo, "infant");
+                    }
+
+                    crq.printPeople();
+                    System.out.println("people!");
                     response = manager.makeReservation(crq);
                     server.send(response);
                     break;

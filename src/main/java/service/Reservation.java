@@ -80,7 +80,8 @@ public class Reservation{
         for (Person p: people) {
             System.out.println("name: " + p.getFirstName() + "\n" +
                     "family name: " + p.getSurName() + "\n" +
-                    "national id: " + p.getNationalId());
+                    "national id: " + p.getNationalId() + "\n" +
+                    "ageType: " + p.getAgeType());
         }
     }
 

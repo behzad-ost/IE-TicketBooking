@@ -35,7 +35,7 @@ public class Manager {
         newReserve.setClass(crq.seatClass);
         transceiver.send(requestToHelper);
 
-        for(int i = 0 ; i < crq.people.size() ; i++) {
+        for(int i = 0 ; i < crq.people.size(); i++) {
             requestToHelper = "";
             requestToHelper += crq.people.get(i).getFirstName()+" "
                             +crq.people.get(i).getSurName()+" "
@@ -137,7 +137,7 @@ public class Manager {
         ArrayList<Person> people = reservation.getPeople();
         String[] DAM = findPlane(reservation.getFlightNumber(), reservation.getOriginCode() ,reservation.getDestCode());
         for(int i = 0 ; i < people.size() ; i++){
-            res += people.get(i).getFirstName() + " " + people.get(i).getSurName() + " " + "XXXX " +
+            res += people.get(i).getFirstName() + " " + people.get(i).getSurName() + " " + people.get(i).getAgeType() + " " + "XXXX " +
                     ticketNumber + " " + reservation.getOriginCode() + " " + reservation.getDestCode() + " " +
                     reservation.getAirlineCode() + " " + reservation.getFlightNumber() + " " +
                     reservation.getSeatClass() + " " + DAM[0] + " " + DAM[1] + " " + DAM[2] + "\n";

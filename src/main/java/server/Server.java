@@ -33,53 +33,57 @@ public class Server {
                 server.send("Haroomi Dorost Type Kon!");
                 continue;
             }
-
+            String response;
             switch (commandType) {
                 case "search":
-//                    System.out.println("search!!");
-                    ClientSearchQuery csq = ch.createSearchQuery();
-                    String response = manager.search(csq);
-                    server.send(response);
+                    try {
+                        ClientSearchQuery csq = ch.createSearchQuery();
+                        response = manager.search(csq);
+                        server.send(response);
+                    } catch (Exception ex) {
+                        server.send("Error Occured!");
+                    }
                     break;
                 case "reserve":
-//                    System.out.println("reserve!");
-                    ClientReserveQuery crq = ch.createReserveQuery();
+                    ClientReserveQuery crq;
+                    try {
+                        crq = ch.createReserveQuery();
 
-                    int numOfPeople;
-                    numOfPeople = crq.getNumOfPeople();
+                        int numOfPeople;
+                        numOfPeople = crq.getNumOfPeople();
+                        if (numOfPeople != crq.adults + crq.childs + crq.infants) {
+                            break;
+                        }
 
-                    if (numOfPeople == crq.adults + crq.childs + crq.infants) {
-                        System.out.println("sag: " + numOfPeople);
-                    } else
+                        for (int i = 0; i < crq.adults; i++) {
+                            String personInfo = server.receive();
+                            crq.addPerson(personInfo, "adult");
+                        }
+                        for (int i = 0; i < crq.childs; i++) {
+                            String personInfo = server.receive();
+                            crq.addPerson(personInfo, "child");
+                        }
+                        for (int i = 0; i < crq.infants; i++) {
+                            String personInfo = server.receive();
+                            crq.addPerson(personInfo, "infant");
+                        }
+                        response = manager.makeReservation(crq);
+                        server.send(response);
+                    } catch (Exception ex) {
+//                        System.out.println("Error Occured!");
+                        server.send("Error Occured!");
                         break;
-
-                    System.out.println("adults: " + crq.adults);
-                    System.out.println("childs: " + crq.childs);
-                    System.out.println("infants: " + crq.infants);
-
-                    for (int i = 0; i < crq.adults; i++) {
-                        String personInfo = server.receive();
-                        crq.addPerson(personInfo, "adult");
                     }
-                    for (int i = 0; i < crq.childs; i++) {
-                        String personInfo = server.receive();
-                        crq.addPerson(personInfo, "child");
-                    }
-                    for (int i = 0; i < crq.infants; i++) {
-                        String personInfo = server.receive();
-                        crq.addPerson(personInfo, "infant");
-                    }
-
-                    crq.printPeople();
-                    System.out.println("people!");
-                    response = manager.makeReservation(crq);
-                    server.send(response);
                     break;
                 case "finalize":
-//                    System.out.println("finalize!");
-                    ClientFinalizeQuery cfq = ch.createFinalizeQuery();
-                    response = manager.finalizeReservation(cfq);
-                    server.send(response);
+                    try {
+                        ClientFinalizeQuery cfq = ch.createFinalizeQuery();
+                        response = manager.finalizeReservation(cfq);
+                        server.send(response);
+                    } catch (Exception ex) {
+                        server.send("Error Occured!");
+//                        System.out.println("Error Occured!");
+                    }
                     break;
                 default:
                     server.send("Haroomi Dorost Type Kon!");

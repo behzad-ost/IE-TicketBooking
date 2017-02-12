@@ -67,10 +67,11 @@ public class Reservation{
         this.token = t;
     }
 
-    public void parseHelperResponse(String helperResponse, int adults, int childs, int infants) {
+    public String parseHelperResponse(String helperResponse, int adults, int childs, int infants) {
         String[] args = helperResponse.split("\\s+");
         setToken(args[0]);
         this.totalPrice = Integer.parseInt(args[1]) * adults + Integer.parseInt(args[2]) * childs + Integer.parseInt(args[3]) * infants;
+        return args[0];
     }
 
     public void printReservation() {

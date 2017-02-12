@@ -46,11 +46,9 @@ public class Manager {
         String helperResponse;
         helperResponse = transceiver.receive();
 //        System.out.println("response: " + helperResponse);
-        String token = helperResponse.split("\\s+")[0];
-        String response = token ;
-        newReserve.setToken(token);
-        newReserve.parseHelperResponse(helperResponse, crq.adults, crq.childs, crq.infants);
-        response += " " + newReserve.getTotalPrice() +"\n";
+        String response;
+        String token = newReserve.parseHelperResponse(helperResponse, crq.adults, crq.childs, crq.infants);
+        response = token + " " + newReserve.getTotalPrice() +"\n";
 
         this.reservations.add(newReserve);
         this.reservations.get(0).printReservation();

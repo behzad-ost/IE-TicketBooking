@@ -27,19 +27,9 @@ public class Manager {
 
     public String makeReservation (ClientReserveQuery crq) throws IOException {
         Reservation newReserve = new Reservation(crq);
+        setFlights(crq.originCode, crq.destCode, crq.date);
 
-        String requestToHelper = "AV ";
-        requestToHelper += crq.originCode + " " + crq.destCode + " " + crq.date + "\n";
-
-        String helperResponse = transceive(requestToHelper);
-        System.out.println(helperResponse);
-
-        String[] lines = helperResponse.split("\\n");
-        flights = new ArrayList<>();
-        setFlights(lines);
-
-
-        requestToHelper = "RES " + crq.originCode + " " + crq.destCode + " " +
+        String requestToHelper = "RES " + crq.originCode + " " + crq.destCode + " " +
                 crq.date + " " + crq.airlineCode +
                 " " + crq.flightNumber + " " + crq.seatClass +
                 " " + crq.adults + " " + crq.childs + " " + crq.infants + "\n";
@@ -54,6 +44,7 @@ public class Manager {
             transceiver.send(requestToHelper);
         }
 
+        String helperResponse;
         helperResponse = transceiver.receive();
 //        System.out.println("response: " + helperResponse);
         String token = helperResponse.split("\\s+")[0];
@@ -68,6 +59,18 @@ public class Manager {
         return response;
     }
 
+    private void setFlights(String originCode, String destCode, String date) throws IOException {
+        String requestToHelper = "AV ";
+        requestToHelper += originCode + " " + destCode + " " + date + "\n";
+
+        String helperResponse = transceive(requestToHelper);
+        System.out.println(helperResponse);
+
+        String[] lines = helperResponse.split("\\n");
+        flights = new ArrayList<>();
+        setFlights(lines);
+    }
+
     public String transceive(String data) throws IOException {
         String res;
         transceiver.send(data);
@@ -76,16 +79,7 @@ public class Manager {
     }
 
     public String search (ClientSearchQuery csq) throws IOException {
-        String requestToHelper = "AV ";
-        requestToHelper += csq.originCode + " " + csq.destCode + " " + csq.date + "\n";
-
-        String helperResponse = transceive(requestToHelper);
-        System.out.println(helperResponse);
-
-        String[] lines = helperResponse.split("\\n");
-        flights = new ArrayList<>();
-        setFlights(lines);
-
+        setFlights(csq.originCode, csq.destCode, csq.date);
         String response = "";
         for(int i = 0 ; i < flights.size() ; i++){
             response += "Flight: " + flights.get(i).getCode() + " " + flights.get(i).getNumber() + " " +

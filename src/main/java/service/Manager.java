@@ -21,14 +21,25 @@ public class Manager {
 
     public Manager() throws IOException {
         transceiver = new Transceiver("188.166.78.119", 8081);
-        reservations = new ArrayList<Reservation>();
+        reservations = new ArrayList<>();
         ticketNumber = 1;
     }
 
     public String makeReservation (ClientReserveQuery crq) throws IOException {
         Reservation newReserve = new Reservation(crq);
 
-        String requestToHelper = "RES " + crq.originCode + " " + crq.destCode + " " +
+        String requestToHelper = "AV ";
+        requestToHelper += crq.originCode + " " + crq.destCode + " " + crq.date + "\n";
+
+        String helperResponse = transceive(requestToHelper);
+        System.out.println(helperResponse);
+
+        String[] lines = helperResponse.split("\\n");
+        flights = new ArrayList<>();
+        setFlights(lines);
+
+
+        requestToHelper = "RES " + crq.originCode + " " + crq.destCode + " " +
                 crq.date + " " + crq.airlineCode +
                 " " + crq.flightNumber + " " + crq.seatClass +
                 " " + crq.adults + " " + crq.childs + " " + crq.infants + "\n";
@@ -43,7 +54,7 @@ public class Manager {
             transceiver.send(requestToHelper);
         }
 
-        String helperResponse = transceiver.receive();
+        helperResponse = transceiver.receive();
 //        System.out.println("response: " + helperResponse);
         String token = helperResponse.split("\\s+")[0];
         String response = token ;
@@ -72,7 +83,7 @@ public class Manager {
         System.out.println(helperResponse);
 
         String[] lines = helperResponse.split("\\n");
-        flights = new ArrayList<Flight>();
+        flights = new ArrayList<>();
         setFlights(lines);
 
         String response = "";

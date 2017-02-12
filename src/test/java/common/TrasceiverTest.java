@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-import static jdk.nashorn.internal.parser.TokenKind.IR;
+//import static jdk.nashorn.internal.parser.TokenKind.IR;
 import static junit.framework.Assert.assertNotSame;
 import static junit.framework.TestCase.assertEquals;
 

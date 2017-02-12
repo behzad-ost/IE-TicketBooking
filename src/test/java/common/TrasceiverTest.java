@@ -14,8 +14,8 @@ import static junit.framework.TestCase.assertEquals;
  * Created by ali on 2/11/17.
  */
 public class TrasceiverTest {
-    Transceiver ts;
-    String helperResponse;
+    private Transceiver ts;
+    private String helperResponse;
 
     @Before
     public void setUp() throws IOException {
@@ -31,7 +31,7 @@ public class TrasceiverTest {
 
     @Test
     public void sendWrongData() throws IOException {
-        ts.send("haroomi\n");
+        ts.send("mock!\n");
         helperResponse = ts.receive();
         assertEquals("Message Must Be: ", "Bad input!\n", helperResponse);
     }

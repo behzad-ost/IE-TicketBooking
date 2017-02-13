@@ -14,10 +14,16 @@ import java.io.*;
 public class Server {
 
     public static void main(String[] args) throws IOException {
-        ServerTransceiver server = new ServerTransceiver(8083);
+        int portNumber = Integer.parseInt(args[0]);
+        String helperIp = args[1];
+        int helperPort = Integer.parseInt(args[2]);
+
+
+//        ServerTransceiver server = new ServerTransceiver(8083);
+        ServerTransceiver server = new ServerTransceiver(portNumber);
         System.out.println("Server is running");
         server.accept();
-        Manager manager = new Manager();
+        Manager manager = new Manager(helperIp, helperPort);
         while(true) {
             String request = server.receive();
             if (request == null || request == "" || request == "\n")

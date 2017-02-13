@@ -18,7 +18,7 @@ public class ClientUI {
     private static boolean buttonPressed;
 
 
-    public static void main(String[] args) {
+    public void main(String[] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception evnt){};
@@ -94,7 +94,9 @@ public class ClientUI {
                     Transceiver sender = new Transceiver("localhost", 8083);
                     sender.send(request);
                     response = sender.receive();
+                    showResults(response);
                     System.out.println(response);
+                    showResults(response);
                     sender.close();
                 } catch (IOException e1) {
                     e1.printStackTrace();
@@ -118,7 +120,43 @@ public class ClientUI {
         myFrame.add(childList);
         myFrame.add(infantList);
         myFrame.add(dateList);
+
     }
 
+    private void showResults(String response) throws IOException {
+        JFrame mainFrame = new JFrame("سیستم رزرو بلیت هواپیمای اخوانی و اوسط");
+        mainFrame.setSize(1000,400);
+        response+="***";
+        String[] lines = response.split("\\n");
+        String data[][] = new String[lines.length/4][8];
+
+        for(int i = 0 ; i  < lines.length ; i++) {
+            String[] tokens = lines[i].split("\\s++");
+            data[i/5][0] = tokens[1];
+            data[i/5][1] = tokens[2];
+            data[i/5][2] = tokens[4];
+            data[i/5][3] = tokens[6];
+            data[i/5][4] = tokens[8];
+            i++;
+            tokens = lines[i].split("\\s++");
+            data[i/5][5] = tokens[1]+ "   " + tokens[3];
+            i++;
+            tokens = lines[i].split("\\s++");
+            data[i/5][6] = tokens[1]+ "   " +tokens[3];
+            i++;
+            tokens = lines[i].split("\\s++");
+            data[i/5][7] = tokens[1]+ "   " +tokens[3];
+            i++;
+        }
+
+        String column[]={"Code","Number","Departure Time", "Arrival Time", "Plane Model" , "Class 1 (Price)", "Class 2 (Price)", "Class 3(Price)"};
+
+        JTable jt = new JTable(data,column);
+        JScrollPane sp=new JScrollPane(jt);
+        mainFrame.setLocationRelativeTo(null);
+        mainFrame.add(sp);
+        mainFrame.setVisible(true);
+        mainFrame.setVisible(true);
+    }
 //    public static
 }

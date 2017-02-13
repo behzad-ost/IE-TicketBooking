@@ -14,16 +14,22 @@ import java.io.*;
 public class Server {
 
     public static void main(String[] args) throws IOException {
-        int portNumber = Integer.parseInt(args[0]);
-        String helperIp = args[1];
-        int helperPort = Integer.parseInt(args[2]);
+        try {
+//            int portNumber = Integer.parseInt(args[0]);
+//            String helperIp = args[1];
+//            int helperPort = Integer.parseInt(args[2]);
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            System.out.println(ex.getMessage());
+            return;
+        }
 
 
-//        ServerTransceiver server = new ServerTransceiver(8083);
-        ServerTransceiver server = new ServerTransceiver(portNumber);
+        ServerTransceiver server = new ServerTransceiver(8083);
+//        ServerTransceiver server = new ServerTransceiver(portNumber);
         System.out.println("Server is running");
         server.accept();
-        Manager manager = new Manager(helperIp, helperPort);
+        Manager manager = new Manager();
+//        Manager manager = new Manager(helperIp, helperPort);
         while(true) {
             String request = server.receive();
             if (request == null || request == "" || request == "\n")

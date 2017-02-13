@@ -18,9 +18,10 @@ public class Manager {
     private ArrayList<Flight> flights;
     private ArrayList<Ticket> tickets;
 
-    public Manager(String ip, int port) throws IOException {
-//        transceiver = new Transceiver("188.166.78.119", 8081);
-        transceiver = new Transceiver(ip, port);
+    public Manager() throws IOException {
+//    public Manager(String ip, int port) throws IOException {
+        transceiver = new Transceiver("188.166.78.119", 8081);
+//        transceiver = new Transceiver(ip, port);
         reservations = new ArrayList<>();
         tickets = new ArrayList<>();
     }

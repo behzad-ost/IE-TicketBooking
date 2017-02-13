@@ -3,6 +3,7 @@ package ui;
 import common.Transceiver;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -15,10 +16,8 @@ public class ClientUI {
     private static String response;
     private static String[] numbers;
     private static String[] dates;
-    private static boolean buttonPressed;
 
-
-    public void main(String[] args) {
+    public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception evnt){};
@@ -26,6 +25,7 @@ public class ClientUI {
         final String[] serachString = new String[1];
         numbers = new String[] {"1", "2", "3", "4", "5", "6", "7", "8"};
         dates = new String[] {"04Feb", "05Feb", "06Feb", "07Feb"};
+
         JFrame myFrame = new JFrame("سیستم رزرو بلیت هواپیمای اخوانی و اوسط");
         myFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         myFrame.setSize(500, 600);
@@ -88,7 +88,6 @@ public class ClientUI {
                 serachString[0] = "search " + sourceText.getText() + " " + destText.getText() + " " + dateList.getSelectedItem() +
                 " " + adultList.getSelectedItem() + " " + childList.getSelectedItem() + " " + infantList.getSelectedItem() + "\n";
                 request = serachString[0];
-                buttonPressed = true;
 
                 try {
                     Transceiver sender = new Transceiver("localhost", 8083);
@@ -96,8 +95,8 @@ public class ClientUI {
                     response = sender.receive();
                     showResults(response);
                     System.out.println(response);
-                    showResults(response);
-                    sender.close();
+//                    showResults(response);
+//                    sender.close();
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -123,11 +122,17 @@ public class ClientUI {
 
     }
 
-    private void showResults(String response) throws IOException {
-        JFrame mainFrame = new JFrame("سیستم رزرو بلیت هواپیمای اخوانی و اوسط");
+    private static void showResults(String response) throws IOException {
+        JFrame mainFrame = new JFrame("نتیجه‌ی جستجو");
         mainFrame.setSize(1000,400);
+        mainFrame.setLayout(new GridLayout(2, 1));
+
+        response = response.substring(0,response.length()-1);
         response+="***";
         String[] lines = response.split("\\n");
+        if(lines.length < 2){
+            return;
+        }
         String data[][] = new String[lines.length/4][8];
 
         for(int i = 0 ; i  < lines.length ; i++) {
@@ -151,12 +156,15 @@ public class ClientUI {
 
         String column[]={"Code","Number","Departure Time", "Arrival Time", "Plane Model" , "Class 1 (Price)", "Class 2 (Price)", "Class 3(Price)"};
 
+        JLabel label = new JLabel("لیست پروازها", SwingConstants.CENTER);
+//        label.setFont(new Font("Courier New", Font.ITALIC, 40));
+
         JTable jt = new JTable(data,column);
         JScrollPane sp=new JScrollPane(jt);
         mainFrame.setLocationRelativeTo(null);
+        mainFrame.add(label);
         mainFrame.add(sp);
         mainFrame.setVisible(true);
         mainFrame.setVisible(true);
     }
-//    public static
 }

@@ -86,10 +86,9 @@ public class Manager {
                     "Airplane: "+ flights.get(i).getPlaneModel() + "\n";
             response+= calcPrices(flights.get(i), csq.adults, csq.childs , csq.infants);
             if(i != flights.size()-1)
-                response += "***\n";
+                response += "#\n";
         }
         return response;
-
     }
 
     private String calcPrices(Flight flight, int adults, int childs, int infants) {
@@ -166,5 +165,9 @@ public class Manager {
             }
         }
         return res;
+    }
+
+    public ArrayList<Flight> getFlights() {
+        return flights;
     }
 }

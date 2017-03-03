@@ -33,6 +33,10 @@ public class Flight {
         public int getInfantPrice() {
             return infantPrice;
         }
+
+        public int getAvailable() {
+            return available;
+        }
     }
     private String airlineCode;
     private String number;

@@ -47,7 +47,7 @@
                             </div>
                             <p class="right-name">مبدا</p>
                             
-                            <select id="source" class="right-list">
+                            <select name="source-code" id="source" class="right-list">
                                 <option value="THR">تهران - فرودگاه مهرآباد</option>
                                 <option value="MHD">مشهد - فرودگاه اصلی</option>
                             </select>
@@ -60,7 +60,7 @@
                                 <i class="fa fa-plane fa-rotate-90" aria-hidden="true" id="plane"></i>
                             </div>
                             <p class="right-name">مقصد</p>
-                            <select id="source" class="right-list">
+                            <select name="dest-code" id="dest" class="right-list">
                                 <option value="THR">تهران - فرودگاه مهرآباد</option>
                                 <option value="MHD">مشهد - فرودگاه اصلی</option>
                             </select>
@@ -71,7 +71,7 @@
                                 <i class="fa fa-calendar" aria-hidden="true"></i>
                             </div>
                             <p class="right-name">رفت</p>
-                            <input placeholder="۱۳۹۵/۱۱/۲۵" class="right-list date">
+                            <input name="date" placeholder="۱۳۹۵/۱۱/۲۵" class="right-list date">
                         </div>
 
                         <div class="search-box-row">
@@ -79,7 +79,7 @@
                                 <i class="fa fa-calendar" aria-hidden="true"></i>
                             </div>
                             <p class="right-name">برگشت</p>
-                            <input placeholder="۱۳۹۵/۱۱/۲۵" class="right-list date" disabled="true">
+                            <input name="date2" placeholder="۱۳۹۵/۱۱/۲۵" class="right-list date" disabled="true">
                         </div>
                         
                         <div id="age-types">
@@ -88,7 +88,7 @@
                                     بزرگسال
                                 </p>
                                 <i class="fa fa-male fa-2x age-type-icon" aria-hidden="true"></i>
-                                <select id="numbers" class="number-of-tickets">
+                                <select name="adults" id="numbers" class="number-of-tickets">
                                     <option value="1">۱</option>
                                     <option value="2">۲</option>
                                     <option value="3">۳</option>
@@ -102,7 +102,7 @@
                                     کودک زیر ۱۲ سال
                                 </p>
                                 <i class="fa fa-child fa-2x age-type-icon" aria-hidden="true"></i>
-                                <select id="numbers" class="number-of-tickets">
+                                <select name="children" id="numbers" class="number-of-tickets">
                                     <option value="1">۱</option>
                                     <option value="2">۲</option>
                                     <option value="3">۳</option>
@@ -116,7 +116,7 @@
                                     نوزاد زیر ۲ سال
                                 </p>
                                 <i class="fa fa-child fa-1x age-type-icon small-icon" aria-hidden="true"></i>
-                                <select id="numbers" class="number-of-tickets">
+                                <select name="infants" id="numbers" class="number-of-tickets">
                                     <option value="1">۱</option>
                                     <option value="2">۲</option>
                                     <option value="3">۳</option>

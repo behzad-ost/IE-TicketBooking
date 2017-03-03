@@ -17,15 +17,23 @@ public class Manager {
     private ArrayList<Reservation> reservations;
     private ArrayList<Flight> flights;
     private ArrayList<Ticket> tickets;
+    private static Manager manager = new Manager();
 
-    public Manager() throws IOException {
+
+    private Manager() {
 //    public Manager(String ip, int port) throws IOException {
-        transceiver = new Transceiver("188.166.78.119", 8081);
+        try {
+            transceiver = new Transceiver("188.166.78.119", 8081);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 //        transceiver = new Transceiver(ip, port);
         reservations = new ArrayList<>();
         tickets = new ArrayList<>();
     }
-
+    public static Manager getInstance() {
+        return manager;
+    }
     public String makeReservation (ClientReserveQuery crq) throws IOException {
         Reservation newReserve = new Reservation(crq);
         setFlights(crq.originCode, crq.destCode, crq.date);
@@ -169,5 +177,18 @@ public class Manager {
 
     public ArrayList<Flight> getFlights() {
         return flights;
+    }
+
+    public Flight searchFlight(String number, String origin, String dest, String date) {
+        for(int i = 0 ; i < flights.size() ; i++){
+            if(Objects.equals(flights.get(i).getOrigin(), origin) &&
+                    Objects.equals(flights.get(i).getNumber(), number) &&
+                    Objects.equals(flights.get(i).getDestination(), dest) &&
+                    Objects.equals(flights.get(i).getDate(), date)
+                    ){
+            return flights.get(i);
+            }
+        }
+        return null;
     }
 }

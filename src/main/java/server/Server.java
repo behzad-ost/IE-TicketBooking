@@ -28,7 +28,7 @@ public class Server {
 //        ServerTransceiver server = new ServerTransceiver(portNumber);
         System.out.println("Server is running");
         server.accept();
-        Manager manager = new Manager();
+        Manager manager =  Manager.getInstance();
 //        Manager manager = new Manager(helperIp, helperPort);
         while(true) {
             String request = server.receive();

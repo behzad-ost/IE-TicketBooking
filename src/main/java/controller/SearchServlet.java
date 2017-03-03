@@ -13,7 +13,7 @@ import java.util.Objects;
 
 
 @WebServlet("/search")
-public class myServlet extends HttpServlet {
+public class SearchServlet extends HttpServlet {
     public static final java.lang.String HEADER = "<head>\n    <title>Results</title>\n   <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css\">\n" +
             "    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\">\n" +
             "    <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js\"></script>\n" +
@@ -22,13 +22,9 @@ public class myServlet extends HttpServlet {
             "    <link rel=\"stylesheet\" href=\"css/style3.css\"> \n</head>\n";
     public static final java.lang.String BOOTSTRAP = "<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\">\n    <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js\"></script>\n    <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\"></script>";
 
-    protected void doGet(HttpServletRequest request,
+    protected void doPost(HttpServletRequest request,
                          HttpServletResponse response)
             throws ServletException, IOException {
-//        RequestDispatcher requestDispatcher;
-//        requestDispatcher = request.getRequestDispatcher("/behzad.jsp");
-//        requestDispatcher.forward(request, response);
-
         String[] params = new String[7];
         params[1] = request.getParameter("source-code");
         params[2] = request.getParameter("dest-code");
@@ -37,10 +33,12 @@ public class myServlet extends HttpServlet {
         params[5] = request.getParameter("children");
         params[6] = request.getParameter("infants");
 
-        Manager manager = new Manager();
+        Manager manager = Manager.getInstance();
+
         ClientSearchQuery csq = new ClientSearchQuery(params);
 
         String res = manager.search(csq);
+
         ArrayList<Flight> flights = manager.getFlights();
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
@@ -129,7 +127,7 @@ public class myServlet extends HttpServlet {
 
                 out.println("<i class=\"step\" >"+src + " " +departure.substring(0,2)+":"+departure.substring(2,4) +"</i>");
                 out.println("<i class=\"step fa fa-angle-double-left\" ></i>");
-                out.println("<i class=\"step\" >"+des + " " +arrival.substring(0,2)+":"+arrival.substring(2,4)+"</i></div>");
+                out.println("<i class=\"step\" >"+des + " " +departure.substring(0,2)+":"+arrival.substring(2,4)+"</i></div>");
                 out.println("<div class=\"plane-class\">\n" +
                         "                            <i class=\"fa fa-plane\" ></i>");
                 out.println("<i class=\"info\" >"+model+"</i>");
@@ -143,7 +141,7 @@ public class myServlet extends HttpServlet {
                 int tPrice = csq.adults * seats.get(j).getAdultPrice() +
                         csq.childs * seats.get(j).getChildPrice() +
                         csq.infants * seats.get(j).getInfantPrice();
-                out.println("<div class=\"col-md-3 price\" >\n" +
+                out.println("<a href=\"/ali/reserve?number="+number+"&origin="+origin+"&dest="+dest+"&date="+date+"&clas="+seats.get(j).getClassName()+"&adults="+params[4]+"&children="+params[5]+"&infants="+params[6]+"\"> <div class=\"col-md-3 price\" >\n" +
                         "                        <div class=\"info\">\n" +
                         "                            <i >"+tPrice+"ریال </i>\n" +
                         "                        </div>\n" +
@@ -151,7 +149,7 @@ public class myServlet extends HttpServlet {
                         "                            <i >رزرو آنلاین</i>\n" +
                         "                        </div>\n" +
                         "                    </div>\n" +
-                        "                </div>");
+                        "                </div></a>");
             }
         }
 //        out.println(res);

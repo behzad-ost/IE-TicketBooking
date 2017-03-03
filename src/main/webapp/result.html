@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <!--<link rel="styslesheet" href="css/font-awesome.min.css">-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/style3.css">
+    <title>اخوانی و اوسط</title>
+</head>
+
+<body>
+<div id="container">
+    <header>
+        <div id="companyLogo" class="headerItem">
+            <img alt="logo" src="imgs/LogoBlack.png" class="img">
+        </div>
+        <div id="companyName" class="headerItem">
+         <i>اکبر تیکت</i>
+         <i class="fa fa-registered" aria-hidden="true" id="registered"></i></div>
+        <div id="user" class="dropdown">
+                <div class="drop-button">
+                    <i class="fa fa-user" aria-hidden="true" id="userLogo"></i>
+                    <i id="user-name">نام کاربر</i>
+                </div>
+                <div class="dropdown-content">
+                    <a href="#">پروفایل</a>
+                    <a href="#">تنظیمات</a>
+                    <a href="#">خروج</a>                        
+                </div>
+            </div>
+    </header>
+
+    <div class="container">
+        <section id="steps">
+            <i class="step hiden" >جستجوی پرواز</i>
+            <i class="step fa fa-chevron-left hiden" ></i>
+            <i class="step active" >انتخاب پرواز</i>
+            <i class="step fa fa-chevron-left active hiden" ></i>
+            <i class="step hiden" >ورود اطلاعات</i>
+            <i class="step fa fa-chevron-left hiden" ></i>
+            <i class="step hiden" >دریافت بلیت</i>
+        </section>
+
+
+        <section id="result-main">
+            <div id="control-bar">
+                <div id="back">
+                    <i class="step fa fa-arrow-right" ></i>
+                    <i class="step" >بازگشت به صفحه جستجو</i>
+                </div>
+                <div id="numofflights">
+                    <i> ۱۰</i>
+                    <i>پرواز با مشخصات دلخواه شما پیدا شد.  </i>
+                </div>
+            </div>
+            <div id="main-grey">
+                <div class="row ticket">
+                    <div class="col-md-3 class-plane">
+                        <div class="info">
+                            <i class="step fa fa-eur" ></i>
+                            <i >ایران ایر ۱۷۴۰</i>
+                        </div>
+                        <div class="info">
+                            <i class="step fa fa-calendar-o" ></i>
+                            <i > دوشنبه ۱۷ اسفند</i>
+                        </div>
+                    </div>
+                    <div class="col-md-6 from-to" >
+                        <div class="src-dest">
+                            <i class="step" >تهران ۱۷:۴۰</i>
+                            <i class="step fa fa-angle-double-left" ></i>
+                            <i class="step" >مشهد ۱۸:۵۰</i>
+                        </div>
+                        <div class="plane-class">
+                            <i class="fa fa-plane" ></i>
+                            <i class="info" >بوئینگ </i>
+                            &nbsp;
+                            &nbsp;
+                            <i class="fa fa-suitcase" ></i>
+                            <i class="info" >۸</i>
+                            <i class="info" > صندلی باقیمانده کلاس اقتصادی</i>
+                        </div>
+                    </div>
+                    <div class="col-md-3 price" >
+                        <div class="info">
+                            <i >۱/۳۵۰/۰۰۰ ریال </i>
+                        </div>
+                        <div class="info">
+                            <i >رزرو آنلاین</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="row ticket">
+                    <div class="col-md-3 class-plane">
+                        <div class="info">
+                            <i class="step fa fa-eur" ></i>
+                            <i >ایران ایر ۱۷۴۰</i>
+                        </div>
+                        <div class="info">
+                            <i class="step fa fa-calendar-o" ></i>
+                            <i > دوشنبه ۱۷ اسفند</i>
+                        </div>
+                    </div>
+                    <div class="col-md-6 from-to" >
+                        <div class="src-dest">
+                            <i class="step" >تهران ۱۷:۴۰</i>
+                            <i class="step fa fa-angle-double-left" ></i>
+                            <i class="step" >مشهد ۱۸:۵۰</i>
+                        </div>
+                        <div class="plane-class">
+                            <i class="fa fa-plane" ></i>
+                            <i class="info" >بوئینگ </i>
+                            &nbsp;
+                            &nbsp;
+                            <i class="fa fa-suitcase" ></i>
+                            <i class="info" >۸</i>
+                            <i class="info" > صندلی باقیمانده کلاس اقتصادی</i>
+                        </div>
+                    </div>
+                    <div class="col-md-3 price" >
+                        <div class="info">
+                            <i >۱/۳۵۰/۰۰۰ ریال </i>
+                        </div>
+                        <div class="info">
+                            <i >رزرو آنلاین</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="row ticket">
+                    <div class="col-md-3 class-plane">
+                        <div class="info">
+                            <i class="step fa fa-eur" ></i>
+                            <i >ایران ایر ۱۷۴۰</i>
+                        </div>
+                        <div class="info">
+                            <i class="step fa fa-calendar-o" ></i>
+                            <i > دوشنبه ۱۷ اسفند</i>
+                        </div>
+                    </div>
+                    <div class="col-md-6 from-to" >
+                        <div class="src-dest">
+                            <i class="step" >تهران ۱۷:۴۰</i>
+                            <i class="step fa fa-angle-double-left" ></i>
+                            <i class="step" >مشهد ۱۸:۵۰</i>
+                        </div>
+                        <div class="plane-class">
+                            <i class="fa fa-plane" ></i>
+                            <i class="info" >بوئینگ </i>
+                            &nbsp;
+                            &nbsp;
+                            <i class="fa fa-suitcase" ></i>
+                            <i class="info" >۸</i>
+                            <i class="info" > صندلی باقیمانده کلاس اقتصادی</i>
+                        </div>
+                    </div>
+                    <div class="col-md-3 price" >
+                        <div class="info">
+                            <i >۱/۳۵۰/۰۰۰ ریال </i>
+                        </div>
+                        <div class="info">
+                            <i >رزرو آنلاین</i>
+                        </div>
+                    </div>
+                </div>
+
+        </section>
+    </div>
+    <div id="footer">
+        <p>سیدعلی اخوانی - بهزاد اوسط | دانشکده‌ی فنی دانشگاه تهران</p>
+    </div>
+</div>
+
+</body>
+</html>

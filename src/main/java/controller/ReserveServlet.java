@@ -1,5 +1,6 @@
 package controller;
 
+import query.ClientReserveQuery;
 import service.Flight;
 import service.Manager;
 
@@ -9,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -20,7 +22,6 @@ import java.util.Objects;
  */
 @WebServlet("/reserve")
 public class ReserveServlet extends HttpServlet {
-    private Manager manager ;
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response)
             throws ServletException, IOException {
@@ -34,7 +35,7 @@ public class ReserveServlet extends HttpServlet {
         String  adults = request.getParameter("adults");
         String  children = request.getParameter("children");
         String  infants = request.getParameter("infants");
-        manager = Manager.getInstance();
+        Manager manager = Manager.getInstance();
 
         Flight flight = manager.searchFlight(number, origin, dest, date);
 
@@ -88,14 +89,70 @@ public class ReserveServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request,
                           HttpServletResponse response)
                           throws ServletException, IOException {
-        Enumeration params = request.getParameterNames();
-        PrintWriter out = response.getWriter();
-        out.println(request.getParameter("adultsnames"));
-        while(params.hasMoreElements()){
-            String paramName = (String)params.nextElement();
 
-            out.println("Parameter Name - "+paramName+", Value - "+request.getParameter(paramName) + request.getParameter(paramName).length());
+        String[] params = new String[10];
+        params[1] = request.getParameter("origin");
+        params[2] = request.getParameter("dest");
+        params[3] = request.getParameter("date");
+        params[4] = request.getParameter("airline");
+        params[5] = request.getParameter("number");
+        params[6] = request.getParameter("clas");
+        params[7] = request.getParameter("adults");
+        params[8] = request.getParameter("children");
+        params[9] = request.getParameter("infants");
+        ClientReserveQuery crq = new ClientReserveQuery(params);
+
+        Enumeration paramNames = request.getParameterNames();
+
+        PrintWriter out = response.getWriter();
+        for (int i = 0; i < crq.adults; i++) {
+            String[] person = new String[3];
+            String paramName;
+            paramName = (String)paramNames.nextElement();
+            paramName = (String)paramNames.nextElement();
+            person[0] = request.getParameter(paramName);
+            paramName = (String)paramNames.nextElement();
+            person[1] = request.getParameter(paramName);
+            paramName = (String)paramNames.nextElement();
+            person[2] = request.getParameter(paramName);
+            crq.addPerson(person, "adult");
         }
+        for (int i = 0; i < crq.childs; i++) {
+            String[] person = new String[3];
+            String paramName;
+            paramName = (String)paramNames.nextElement();
+            paramName = (String)paramNames.nextElement();
+            person[0] = request.getParameter(paramName);
+            paramName = (String)paramNames.nextElement();
+            person[1] = request.getParameter(paramName);
+            paramName = (String)paramNames.nextElement();
+            person[2] = request.getParameter(paramName);
+            crq.addPerson(person, "child");
+        }
+        for (int i = 0; i < crq.infants; i++) {
+            String[] person = new String[3];
+            String paramName;
+            paramName = (String)paramNames.nextElement();
+            paramName = (String)paramNames.nextElement();
+            person[0] = request.getParameter(paramName);
+            paramName = (String)paramNames.nextElement();
+            person[1] = request.getParameter(paramName);
+            paramName = (String)paramNames.nextElement();
+            person[2] = request.getParameter(paramName);
+            crq.addPerson(person, "infant");
+        }
+
+        String res = Manager.getInstance().makeReservation(crq);
+        out.print(res);
+
+        response.setCharacterEncoding("UTF-8");
+        while(paramNames.hasMoreElements()){
+            String paramName = (String)paramNames.nextElement();
+            String value = request.getParameter(paramName);
+
+        }
+
+
 
     }
 }

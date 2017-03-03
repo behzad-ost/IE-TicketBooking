@@ -5,6 +5,7 @@ import query.ClientFinalizeQuery;
 import query.ClientReserveQuery;
 import query.ClientSearchQuery;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -44,6 +45,8 @@ public class Manager {
                 " " + crq.adults + " " + crq.childs + " " + crq.infants + "\n";
         newReserve.setClass(crq.seatClass);
         transceiver.send(requestToHelper);
+        FileWriter fw = new FileWriter("/home/behzad/out.txt");
+        String error = requestToHelper ;
 
         for(int i = 0 ; i < crq.people.size(); i++) {
             requestToHelper = "";
@@ -51,7 +54,10 @@ public class Manager {
                             +crq.people.get(i).getSurName()+" "
                             +crq.people.get(i).getNationalId()+"\n";
             transceiver.send(requestToHelper);
+            error += requestToHelper ;
         }
+        fw.write(error);
+        fw.close();
 
         String helperResponse;
         helperResponse = transceiver.receive();

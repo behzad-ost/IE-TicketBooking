@@ -23,7 +23,7 @@ public class ManagerTest {
         ch = new CommandHandler("reserve THR MHD 05Feb IR 452 Y 1 0 0");
         ch.parseCommand();
         crq = ch.createReserveQuery();
-        crq.addPerson("ali x 123", "adult");
+        crq.addPerson(new String[]{"ali", "x", "123"}, "adult");
 
         rs = new Reservation(crq);
         rs.parseHelperResponse("token^__^ 1000 2000 3000", 1, 0,0);
@@ -35,17 +35,18 @@ public class ManagerTest {
         ch = new CommandHandler("reserve THR MHD 05Feb IR 452 Y 2 4 3");
         ch.parseCommand();
         crq = ch.createReserveQuery();
-        crq.addPerson("ali boom 123" , "adult");
-        crq.addPerson("ali boom 123", "adult");
+        crq.addPerson(new String[]{"ali", "boom","123"}, "adult");
+        crq.addPerson(new String[]{"ali", "boom","123"}, "adult");
 
-        crq.addPerson("behx x 456", "child");
-        crq.addPerson("behx x 456", "child");
-        crq.addPerson("behx x 456", "child");
-        crq.addPerson("behx x 456", "child");
+        crq.addPerson(new String[]{"behx", "x", "456"}, "child");
+        crq.addPerson(new String[]{"behx", "x", "456"}, "child");
+        crq.addPerson(new String[]{"behx", "x", "456"}, "child");
+        crq.addPerson(new String[]{"behx", "x", "456"}, "child");
 
-        crq.addPerson("vahid asd 789", "infant");
-        crq.addPerson("vahid asd 789", "infant");
-        crq.addPerson("vahid asd 789", "infant");
+
+        crq.addPerson(new String[]{"vahid" ,"asd" ,"789"}, "infant");
+        crq.addPerson(new String[]{"vahid" ,"asd" ,"789"}, "infant");
+        crq.addPerson(new String[]{"vahid" ,"asd" ,"789"}, "infant");
 
         rs = new Reservation(crq);
         rs.parseHelperResponse("token^__^ 1000 2000 3000", 2, 4,3);

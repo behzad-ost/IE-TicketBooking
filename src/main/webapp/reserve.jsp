@@ -79,10 +79,10 @@
                                 <div class="col-md-6" id="from-to">
 
                                     <% String des = request.getParameter("dest"); %>
-                                    <i class="step" >${requestScope.atime}<% out.println(des); %></i>
+                                    <i class="step" >${requestScope.origin}${requestScope.atime}</i>
                                     <i class="step fa fa-angle-double-left" ></i>
                                     <% String src = request.getParameter("origin"); %>
-                                    <i class="step" >${requestScope.dtime}<% out.println(src); %></i>
+                                    <i class="step" >${requestScope.dest}${requestScope.dtime}</i>
 
                                 </div>
                                 <div class="col-md-3" id="class-plane">
@@ -206,6 +206,16 @@
                                     </div>
                                 </div>
                                 <% r++;} %>
+                                <input type="hidden" name="origin" <% out.println("value="+request.getParameter("origin"));%> />
+                                <input type="hidden" name="dest" <% out.println("value="+request.getParameter("dest"));%> />
+                                <input type="hidden" name="date" value=${requestScope.date} />
+                                <input type="hidden" name="airline" value=${requestScope.airline} />
+                                <input type="hidden" name="number" value=${requestScope.number} />
+                                <input type="hidden" name="clas" value=${requestScope.clas} />
+                                <input type="hidden" name="adults" value=${requestScope.adults} />
+                                <input type="hidden" name="children" value=${requestScope.children} />
+                                <input type="hidden" name="infants" value=${requestScope.infants} />
+
 
                                 <button type="submit" class="btn-submit" value="پرداخت و ثبت نهایی">
                                     <i>پرداخت و ثبت نهایی</i>
@@ -218,8 +228,6 @@
         <% } else { %>
                <h2><% out.println(request.getParameter("error")); %></h2>
         <% } %>
-
-
     </div>
     <div id="footer">
         <p>سیدعلی اخوانی - بهزاد اوسط | دانشکده‌ی فنی دانشگاه تهران</p>

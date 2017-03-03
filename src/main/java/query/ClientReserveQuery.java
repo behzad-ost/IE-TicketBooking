@@ -34,17 +34,18 @@ public class ClientReserveQuery {
     }
 
 
-    public void addPerson(String command, String ageType) {
-        String[] person = command.split("\\s+");
+    public void addPerson(String[] person, String ageType) {
         Person newPerson = new Person(person[0], person[1], person[2], ageType);
         this.people.add(newPerson);
     }
 
-    public void printPeople() {
+    public String printPeople() {
+        String res = "";
         for (Person p:
              people) {
-            System.out.println(p.getFirstName() + "-" + p.getSurName() + "-" + p.getAgeType());
+            res+=(p.getFirstName() + "-" + p.getSurName() + "-" + p.getAgeType())+"\n";
         }
+        return res;
     }
 
     public int getNumOfPeople() {

@@ -1,5 +1,9 @@
 package server;
 import common.ServerTransceiver;
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.FileAppender;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
 import query.ClientFinalizeQuery;
 import query.ClientReserveQuery;
 import query.ClientSearchQuery;
@@ -14,6 +18,12 @@ import java.io.*;
 public class Server {
 
     public static void main(String[] args) throws IOException {
+//        BasicConfigurator.configure(new FileAppender());
+//
+//        Logger logger = Logger.getLogger(Server.class);
+//
+//        logger.debug("MAIN STARTED");
+
         try {
 //            int portNumber = Integer.parseInt(args[0]);
 //            String helperIp = args[1];
@@ -69,15 +79,18 @@ public class Server {
 
                         for (int i = 0; i < crq.adults; i++) {
                             String personInfo = server.receive();
-                            crq.addPerson(personInfo, "adult");
+                            String[] person = personInfo.split("\\s+");
+                            crq.addPerson(person, "adult");
                         }
                         for (int i = 0; i < crq.childs; i++) {
                             String personInfo = server.receive();
-                            crq.addPerson(personInfo, "child");
+                            String[] person = personInfo.split("\\s+");
+                            crq.addPerson(person, "child");
                         }
                         for (int i = 0; i < crq.infants; i++) {
                             String personInfo = server.receive();
-                            crq.addPerson(personInfo, "infant");
+                            String[] person = personInfo.split("\\s+");
+                            crq.addPerson(person, "infant");
                         }
                         response = manager.makeReservation(crq);
                         server.send(response);

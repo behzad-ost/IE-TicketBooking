@@ -3,6 +3,8 @@ package service;
 import common.Person;
 import query.ClientReserveQuery;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -67,10 +69,16 @@ public class Reservation{
         this.token = t;
     }
 
-    public String parseHelperResponse(String helperResponse, int adults, int childs, int infants) {
+    public String parseHelperResponse(String helperResponse, int adults, int childs, int infants) throws IOException {
         String[] args = helperResponse.split("\\s+");
         setToken(args[0]);
         this.totalPrice = Integer.parseInt(args[1]) * adults + Integer.parseInt(args[2]) * childs + Integer.parseInt(args[3]) * infants;
+        FileWriter fw = new FileWriter("/home/behzad/out.txt");
+        String error = adults + " " + childs + " " + infants + "\n";
+        error += args[1]+ " " + args[2] + " " + args[3] + "\n";
+        fw.write(error);
+        fw.close();
+//        this.totalPrice = 0;
         return args[0];
     }
 

@@ -120,8 +120,8 @@ public class Flight {
     public void addPrice(Seat seat, String ps){
         String[] tokenPrices = ps.split("\\s+");
         seat.adultPrice = Integer.parseInt(tokenPrices[0]);
-        seat.childPrice = Integer.parseInt(tokenPrices[0]);
-        seat.infantPrice= Integer.parseInt(tokenPrices[0]);
+        seat.childPrice = Integer.parseInt(tokenPrices[1]);
+        seat.infantPrice= Integer.parseInt(tokenPrices[2]);
     }
 
 }

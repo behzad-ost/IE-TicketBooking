@@ -48,7 +48,7 @@ public class SearchServlet extends HttpServlet {
         out.println("<html lang=\"fa\">" + HEADER +
                 "<body>");
         out.println("<div id=\"container\">\n" +
-                "    <header>\n" +
+                "<header>\n" +
                 "        <div id=\"companyLogo\" class=\"headerItem\">\n" +
                 "            <img alt=\"logo\" src=\"imgs/LogoBlack.png\" class=\"img\">\n" +
                 "        </div>\n" +

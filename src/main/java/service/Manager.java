@@ -12,7 +12,6 @@ public class Manager {
     private provider.Provider provider;
     private FlightRepo flightRepo;
     private ReserveRepo reserveRepo;
-    private ArrayList<Reservation> reservations;
     private ArrayList<Ticket> tickets;
     private static Manager manager = new Manager();
 
@@ -22,7 +21,6 @@ public class Manager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        reservations = new ArrayList<>();
         tickets = new ArrayList<>();
         flightRepo = new FlightRepo();
         reserveRepo = new ReserveRepo();
@@ -70,20 +68,17 @@ public class Manager {
         newReserve = provider.makeReservation(crq);
         String response;
         response = newReserve.getToken() + " " + newReserve.getTotalPrice() +"\n";
-        this.reservations.add(newReserve);
+        reserveRepo.addReservation((newReserve));
         return response;
     }
 
     public String finalizeReservation(ClientFinalizeQuery cfq) throws IOException {
         String[] tickets ;
-        String response = null;
-        for(int i = 0 ; i < reservations.size() ; i++){
-            if(Objects.equals(reservations.get(i).getToken(), cfq.token)){
-                reservations.get(i).verify();
-                tickets = provider.getTickets(reservations.get(i));
-                response = printTickets(reservations.get(i),tickets);
-            }
-        }
+        String response ;
+        Reservation reservation = reserveRepo.findByToken(cfq.token);
+        reservation.verify();
+        tickets = provider.getTickets(reservation);
+        response = printTickets(reservation,tickets);
         return response;
     }
 

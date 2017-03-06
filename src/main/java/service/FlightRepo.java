@@ -9,6 +9,10 @@ import java.util.Objects;
 public class FlightRepo {
     private ArrayList<Flight> flights;
 
+    public FlightRepo(){
+        flights = new ArrayList<>();
+    }
+
     public ArrayList<Flight> getFlights() {
         return flights;
     }

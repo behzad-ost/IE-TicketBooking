@@ -7,4 +7,12 @@ import java.util.ArrayList;
  */
 public class ReserveRepo {
     private ArrayList<Reservation> reservations;
+
+    public ArrayList<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(ArrayList<Reservation> reservations) {
+        this.reservations = reservations;
+    }
 }

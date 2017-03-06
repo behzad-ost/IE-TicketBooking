@@ -8,13 +8,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-
 public class Manager {
     private provider.Provider provider;
     private FlightRepo flightRepo;
     private ReserveRepo reserveRepo;
     private ArrayList<Reservation> reservations;
-    private ArrayList<Flight> flights;
     private ArrayList<Ticket> tickets;
     private static Manager manager = new Manager();
 
@@ -33,7 +31,15 @@ public class Manager {
         return manager;
     }
     public String search (ClientSearchQuery csq) throws IOException {
+        ArrayList<Flight> flights;
+        /*  {BULLSHIT caching}
+            if(FlightRepo has the flight)
+                only update prices and availables
+                else ask provider
+        */
+
         flights = provider.getFlights(csq.originCode, csq.destCode, csq.date);
+        flightRepo.setFlights(flights);
         String response = "";
         for(int i = 0 ; i < flights.size() ; i++){
             response += "Flight: " + flights.get(i).getAirlineCode() + " " + flights.get(i).getNumber() + " " +
@@ -58,7 +64,8 @@ public class Manager {
     }
 
     public String makeReservation (ClientReserveQuery crq) throws IOException {
-        flights = provider.getFlights(crq.originCode, crq.destCode, crq.date);
+//        ArrayList flights = provider.getFlights(crq.originCode, crq.destCode, crq.date);
+//        flightRepo.setFlights(flights);
         Reservation newReserve ;
         newReserve = provider.makeReservation(crq);
         String response;
@@ -82,7 +89,7 @@ public class Manager {
 
     private String printTickets(Reservation reservation, String[] args) {
         String res="";
-        String[] DAM = findPlane(reservation.getFlightNumber(), reservation.getOriginCode() ,reservation.getDestCode());
+        String[] DAM = flightRepo.findPlane(reservation.getFlightNumber(), reservation.getOriginCode() ,reservation.getDestCode());
         for(int i = 1 ; i < args.length ; i++){
             Ticket newTicket = new Ticket(args[0],args[i],reservation);
             tickets.add(newTicket);
@@ -94,35 +101,11 @@ public class Manager {
         return res;
     }
 
-    private String[] findPlane(String flightNumber, String originCode, String destCode) {
-        String[] res = new String[3];
-        for(int i = 0 ; i < flights.size() ; i++){
-            if(Objects.equals(flights.get(i).getNumber(), flightNumber) &&
-               Objects.equals(flights.get(i).getOrigin(), originCode) &&
-               Objects.equals(flights.get(i).getDestination(), destCode)
-              ){
-                res[0] = flights.get(i).getdTime();
-                res[1] = flights.get(i).getaTime();
-                res[2] = flights.get(i).getPlaneModel();
-            }
-        }
-        return res;
-    }
-
     public ArrayList<Flight> getFlights() {
-        return flights;
+        return flightRepo.getFlights();
     }
 
     public Flight searchFlight(String number, String origin, String dest, String date) {
-        for(int i = 0 ; i < flights.size() ; i++){
-            if(Objects.equals(flights.get(i).getOrigin(), origin) &&
-                    Objects.equals(flights.get(i).getNumber(), number) &&
-                    Objects.equals(flights.get(i).getDestination(), dest) &&
-                    Objects.equals(flights.get(i).getDate(), date)
-                    ){
-            return flights.get(i);
-            }
-        }
-        return null;
+        return  flightRepo.searchFlight(number, origin, dest, date);
     }
 }

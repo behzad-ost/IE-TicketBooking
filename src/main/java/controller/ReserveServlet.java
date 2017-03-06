@@ -1,5 +1,6 @@
 package controller;
 
+import query.ClientFinalizeQuery;
 import query.ClientReserveQuery;
 import service.Flight;
 import service.Manager;
@@ -143,13 +144,18 @@ public class ReserveServlet extends HttpServlet {
         }
 
         String res = Manager.getInstance().makeReservation(crq);
+
+
+        String[] tp = res.split("\\s+");
+        params[1] = tp[0];
+        ClientFinalizeQuery cfq = new ClientFinalizeQuery(params);
+        res = Manager.getInstance().finalizeReservation(cfq);
         out.print(res);
 
         response.setCharacterEncoding("UTF-8");
         while(paramNames.hasMoreElements()){
             String paramName = (String)paramNames.nextElement();
             String value = request.getParameter(paramName);
-
         }
 
 

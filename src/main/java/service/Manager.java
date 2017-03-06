@@ -1,98 +1,39 @@
 package service;
 
-import common.Transceiver;
 import query.ClientFinalizeQuery;
 import query.ClientReserveQuery;
 import query.ClientSearchQuery;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-/**
- * Created by behzad on 2/10/17.
- */
+
 public class Manager {
-    private Transceiver transceiver;
+    private provider.Provider provider;
+    private FlightRepo flightRepo;
+    private ReserveRepo reserveRepo;
     private ArrayList<Reservation> reservations;
     private ArrayList<Flight> flights;
     private ArrayList<Ticket> tickets;
     private static Manager manager = new Manager();
 
-
     private Manager() {
-//    public Manager(String ip, int port) throws IOException {
         try {
-            transceiver = new Transceiver("188.166.78.119", 8081);
+            provider = new provider.Provider();
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        transceiver = new Transceiver(ip, port);
         reservations = new ArrayList<>();
         tickets = new ArrayList<>();
+        flightRepo = new FlightRepo();
+        reserveRepo = new ReserveRepo();
     }
     public static Manager getInstance() {
         return manager;
     }
-    public String makeReservation (ClientReserveQuery crq) throws IOException {
-        Reservation newReserve = new Reservation(crq);
-        setFlights(crq.originCode, crq.destCode, crq.date);
-
-        String requestToHelper = "RES " + crq.originCode + " " + crq.destCode + " " +
-                crq.date + " " + crq.airlineCode +
-                " " + crq.flightNumber + " " + crq.seatClass +
-                " " + crq.adults + " " + crq.childs + " " + crq.infants + "\n";
-        newReserve.setClass(crq.seatClass);
-        transceiver.send(requestToHelper);
-        FileWriter fw = new FileWriter("/home/behzad/out.txt");
-        String error = requestToHelper ;
-
-        for(int i = 0 ; i < crq.people.size(); i++) {
-            requestToHelper = "";
-            requestToHelper += crq.people.get(i).getFirstName()+" "
-                            +crq.people.get(i).getSurName()+" "
-                            +crq.people.get(i).getNationalId()+"\n";
-            transceiver.send(requestToHelper);
-            error += requestToHelper ;
-        }
-        fw.write(error);
-        fw.close();
-
-        String helperResponse;
-        helperResponse = transceiver.receive();
-//        System.out.println("response: " + helperResponse);
-        String response;
-        String token = newReserve.parseHelperResponse(helperResponse, crq.adults, crq.childs, crq.infants);
-        response = token + " " + newReserve.getTotalPrice() +"\n";
-
-        this.reservations.add(newReserve);
-        this.reservations.get(0).printReservation();
-//        System.out.println("num of reserves: " + reservations.size());
-        return response;
-    }
-
-    private void setFlights(String originCode, String destCode, String date) throws IOException {
-        String requestToHelper = "AV ";
-        requestToHelper += originCode + " " + destCode + " " + date + "\n";
-
-        String helperResponse = transceive(requestToHelper);
-        System.out.println(helperResponse);
-
-        String[] responeslines = helperResponse.split("\\n");
-        flights = new ArrayList<>();
-        parseFlights(responeslines);
-    }
-
-    public String transceive(String data) throws IOException {
-        String res;
-        transceiver.send(data);
-        res = transceiver.receive();
-        return res;
-    }
-
     public String search (ClientSearchQuery csq) throws IOException {
-        setFlights(csq.originCode, csq.destCode, csq.date);
+        flights = provider.getFlights(csq.originCode, csq.destCode, csq.date);
         String response = "";
         for(int i = 0 ; i < flights.size() ; i++){
             response += "Flight: " + flights.get(i).getAirlineCode() + " " + flights.get(i).getNumber() + " " +
@@ -116,44 +57,31 @@ public class Manager {
         return res;
     }
 
-    private void parseFlights(String[] lines) throws IOException {
-        for(int i = 0 ; i < lines.length-1 ; i=i+2){
-            Flight newFlight = new Flight(lines[i], lines[i+1]);
-            setPrices(newFlight);
-            flights.add(newFlight);
-        }
-    }
-
-    private void setPrices(Flight newFlight) throws IOException {
-        ArrayList<Flight.Seat> seats = newFlight.getSeats();
-        for(int i = 0 ; i < seats.size() ; i++){
-            String requestToHelper = "PRICE ";
-            requestToHelper += newFlight.getOrigin() + " " +
-                    newFlight.getDestination() + " " + newFlight.getAirlineCode() + " " +
-                    seats.get(i).getClassName()+ "\n";
-            String response = transceive(requestToHelper);
-            newFlight.addPrice(seats.get(i), response);
-        }
+    public String makeReservation (ClientReserveQuery crq) throws IOException {
+        flights = provider.getFlights(crq.originCode, crq.destCode, crq.date);
+        Reservation newReserve ;
+        newReserve = provider.makeReservation(crq);
+        String response;
+        response = newReserve.getToken() + " " + newReserve.getTotalPrice() +"\n";
+        this.reservations.add(newReserve);
+        return response;
     }
 
     public String finalizeReservation(ClientFinalizeQuery cfq) throws IOException {
-        String response = "";
+        String[] tickets ;
+        String response = null;
         for(int i = 0 ; i < reservations.size() ; i++){
-            if(Objects.equals(reservations.get(i).getToken(), cfq.getToken())){
+            if(Objects.equals(reservations.get(i).getToken(), cfq.token)){
                 reservations.get(i).verify();
-                response += getTickets(reservations.get(i));
+                tickets = provider.getTickets(reservations.get(i));
+                response = printTickets(reservations.get(i),tickets);
             }
         }
         return response;
     }
 
-
-    private String getTickets(Reservation reservation) throws IOException {
-        String requestToHelper = "FIN ";
-        requestToHelper += reservation.getToken() + "\n";
-        String response = transceive(requestToHelper);
-        String[] args = response.split("\\n");
-        String res = "";
+    private String printTickets(Reservation reservation, String[] args) {
+        String res="";
         String[] DAM = findPlane(reservation.getFlightNumber(), reservation.getOriginCode() ,reservation.getDestCode());
         for(int i = 1 ; i < args.length ; i++){
             Ticket newTicket = new Ticket(args[0],args[i],reservation);

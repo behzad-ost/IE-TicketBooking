@@ -1,9 +1,6 @@
 package server;
 import common.ServerTransceiver;
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.FileAppender;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
+import org.apache.log4j.*;
 import query.ClientFinalizeQuery;
 import query.ClientReserveQuery;
 import query.ClientSearchQuery;
@@ -18,11 +15,14 @@ import java.io.*;
 public class Server {
 
     public static void main(String[] args) throws IOException {
+        String log4jConfigFile = "/home/behzad/log4j.properties";
+        PropertyConfigurator.configure(log4jConfigFile);
 //        BasicConfigurator.configure(new FileAppender());
 //
-//        Logger logger = Logger.getLogger(Server.class);
-//
-//        logger.debug("MAIN STARTED");
+        Logger logger = Logger.getLogger(Server.class);
+
+        logger.debug("MAIN STARTED");
+
 
         try {
 //            int portNumber = Integer.parseInt(args[0]);

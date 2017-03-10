@@ -84,7 +84,7 @@ public class Manager {
     }
 
     public String[] getTimeAndModel(String number, String origin, String dest){
-        return flightRepo.findPlane(number, origin ,dest);
+        return flightRepo.findFlightTimes(number, origin ,dest);
     }
     private String printTickets(Reservation reservation, String[] args) {
         String res="";

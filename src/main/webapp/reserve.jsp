@@ -134,7 +134,7 @@
                                 </table>
                             </div>
                             <div id="passengers-label">اطلاعات</div>
-                            <form id="passengers" action="/ali/reserve" method="POST">
+                            <form id="passengers" action="/ali/tickets" method="POST">
                                 <% int r = 1; for(int i = 0 ; i < Integer.parseInt(request.getParameter("adults")) ; i++) { %>
                                 <div class="row info-fields">
                                     <div class="col-md-2 col-md-push-10 velvet">

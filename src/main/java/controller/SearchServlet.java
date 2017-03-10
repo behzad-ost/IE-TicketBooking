@@ -158,7 +158,18 @@ public class SearchServlet extends HttpServlet {
                             csq.childs * seats.get(j).getChildPrice() +
                             csq.infants * seats.get(j).getInfantPrice();
 
-                    out.println("<a href=\"/ali/reserve?number="+number+"&origin="+origin+"&dest="+dest+"&date="+date+"&clas="+seats.get(j).getClassName()+"&adults="+params[4]+"&children="+params[5]+"&infants="+params[6]+"\"> <div class=\"col-md-3 price\" >\n" +
+
+                    out.println("<form id=\"reserve\" action=\"/ali/reserve\" method=\"POST\">");
+                    out.println("<input type=\"hidden\" name=\"number\" value=\""+number+"\" />");
+                    out.println("<input type=\"hidden\" name=\"origin\" value=\""+origin+"\" />");
+                    out.println("<input type=\"hidden\" name=\"dest\" value=\""+dest+"\" />");
+                    out.println("<input type=\"hidden\" name=\"date\" value=\""+date+"\" />");
+                    out.println("<input type=\"hidden\" name=\"clas\" value=\""+seats.get(j).getClassName()+"\" />");
+                    out.println("<input type=\"hidden\" name=\"adults\" value=\""+params[4]+"\" />");
+                    out.println("<input type=\"hidden\" name=\"children\" value=\""+params[5]+"\" />");
+                    out.println("<input type=\"hidden\" name=\"infants\" value=\""+params[6]+"\" />");
+
+                    out.println("<button class=\"col-md-3 price\" type=\"submit\" >\n" +
                             "                        <div class=\"info\">\n" +
                             "                            <i >"+convertNumToPersian(tPrice)+"ریال </i>\n" +
                             "                        </div>\n" +
@@ -166,7 +177,7 @@ public class SearchServlet extends HttpServlet {
                             "                            <i >رزرو آنلاین</i>\n" +
                             "                        </div>\n" +
                             "                    </div>\n" +
-                            "                </div></a>");
+                            "                                </button>");
                 }
             }
         }

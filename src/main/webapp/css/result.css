@@ -116,6 +116,7 @@ i.active {
     float: right;
     font-size: 20px;
     font-weight: bolder;
+    color: black;
 }
 
 #numofflights{
@@ -132,6 +133,7 @@ i.active {
     color:#7A4A43;
     text-align:center;
     border-radius:15px 0px 0px 15px;
+    width:100%
 /*    text-decoration: none;*/
 }
 

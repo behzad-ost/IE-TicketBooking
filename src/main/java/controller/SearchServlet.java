@@ -88,9 +88,10 @@ public class SearchServlet extends HttpServlet {
         out.println("<section id=\"result-main\">\n" +
                 "            <div id=\"control-bar\">\n" +
                 "                <div id=\"back\">\n" +
+                "                <a href=\"/ali/\">" +
                 "                    <i class=\"step fa fa-arrow-right\" ></i>\n" +
                 "                    <i class=\"step\" >بازگشت به صفحه جستجو</i>\n" +
-                "                </div>\n" +
+                "                </div></a>\n" +
                 "                <div id=\"numofflights\">\n <i>" );
 
         out.println(flights.size());

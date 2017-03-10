@@ -116,6 +116,7 @@ i.active {
     float: right;
     font-size: 20px;
     font-weight: bolder;
+    color: black;
 }
 
 #time {

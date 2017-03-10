@@ -24,7 +24,7 @@ public class SearchServlet extends HttpServlet {
             "    <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js\"></script>\n" +
             "    <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\"></script>\n" +
             "    <link rel=\"stylesheet\" href=\"css/layout.css\">\n" +
-            "    <link rel=\"stylesheet\" href=\"css/style3.css\"> \n</head>\n";
+            "    <link rel=\"stylesheet\" href=\"css/result.css\"> \n</head>\n";
 
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response)
@@ -145,15 +145,15 @@ public class SearchServlet extends HttpServlet {
                     out.println("<i class=\"step fa fa-angle-double-left\" ></i>");
                     out.println("<i class=\"step\" >"+des + " " +convertNumToPersian(departure.substring(0,2))+":"+convertNumToPersian(arrival.substring(2,4))+"</i></div>");
                     out.println("<div class=\"plane-class\">\n" +
+                            "<div class=\"pull-right\">\n" +
                             "                            <i class=\"fa fa-plane\" ></i>");
                     out.println("<i class=\"info\" >"+model+"</i>");
-                    out.println("&nbsp;\n" +
-                            "                            &nbsp;\n" +
+                    out.println("</div>");
+                    out.println("<div class=\"pull-right\">\n" +
                             "                            <i class=\"fa fa-suitcase\" ></i>");
-
                     out.println("<i class=\"info\" >"+convertNumToPersian(seats.get(j).getAvailable())+"</i>");
-                    out.println("<i class=\"info\" > صندلی باقیمانده کلاس " +seats.get(j).getClassName()+"</i></div>\n" +
-                            "                    </div>");
+                    out.println("<i class=\"info\" > صندلی باقیمانده کلاس " +seats.get(j).getClassName()+"</i>\n</div>\n" +
+                            "                    </div>\n" + "</div>\n");
                     int tPrice = csq.adults * seats.get(j).getAdultPrice() +
                             csq.childs * seats.get(j).getChildPrice() +
                             csq.infants * seats.get(j).getInfantPrice();

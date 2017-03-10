@@ -11,6 +11,7 @@ import java.util.ArrayList;
  * Created by behzad on 2/10/17.
  */
 public class Reservation{
+    private int Id;
     private String originCode;
     private String destCode;
     private String airlineCode;
@@ -118,4 +119,10 @@ public class Reservation{
     }
 
 
+    public int getId() {
+        return Id;
+    }
+    public void setId(int id){
+        this.Id = id;
+    }
 }

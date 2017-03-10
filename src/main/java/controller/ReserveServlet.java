@@ -42,7 +42,7 @@ public class ReserveServlet extends HttpServlet {
         String  infants = request.getParameter("infants");
         Manager manager = Manager.getInstance();
 
-            Flight flight = manager.searchFlight(number, origin, dest, date);
+        Flight flight = manager.searchFlight(number, origin, dest, date);
 
         if(flight==null){
             request.setAttribute("error","Found no matching flights");
@@ -88,7 +88,9 @@ public class ReserveServlet extends HttpServlet {
         request.setAttribute("infants",infants);
         request.setAttribute("iprice",seat.getInfantPrice());
 
-        logger.debug("TMPRES " + flight.getNumber() + " " + seat.getAdultPrice() + " " + seat.getChildPrice() + " " + seat.getInfantPrice()); // TODO: 3/10/17 FlightID
+        int id = manager.getCurrentId();
+        flight.setId(id);
+        logger.info("TMPRES " + id + " " + seat.getAdultPrice() + " " + seat.getChildPrice() + " " + seat.getInfantPrice());
 
         requestDispatcher.forward(request, response);
     }
@@ -112,7 +114,6 @@ public class ReserveServlet extends HttpServlet {
         params[8] = request.getParameter("children");
         params[9] = request.getParameter("infants");
         ClientReserveQuery crq = new ClientReserveQuery(params);
-
         Enumeration paramNames = request.getParameterNames();
 
         addPersons(request ,paramNames, crq);
@@ -121,15 +122,15 @@ public class ReserveServlet extends HttpServlet {
 
         String res = Manager.getInstance().makeReservation(crq);
 
-
-
         String[] p = new String[2];
         String[] tp = res.split("\\s+");
+        logger.info("RES " + Manager.getInstance().getCurrentId()+ " " + tp[0] + " " + params[7] + " " + params[8] +" " + params[9]);
         p[1] = tp[0];
         ClientFinalizeQuery cfq = new ClientFinalizeQuery(p);
         res = Manager.getInstance().finalizeReservation(cfq);
 
         Reservation reservation = Manager.getInstance().findReserveByToken(tp[0]);
+        logger.info("FINRES " + reservation.getToken()+ " " + reservation.getId() + " " + reservation.getTotalPrice());
 
 //        out.print(res);
 

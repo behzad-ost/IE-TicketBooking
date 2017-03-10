@@ -15,6 +15,8 @@ public class Manager {
     private static Manager manager = new Manager();
 
 
+    final static Logger logger = Logger.getLogger(Manager.class);
+
     private Manager() {
         try {
             provider = new provider.Provider();
@@ -30,11 +32,6 @@ public class Manager {
 
     public String search (ClientSearchQuery csq) throws IOException {
         ArrayList<Flight> flights;
-        /*  {BULLSHIT caching}
-            if(FlightRepo has the flight)
-                only update prices and availables
-                else ask provider
-        */
 
         flights = provider.getFlights(csq.originCode, csq.destCode, csq.date);
         flightRepo.setFlights(flights);
@@ -89,11 +86,11 @@ public class Manager {
         String res="";
         String[] DAM = flightRepo.findFlightTimes(reservation.getFlightNumber(), reservation.getOriginCode() ,reservation.getDestCode());
         for(int i = 1 ; i < args.length ; i++){
-
             String firstName =reservation.getPeople().get(i-1).getFirstName();
             String lastName = reservation.getPeople().get(i-1).getSurName();
-
             Ticket newTicket = new Ticket(args[0],args[i],firstName, lastName);
+            logger.info("TICKET " + newTicket.getRefCode()+ " " + newTicket.getNumber() + " " +
+                    reservation.getPeople().get(i-1).getNationalId()+ " " + reservation.getPeople().get(i-1).getAgeType());
             reservation.addTicket(newTicket);
             res += firstName + " " + lastName + " "+ newTicket.getRefCode()+
                     " " + newTicket.getNumber() + " " + reservation.getOriginCode() + " " + reservation.getDestCode() + " " +
@@ -117,5 +114,9 @@ public class Manager {
 
     public Reservation findReserveByToken(String token) {
         return reserveRepo.findByToken(token);
+    }
+
+    public int getCurrentId() {
+        return flightRepo.getId();
     }
 }

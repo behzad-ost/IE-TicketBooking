@@ -8,9 +8,12 @@ import java.util.Objects;
  */
 public class FlightRepo {
     private ArrayList<Flight> flights;
+    private int lastId;
+    private int id;
 
     public FlightRepo(){
         flights = new ArrayList<>();
+        lastId = 1;
     }
 
     public ArrayList<Flight> getFlights() {
@@ -24,6 +27,7 @@ public class FlightRepo {
     public void addFlights(ArrayList<Flight> flights) {
         for(int i = 0 ; i < flights.size() ; i++){
             flights.add(flights.get(i));
+            lastId++;
         }
     }
 
@@ -53,5 +57,9 @@ public class FlightRepo {
             }
         }
         return null;
+    }
+
+    public int getId() {
+        return id;
     }
 }

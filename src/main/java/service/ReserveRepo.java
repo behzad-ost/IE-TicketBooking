@@ -8,9 +8,10 @@ import java.util.Objects;
  */
 public class ReserveRepo {
     private ArrayList<Reservation> reservations;
-
+    private static int lastId;
     public ReserveRepo(){
         reservations = new ArrayList<>();
+        lastId = 1;
     }
 
     public ArrayList<Reservation> getReservations() {
@@ -31,6 +32,8 @@ public class ReserveRepo {
     }
 
     public void addReservation(Reservation newReserve) {
+        newReserve.setId(lastId);
+        lastId++;
         reservations.add(newReserve);
     }
 

@@ -7,6 +7,10 @@ import java.util.Objects;
  * Created by behzad on 2/10/17.
  */
 public class Flight {
+    public void setId(int id) {
+        this.ID = id;
+    }
+
     public class Seat {
         private String className;
         private int available;
@@ -38,6 +42,8 @@ public class Flight {
             return available;
         }
     }
+
+    private int ID;
     private String airlineCode;
     private String number;
     private String date;
@@ -47,6 +53,7 @@ public class Flight {
     private String aTime;
     private String planeModel;
     private ArrayList<Seat> seats;
+
 
     public String getAirlineCode() {
         return airlineCode;
@@ -87,7 +94,6 @@ public class Flight {
 
     public Flight(String line1 , String line2){
         String[] line1Args = line1.split("\\s+");
-
         airlineCode = line1Args[0];
         number = line1Args[1];
         date = line1Args[2];

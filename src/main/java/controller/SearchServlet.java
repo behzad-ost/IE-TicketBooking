@@ -104,6 +104,16 @@ public class SearchServlet extends HttpServlet {
             String number = flights.get(i).getNumber();
             logger.debug("Must Be Persian: " + convertNumToPersian(number));
             String date = flights.get(i).getDate();
+            String newDate = "";
+            if (date.equals("05Feb")) {
+                newDate = "۱۷ بهمن";
+            } else if (date.equals("06Feb")) {
+                newDate = "۱۸ بهمن";
+            } else if (date.equals("04Feb")) {
+                newDate = "۱۶ بهمن";
+            } else {
+                newDate = date;
+            }
             // TODO: 3/10/17 Create Date Changer to Persian Calendar
             String origin = flights.get(i).getOrigin();
             String dest = flights.get(i).getDestination();
@@ -122,7 +132,7 @@ public class SearchServlet extends HttpServlet {
                     out.println("<i>"+airlineCode + convertNumToPersian(number) + "</i> </div>");
                     out.println("<div class=\"info\">\n" +
                             "                            <i class=\"step fa fa-calendar-o\" ></i>\n" );
-                    out.println("<i>"+date+"</i>\n</div> </div>");
+                    out.println("<i>"+newDate+"</i>\n</div> </div>");
                     out.println("<div class=\"col-md-6 from-to\" >\n" +
                             "                        <div class=\"src-dest\">");
                     String src = origin;

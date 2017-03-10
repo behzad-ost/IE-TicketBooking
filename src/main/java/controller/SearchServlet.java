@@ -1,4 +1,5 @@
 package controller;
+import org.apache.log4j.Logger;
 import query.ClientSearchQuery;
 import service.Flight;
 import service.Manager;
@@ -14,6 +15,9 @@ import java.util.Objects;
 
 @WebServlet("/search")
 public class SearchServlet extends HttpServlet {
+
+    final static Logger logger = Logger.getLogger(SearchServlet.class);
+
     public static final String HEADER = "<head>\n    <title>Results</title>\n   <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css\">\n" +
             "    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\">\n" +
             "    <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js\"></script>\n" +
@@ -35,6 +39,8 @@ public class SearchServlet extends HttpServlet {
         Manager manager = Manager.getInstance();
 
         ClientSearchQuery csq = new ClientSearchQuery(params);
+
+        logger.debug("SRCH " + csq.originCode + " " + csq.destCode + " " + csq.date);
 
         String res = manager.search(csq);
 

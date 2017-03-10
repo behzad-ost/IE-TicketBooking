@@ -1,5 +1,6 @@
 package controller;
 
+import org.apache.log4j.Logger;
 import query.ClientFinalizeQuery;
 import query.ClientReserveQuery;
 import service.Flight;
@@ -24,6 +25,8 @@ import java.util.Objects;
  */
 @WebServlet("/reserve")
 public class ReserveServlet extends HttpServlet {
+    final static Logger logger = Logger.getLogger(ReserveServlet.class);
+
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response)
             throws ServletException, IOException {
@@ -84,6 +87,8 @@ public class ReserveServlet extends HttpServlet {
         request.setAttribute("cprice",seat.getChildPrice());
         request.setAttribute("infants",infants);
         request.setAttribute("iprice",seat.getInfantPrice());
+
+        logger.debug("TMPRES " + flight.getNumber() + " " + seat.getAdultPrice() + " " + seat.getChildPrice() + " " + seat.getInfantPrice()); // TODO: 3/10/17 FlightID
 
         requestDispatcher.forward(request, response);
     }

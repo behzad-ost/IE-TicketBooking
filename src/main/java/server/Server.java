@@ -13,26 +13,9 @@ import java.io.*;
  * Created by ali on 2/9/17.
  */
 public class Server {
-
+    static Logger logger = Logger.getLogger(Server.class);
     public static void main(String[] args) throws IOException {
-//        String log4jConfigFile = "/home/behzad/رتنlog4j.properties";
-//        PropertyConfigurator.configure(log4jConfigFile);
-//        BasicConfigurator.configure(new FileAppender());
-//
-//        Logger logger = Logger.getLogger(Server.class);
-
-//        logger.debug("MAIN STARTED");
-
-
-//        try {
-//            int portNumber = Integer.parseInt(args[0]);
-//            String helperIp = args[1];
-//            int helperPort = Integer.parseInt(args[2]);
-//        } catch (ArrayIndexOutOfBoundsException ex) {
-//            System.out.println(ex.getMessage());
-//            return;
-//        }
-
+        logger.debug("Server Started!");
 
         ServerTransceiver server = new ServerTransceiver(8083);
 //        ServerTransceiver server = new ServerTransceiver(portNumber);

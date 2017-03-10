@@ -14,7 +14,6 @@ public class Manager {
     private ReserveRepo reserveRepo;
     private static Manager manager = new Manager();
 
-    final static Logger logger = Logger.getLogger(Manager.class);
 
     private Manager() {
         try {

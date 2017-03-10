@@ -14,6 +14,7 @@ import java.util.Objects;
 
 
 @WebServlet("/search")
+
 public class SearchServlet extends HttpServlet {
 
     final static Logger logger = Logger.getLogger(SearchServlet.class);
@@ -25,8 +26,8 @@ public class SearchServlet extends HttpServlet {
             "    <link rel=\"stylesheet\" href=\"css/layout.css\">\n" +
             "    <link rel=\"stylesheet\" href=\"css/style3.css\"> \n</head>\n";
 
-    protected void doPost(HttpServletRequest request,
-                         HttpServletResponse response)
+    public void doPost(HttpServletRequest request,
+                       HttpServletResponse response)
             throws ServletException, IOException {
         String[] params = new String[7];
         params[1] = request.getParameter("source-code");
@@ -112,54 +113,62 @@ public class SearchServlet extends HttpServlet {
             String model = flights.get(i).getPlaneModel();
             ArrayList<Flight.Seat> seats = flights.get(i).getSeats();
             for(int j = 0 ; j < seats.size() ; j++){
-                out.println("<div class=\"row ticket\">\n" +
-                        "                    <div class=\"col-md-3 class-plane\">\n" +
-                        "                        <div class=\"info\">\n");
-                out.println("<i>"+airlineCode + convertNumToPersian(number) + "</i> </div>");
-                out.println("<div class=\"info\">\n" +
-                        "                            <i class=\"step fa fa-calendar-o\" ></i>\n" );
-                out.println("<i>"+date+"</i>\n</div> </div>");
-                out.println("<div class=\"col-md-6 from-to\" >\n" +
-                        "                        <div class=\"src-dest\">");
-                String src = origin;
-                if(Objects.equals(origin, "THR"))
-                    src = "تهران";
-                else if(Objects.equals(origin, "MHD"))
-                    src = "مشهد";
+                logger.debug(Integer.parseInt(params[4])+Integer.parseInt(params[5])+ Integer.parseInt(params[6]));
+                logger.debug(seats.get(j).getAvailable());
+                if(seats.get(j).getAvailable() - (Integer.parseInt(params[4])+Integer.parseInt(params[5])+ Integer.parseInt(params[6]))>-1){
+                    out.println("<div class=\"row ticket\">\n" +
+                            "                    <div class=\"col-md-3 class-plane\">\n" +
+                            "                        <div class=\"info\">\n");
+                    out.println("<i>"+airlineCode + convertNumToPersian(number) + "</i> </div>");
+                    out.println("<div class=\"info\">\n" +
+                            "                            <i class=\"step fa fa-calendar-o\" ></i>\n" );
+                    out.println("<i>"+date+"</i>\n</div> </div>");
+                    out.println("<div class=\"col-md-6 from-to\" >\n" +
+                            "                        <div class=\"src-dest\">");
+                    String src = origin;
+                    if(Objects.equals(origin, "THR")) {
+                        src = "تهران";
+                    }
+                    else if(Objects.equals(origin, "MHD")) {
+                        src = "مشهد";
+                    }
 
-                String des = origin;
-                if(Objects.equals(dest, "THR"))
-                    des = "تهران";
-                else if(Objects.equals(dest, "MHD"))
-                    des = "مشهد";
+                    String des = origin;
+                    if(Objects.equals(dest, "THR")) {
+                        des = "تهران";
+                    }
+                    else if(Objects.equals(dest, "MHD")) {
+                        des = "مشهد";
+                    }
 
 
-                out.println("<i class=\"step\" >"+src + " " +convertNumToPersian(departure.substring(0,2))+":"+convertNumToPersian(departure.substring(2,4)) +"</i>");
-                out.println("<i class=\"step fa fa-angle-double-left\" ></i>");
-                out.println("<i class=\"step\" >"+des + " " +convertNumToPersian(departure.substring(0,2))+":"+convertNumToPersian(arrival.substring(2,4))+"</i></div>");
-                out.println("<div class=\"plane-class\">\n" +
-                        "                            <i class=\"fa fa-plane\" ></i>");
-                out.println("<i class=\"info\" >"+model+"</i>");
-                out.println("&nbsp;\n" +
-                        "                            &nbsp;\n" +
-                        "                            <i class=\"fa fa-suitcase\" ></i>");
+                    out.println("<i class=\"step\" >"+src + " " +convertNumToPersian(departure.substring(0,2))+":"+convertNumToPersian(departure.substring(2,4)) +"</i>");
+                    out.println("<i class=\"step fa fa-angle-double-left\" ></i>");
+                    out.println("<i class=\"step\" >"+des + " " +convertNumToPersian(departure.substring(0,2))+":"+convertNumToPersian(arrival.substring(2,4))+"</i></div>");
+                    out.println("<div class=\"plane-class\">\n" +
+                            "                            <i class=\"fa fa-plane\" ></i>");
+                    out.println("<i class=\"info\" >"+model+"</i>");
+                    out.println("&nbsp;\n" +
+                            "                            &nbsp;\n" +
+                            "                            <i class=\"fa fa-suitcase\" ></i>");
 
-                out.println("<i class=\"info\" >"+convertNumToPersian(seats.get(j).getAvailable())+"</i>");
-                out.println("<i class=\"info\" > صندلی باقیمانده کلاس " +seats.get(j).getClassName()+"</i></div>\n" +
-                        "                    </div>");
-                int tPrice = csq.adults * seats.get(j).getAdultPrice() +
-                        csq.childs * seats.get(j).getChildPrice() +
-                        csq.infants * seats.get(j).getInfantPrice();
+                    out.println("<i class=\"info\" >"+convertNumToPersian(seats.get(j).getAvailable())+"</i>");
+                    out.println("<i class=\"info\" > صندلی باقیمانده کلاس " +seats.get(j).getClassName()+"</i></div>\n" +
+                            "                    </div>");
+                    int tPrice = csq.adults * seats.get(j).getAdultPrice() +
+                            csq.childs * seats.get(j).getChildPrice() +
+                            csq.infants * seats.get(j).getInfantPrice();
 
-                out.println("<a href=\"/ali/reserve?number="+number+"&origin="+origin+"&dest="+dest+"&date="+date+"&clas="+seats.get(j).getClassName()+"&adults="+params[4]+"&children="+params[5]+"&infants="+params[6]+"\"> <div class=\"col-md-3 price\" >\n" +
-                        "                        <div class=\"info\">\n" +
-                        "                            <i >"+convertNumToPersian(tPrice)+"ریال </i>\n" +
-                        "                        </div>\n" +
-                        "                        <div class=\"info\">\n" +
-                        "                            <i >رزرو آنلاین</i>\n" +
-                        "                        </div>\n" +
-                        "                    </div>\n" +
-                        "                </div></a>");
+                    out.println("<a href=\"/ali/reserve?number="+number+"&origin="+origin+"&dest="+dest+"&date="+date+"&clas="+seats.get(j).getClassName()+"&adults="+params[4]+"&children="+params[5]+"&infants="+params[6]+"\"> <div class=\"col-md-3 price\" >\n" +
+                            "                        <div class=\"info\">\n" +
+                            "                            <i >"+convertNumToPersian(tPrice)+"ریال </i>\n" +
+                            "                        </div>\n" +
+                            "                        <div class=\"info\">\n" +
+                            "                            <i >رزرو آنلاین</i>\n" +
+                            "                        </div>\n" +
+                            "                    </div>\n" +
+                            "                </div></a>");
+                }
             }
         }
 //        out.println(res);

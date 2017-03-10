@@ -20,6 +20,7 @@ public class Reservation{
     private int childs;
     private int infants;
     private ArrayList<Person> people;
+    private ArrayList<Ticket> tickets;
 
     private String token;
     private boolean verified;
@@ -59,6 +60,7 @@ public class Reservation{
         this.people = crq.people;
         this.validity = true;
         this.totalPrice = 0;
+        tickets = new ArrayList<>();
     }
 
     public void verify() {
@@ -106,4 +108,14 @@ public class Reservation{
     public void setClass(String seatClass) {
         this.seatClass = seatClass;
     }
+
+    public void addTicket(Ticket newTicket) {
+        tickets.add(newTicket);
+    }
+
+    public ArrayList<Ticket> getTickets() {
+        return tickets;
+    }
+
+
 }

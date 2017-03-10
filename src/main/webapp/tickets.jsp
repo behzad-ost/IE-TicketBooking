@@ -1,8 +1,17 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="service.Reservation" %>
+<%@ page import="service.Ticket" %>
+<%@ page import="service.Manager" %>
+<%@ page import="java.util.Objects" %>
+
+
+
 <!DOCTYPE html>
-<html lang="en" dir="rtl">
+<html lang="fa" dir="rtl">
 
 <head>
-    <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -29,7 +38,7 @@
                 <div class="dropdown-content">
                     <a href="#">پروفایل</a>
                     <a href="#">تنظیمات</a>
-                    <a href="#">خروج</a>                        
+                    <a href="#">خروج</a>
                 </div>
             </div>
     </header>
@@ -54,28 +63,63 @@
                 <button type="button" id="print-btn" class="btn btn-lg">چاپ همه</button>
             </div>
             <div id="ticket-bar">
+                <%
+                   Reservation reservation = (Reservation) request.getAttribute("reservation");
+                   String origin = reservation.getOriginCode();
+                   String dest = reservation.getDestCode();
+                   String src = origin;
+                   if(Objects.equals(origin, "THR"))
+                       src = "تهران";
+                   else if(Objects.equals(origin, "MHD"))
+                       src = "مشهد";
+                   String des = dest;
+                   if(Objects.equals(dest, "THR"))
+                       des = "تهران";
+                   else if(Objects.equals(dest, "MHD"))
+                       des = "مشهد";
+
+                   String flightNumber = reservation.getFlightNumber();
+                   String airline = reservation.getAirlineCode();
+                   String seatClass = reservation.getSeatClass();
+                   String[] timeAndModel = Manager.getInstance().getTimeAndModel(flightNumber, origin, dest);
+                   String dtime = timeAndModel[0].substring(0,2) + ":" +timeAndModel[0].substring(2,4);
+                   String atime = timeAndModel[1].substring(0,2) + ":" +timeAndModel[1].substring(2,4);
+                   String date = (String) request.getAttribute("date");
+                   ArrayList<Ticket> tickets = Manager.getInstance().getTicketsOfReserve(reservation);
+
+                   for(int i = 0 ; i < tickets.size(); i++){
+
+                %>
                 <div class="whole-ticket">
-                    <div class="row first-row">
-                        <div class="col-md-6">
-                            <div class="ticket-num">
-                                <div class="col-md-6 param-value big-param">۲۳۴۱۰۰۳</div>
-                                <div class="col-md-6 param-name">کد مرجع</div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="ticket-num">
-                                <div class="col-md-6 param-value big-param">۲۰۰۴۲۴۱۵</div>
+                                    <div class="row first-row">
+                                        <div class="col-md-6">
+                                            <div class="ticket-num">
+                                            <div class="col-md-6 param-value big-param">
+                <%out.println(tickets.get(i).getRefCode());%> </div>
+                                                   <div class="col-md-6 param-name">کد مرجع</div>
+                                               </div>
+                                           </div>
+                                           <div class="col-md-6">
+                                               <div class="ticket-num">
+                                                   <div class="col-md-6 param-value big-param">
+
+                <%out.println(tickets.get(i).getNumber());%> </div>
+
                                 <div class="col-md-6 param-name">شماره‌ی بلیت</div>
                             </div>
-                        </div>                        
+                        </div>
                     </div>
                     <div class="row second-row">
-                        <div class="col-md-2 ticket-num param-value">بوئینگ MD83</div>
-                        <div class="col-md-2 ticket-num param-value">کلاس اقتصادی</div>
-                        <div class="col-md-3 ticket-num param-value">معراج ۲۸۰۲</div>
-                        <div class="col-md-1 ticket-num param-name">پرواز</div>
-                        <div class="col-md-3 ticket-num param-value">Mr Adult1 Iranpour</div>
-                        <div class="col-md-1 ticket-num param-name">نام</div>
+                    <div class="col-md-2 ticket-num param-value">
+                        <%out.println(timeAndModel[2]);%> </div>
+                    <div class="col-md-2 ticket-num param-value">
+                <%out.println(seatClass);%> </div>
+                <div class="col-md-3 ticket-num param-value">
+                <%out.println(airline);%> </div>
+                <div class="col-md-1 ticket-num param-name">پرواز</div>
+                <div class="col-md-3 ticket-num param-value">
+                <%out.println(tickets.get(i).getFirstName()+" "+tickets.get(i).getLastName());%> </div>
+                <div class="col-md-1 ticket-num param-name">نام</div>
                     </div>
                     <div class="third-row">
                         <div class="col-md-2">
@@ -83,7 +127,8 @@
                                 <i class="param-name">ورود</i>
                             </div>
                             <div class="item-value">
-                                <div class="value-box">16:35</div>
+                            <div class="value-box">
+                <%out.println(atime);%> </div>
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -91,7 +136,8 @@
                                 <i class="param-name">خروج</i>
                             </div>
                             <div class="item-value">
-                                <div class="value-box">15:15</div>
+                            <div class="value-box">
+                <%out.println(dtime);%> </div>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -99,7 +145,8 @@
                                 <i class="param-name">تاریخ</i>
                             </div>
                             <div class="item-value">
-                                <div class="value-box">دوشنبه ۱۳۹۵/۱۱/۲۵</div>
+                            <div class="value-box">
+                <%out.println(date);%> </div>
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -107,19 +154,24 @@
                                 <i class="param-name">به</i>
                             </div>
                             <div class="item-value">
-                                <div class="value-box">مشهد</div>
-                            </div> 
+                            <div class="value-box">
+                <%out.println(des);%> </div>
+                            </div>
                         </div>
                         <div class="col-md-2">
                             <div class="header-name">
                                 <i class="param-name">از</i>
                             </div>
                             <div class="item-value">
-                                <div class="value-box">تهران</div>
-                            </div>                         
-                        </div>                        
-                    </div>                    
+                                <div class="value-box">
+                <%out.println(src);%> </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            <%
+               }
+            %>
             </div>
         </section>
     </div>

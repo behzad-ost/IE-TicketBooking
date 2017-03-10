@@ -33,4 +33,13 @@ public class ReserveRepo {
     public void addReservation(Reservation newReserve) {
         reservations.add(newReserve);
     }
+
+    public ArrayList<Ticket> getTicketsOfReserve(Reservation reservation) {
+        for(int i = 0 ; i < reservations.size() ; i++){
+            if(Objects.equals(reservations.get(i).getToken(), reservation.getToken())){
+                return reservations.get(i).getTickets();
+            }
+        }
+        return null;
+    }
 }

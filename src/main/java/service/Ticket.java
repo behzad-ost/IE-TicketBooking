@@ -4,15 +4,17 @@ package service;
  * Created by behzad on 2/12/17.
  */
 public class Ticket {
+    private String firstName;
+    private String lastName;
     private String refCode;
     private String number;
-    private Reservation reservation;
 
-    public Ticket(String refCode, String number, Reservation reservation){
+    public Ticket(String refCode, String number, String firstName, String lastName){
         this.refCode = refCode;
         this.number = number;
-        this.reservation = reservation;
-    };
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 
     public String getRefCode() {
         return refCode;
@@ -20,5 +22,13 @@ public class Ticket {
 
     public String getNumber() {
         return number;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 }

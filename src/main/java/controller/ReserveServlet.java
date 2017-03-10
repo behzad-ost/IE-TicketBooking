@@ -4,6 +4,7 @@ import query.ClientFinalizeQuery;
 import query.ClientReserveQuery;
 import service.Flight;
 import service.Manager;
+import service.Reservation;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -38,7 +39,7 @@ public class ReserveServlet extends HttpServlet {
         String  infants = request.getParameter("infants");
         Manager manager = Manager.getInstance();
 
-        Flight flight = manager.searchFlight(number, origin, dest, date);
+            Flight flight = manager.searchFlight(number, origin, dest, date);
 
         if(flight==null){
             request.setAttribute("error","Found no matching flights");
@@ -85,11 +86,15 @@ public class ReserveServlet extends HttpServlet {
         request.setAttribute("iprice",seat.getInfantPrice());
 
         requestDispatcher.forward(request, response);
-
     }
+
+
     protected void doPost(HttpServletRequest request,
                           HttpServletResponse response)
                           throws ServletException, IOException {
+        RequestDispatcher requestDispatcher;
+        requestDispatcher = request.getRequestDispatcher("/tickets.jsp");
+        response.setContentType("text/html; charset=UTF-8;");
 
         String[] params = new String[10];
         params[1] = request.getParameter("origin");
@@ -105,7 +110,31 @@ public class ReserveServlet extends HttpServlet {
 
         Enumeration paramNames = request.getParameterNames();
 
+        addPersons(request ,paramNames, crq);
+
         PrintWriter out = response.getWriter();
+
+        String res = Manager.getInstance().makeReservation(crq);
+
+
+
+        String[] p = new String[2];
+        String[] tp = res.split("\\s+");
+        p[1] = tp[0];
+        ClientFinalizeQuery cfq = new ClientFinalizeQuery(p);
+        res = Manager.getInstance().finalizeReservation(cfq);
+
+        Reservation reservation = Manager.getInstance().findReserveByToken(tp[0]);
+
+//        out.print(res);
+
+        request.setAttribute("reservation",reservation);
+        request.setAttribute("date",params[3]);
+
+        requestDispatcher.forward(request, response);
+    }
+
+    private void addPersons(HttpServletRequest request, Enumeration paramNames, ClientReserveQuery crq) {
         for (int i = 0; i < crq.adults; i++) {
             String[] person = new String[3];
             String paramName;
@@ -142,23 +171,5 @@ public class ReserveServlet extends HttpServlet {
             person[2] = request.getParameter(paramName);
             crq.addPerson(person, "infant");
         }
-
-        String res = Manager.getInstance().makeReservation(crq);
-
-
-        String[] tp = res.split("\\s+");
-        params[1] = tp[0];
-        ClientFinalizeQuery cfq = new ClientFinalizeQuery(params);
-        res = Manager.getInstance().finalizeReservation(cfq);
-        out.print(res);
-
-        response.setCharacterEncoding("UTF-8");
-        while(paramNames.hasMoreElements()){
-            String paramName = (String)paramNames.nextElement();
-            String value = request.getParameter(paramName);
-        }
-
-
-
     }
 }

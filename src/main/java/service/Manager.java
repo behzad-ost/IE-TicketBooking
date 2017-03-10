@@ -7,13 +7,11 @@ import query.ClientSearchQuery;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Manager {
     private provider.Provider provider;
     private FlightRepo flightRepo;
     private ReserveRepo reserveRepo;
-    private ArrayList<Ticket> tickets;
     private static Manager manager = new Manager();
 
     final static Logger logger = Logger.getLogger(Manager.class);
@@ -24,7 +22,6 @@ public class Manager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        tickets = new ArrayList<>();
         flightRepo = new FlightRepo();
         reserveRepo = new ReserveRepo();
     }
@@ -86,13 +83,20 @@ public class Manager {
         return response;
     }
 
+    public String[] getTimeAndModel(String number, String origin, String dest){
+        return flightRepo.findPlane(number, origin ,dest);
+    }
     private String printTickets(Reservation reservation, String[] args) {
         String res="";
         String[] DAM = flightRepo.findFlightTimes(reservation.getFlightNumber(), reservation.getOriginCode() ,reservation.getDestCode());
         for(int i = 1 ; i < args.length ; i++){
-            Ticket newTicket = new Ticket(args[0],args[i],reservation);
-            tickets.add(newTicket);
-            res += reservation.getPeople().get(i-1).getFirstName() + " " + reservation.getPeople().get(i-1).getSurName() + " "+ newTicket.getRefCode()+
+
+            String firstName =reservation.getPeople().get(i-1).getFirstName();
+            String lastName = reservation.getPeople().get(i-1).getSurName();
+
+            Ticket newTicket = new Ticket(args[0],args[i],firstName, lastName);
+            reservation.addTicket(newTicket);
+            res += firstName + " " + lastName + " "+ newTicket.getRefCode()+
                     " " + newTicket.getNumber() + " " + reservation.getOriginCode() + " " + reservation.getDestCode() + " " +
                     reservation.getAirlineCode() + " " + reservation.getFlightNumber() + " " +
                     reservation.getSeatClass() + " " + DAM[0] + " " + DAM[1] + " " + DAM[2] + "\n";
@@ -106,5 +110,13 @@ public class Manager {
 
     public Flight searchFlight(String number, String origin, String dest, String date) {
         return  flightRepo.searchFlight(number, origin, dest, date);
+    }
+
+    public ArrayList<Ticket> getTicketsOfReserve(Reservation reservation) {
+        return reserveRepo.getTicketsOfReserve(reservation);
+    }
+
+    public Reservation findReserveByToken(String token) {
+        return reserveRepo.findByToken(token);
     }
 }

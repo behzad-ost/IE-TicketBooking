@@ -100,18 +100,22 @@ public class SearchServlet extends HttpServlet {
         for(int i = 0 ; i < flights.size() ; i++){
             String airlineCode = flights.get(i).getAirlineCode();
             String number = flights.get(i).getNumber();
+            logger.debug("Must Be Persian: " + convertNumToPersian(number));
             String date = flights.get(i).getDate();
+            // TODO: 3/10/17 Create Date Changer to Persian Calendar
             String origin = flights.get(i).getOrigin();
             String dest = flights.get(i).getDestination();
             String departure = flights.get(i).getdTime();
+//            departure = convertNumToPersian(departure);
             String arrival = flights.get(i).getaTime();
+//            arrival = convertNumToPersian(arrival);
             String model = flights.get(i).getPlaneModel();
             ArrayList<Flight.Seat> seats = flights.get(i).getSeats();
             for(int j = 0 ; j < seats.size() ; j++){
                 out.println("<div class=\"row ticket\">\n" +
                         "                    <div class=\"col-md-3 class-plane\">\n" +
                         "                        <div class=\"info\">\n");
-                out.println("<i>"+airlineCode + number + "</i> </div>");
+                out.println("<i>"+airlineCode + convertNumToPersian(number) + "</i> </div>");
                 out.println("<div class=\"info\">\n" +
                         "                            <i class=\"step fa fa-calendar-o\" ></i>\n" );
                 out.println("<i>"+date+"</i>\n</div> </div>");
@@ -130,9 +134,9 @@ public class SearchServlet extends HttpServlet {
                     des = "مشهد";
 
 
-                out.println("<i class=\"step\" >"+src + " " +departure.substring(0,2)+":"+departure.substring(2,4) +"</i>");
+                out.println("<i class=\"step\" >"+src + " " +convertNumToPersian(departure.substring(0,2))+":"+convertNumToPersian(departure.substring(2,4)) +"</i>");
                 out.println("<i class=\"step fa fa-angle-double-left\" ></i>");
-                out.println("<i class=\"step\" >"+des + " " +departure.substring(0,2)+":"+arrival.substring(2,4)+"</i></div>");
+                out.println("<i class=\"step\" >"+des + " " +convertNumToPersian(departure.substring(0,2))+":"+convertNumToPersian(arrival.substring(2,4))+"</i></div>");
                 out.println("<div class=\"plane-class\">\n" +
                         "                            <i class=\"fa fa-plane\" ></i>");
                 out.println("<i class=\"info\" >"+model+"</i>");
@@ -140,15 +144,16 @@ public class SearchServlet extends HttpServlet {
                         "                            &nbsp;\n" +
                         "                            <i class=\"fa fa-suitcase\" ></i>");
 
-                out.println("<i class=\"info\" >"+seats.get(j).getAvailable()+"</i>");
+                out.println("<i class=\"info\" >"+convertNumToPersian(seats.get(j).getAvailable())+"</i>");
                 out.println("<i class=\"info\" > صندلی باقیمانده کلاس " +seats.get(j).getClassName()+"</i></div>\n" +
                         "                    </div>");
                 int tPrice = csq.adults * seats.get(j).getAdultPrice() +
                         csq.childs * seats.get(j).getChildPrice() +
                         csq.infants * seats.get(j).getInfantPrice();
+
                 out.println("<a href=\"/ali/reserve?number="+number+"&origin="+origin+"&dest="+dest+"&date="+date+"&clas="+seats.get(j).getClassName()+"&adults="+params[4]+"&children="+params[5]+"&infants="+params[6]+"\"> <div class=\"col-md-3 price\" >\n" +
                         "                        <div class=\"info\">\n" +
-                        "                            <i >"+tPrice+"ریال </i>\n" +
+                        "                            <i >"+convertNumToPersian(tPrice)+"ریال </i>\n" +
                         "                        </div>\n" +
                         "                        <div class=\"info\">\n" +
                         "                            <i >رزرو آنلاین</i>\n" +
@@ -165,5 +170,47 @@ public class SearchServlet extends HttpServlet {
                 "    </div>\n" +
                 "</div>");
         out.println( "</body></html>");
+    }
+
+    private String convertNumToPersian(int num) {
+        return convertNumToPersian(Integer.toString(num));
+    }
+    private String convertNumToPersian(String num) {
+        String persianNum = "";
+        for (int i = 0; i < num.length(); i++) {
+            switch (num.charAt(i)) {
+                case '1':
+                    persianNum += "۱";
+                    break;
+                case '2':
+                    persianNum += "۲";
+                    break;
+                case '3':
+                    persianNum += "۳";
+                    break;
+                case '4':
+                    persianNum += "۴";
+                    break;
+                case '5':
+                    persianNum += "۵";
+                    break;
+                case '6':
+                    persianNum += "۶";
+                    break;
+                case '7':
+                    persianNum += "۷";
+                    break;
+                case '8':
+                    persianNum += "۸";
+                    break;
+                case '9':
+                    persianNum += "۹";
+                    break;
+                case '0':
+                    persianNum += "۰";
+                    break;
+            }
+        }
+        return persianNum;
     }
 }

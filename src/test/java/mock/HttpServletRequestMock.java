@@ -14,6 +14,7 @@ import java.util.*;
 public class HttpServletRequestMock implements HttpServletRequest {
 
     Hashtable<String, String> params = new Hashtable<>();
+    Hashtable<String, Integer> attr = new Hashtable<>();
 
     public void addParameter(String key, String value) {
         params.put(key, value);
@@ -181,7 +182,7 @@ public class HttpServletRequestMock implements HttpServletRequest {
 
     @Override
     public Object getAttribute(String s) {
-        return null;
+        return attr.get(s);
     }
 
     @Override
@@ -277,7 +278,7 @@ public class HttpServletRequestMock implements HttpServletRequest {
 
     @Override
     public void setAttribute(String s, Object o) {
-
+        attr.put(s,(Integer)o);
     }
 
     @Override

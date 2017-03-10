@@ -50,7 +50,7 @@ public class SearchServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
 //        response.setHeader();
-
+        int available = 0;
         out.println("<html lang=\"fa\">" + HEADER +
                 "<body>");
         out.println("<div id=\"container\">\n" +
@@ -113,9 +113,8 @@ public class SearchServlet extends HttpServlet {
             String model = flights.get(i).getPlaneModel();
             ArrayList<Flight.Seat> seats = flights.get(i).getSeats();
             for(int j = 0 ; j < seats.size() ; j++){
-                logger.debug(Integer.parseInt(params[4])+Integer.parseInt(params[5])+ Integer.parseInt(params[6]));
-                logger.debug(seats.get(j).getAvailable());
                 if(seats.get(j).getAvailable() - (Integer.parseInt(params[4])+Integer.parseInt(params[5])+ Integer.parseInt(params[6]))>-1){
+                    available++;
                     out.println("<div class=\"row ticket\">\n" +
                             "                    <div class=\"col-md-3 class-plane\">\n" +
                             "                        <div class=\"info\">\n");
@@ -171,6 +170,16 @@ public class SearchServlet extends HttpServlet {
                 }
             }
         }
+        if(flights.size()==0) {
+            response.setStatus(404);
+        }
+        else if(flights.size()==1) {
+            request.setAttribute("flights",1);
+        }
+        request.setAttribute("available",available);
+
+
+
 //        out.println(res);
         out.println("</section>\n" +
                 "    </div>\n" +

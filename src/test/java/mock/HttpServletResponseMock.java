@@ -15,7 +15,7 @@ import java.util.Locale;
 public class HttpServletResponseMock implements HttpServletResponse {
 
     StringWriter data = new StringWriter();
-
+    private int status;
     public StringWriter getData() {
         return data;
     }
@@ -98,7 +98,7 @@ public class HttpServletResponseMock implements HttpServletResponse {
 
     @Override
     public void setStatus(int i) {
-
+        status = i;
     }
 
     @Override
@@ -108,7 +108,7 @@ public class HttpServletResponseMock implements HttpServletResponse {
 
     @Override
     public int getStatus() {
-        return 0;
+        return status;
     }
 
     @Override

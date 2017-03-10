@@ -85,9 +85,9 @@ public class Provider {
         String requestToHelper = "FIN ";
         requestToHelper += reservation.getToken() + "\n";
         String response = transceive(requestToHelper);
-        FileWriter fw = new FileWriter("/home/behzad/out.txt");
-        fw.append(response);
-        fw.close();
+//        FileWriter fw = new FileWriter("/home/behzad/outیبلات.txt");
+//        fw.append(response);
+//        fw.close();
         String[] args = response.split("\\n");
 
         return args;

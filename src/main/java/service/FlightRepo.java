@@ -27,7 +27,7 @@ public class FlightRepo {
         }
     }
 
-    public String[] findPlane(String flightNumber, String originCode, String destCode) {
+    public String[] findFlightTimes(String flightNumber, String originCode, String destCode) {
         String[] res = new String[3];
         for(int i = 0 ; i < flights.size() ; i++){
             if(Objects.equals(flights.get(i).getNumber(), flightNumber) &&

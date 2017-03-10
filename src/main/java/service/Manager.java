@@ -1,5 +1,6 @@
 package service;
 
+import org.apache.log4j.Logger;
 import query.ClientFinalizeQuery;
 import query.ClientReserveQuery;
 import query.ClientSearchQuery;
@@ -15,6 +16,8 @@ public class Manager {
     private ArrayList<Ticket> tickets;
     private static Manager manager = new Manager();
 
+    final static Logger logger = Logger.getLogger(Manager.class);
+
     private Manager() {
         try {
             provider = new provider.Provider();
@@ -28,6 +31,7 @@ public class Manager {
     public static Manager getInstance() {
         return manager;
     }
+
     public String search (ClientSearchQuery csq) throws IOException {
         ArrayList<Flight> flights;
         /*  {BULLSHIT caching}
@@ -84,7 +88,7 @@ public class Manager {
 
     private String printTickets(Reservation reservation, String[] args) {
         String res="";
-        String[] DAM = flightRepo.findPlane(reservation.getFlightNumber(), reservation.getOriginCode() ,reservation.getDestCode());
+        String[] DAM = flightRepo.findFlightTimes(reservation.getFlightNumber(), reservation.getOriginCode() ,reservation.getDestCode());
         for(int i = 1 ; i < args.length ; i++){
             Ticket newTicket = new Ticket(args[0],args[i],reservation);
             tickets.add(newTicket);

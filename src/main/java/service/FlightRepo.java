@@ -9,7 +9,6 @@ import java.util.Objects;
 public class FlightRepo {
     private ArrayList<Flight> flights;
     private int lastId;
-    private int id;
 
     public FlightRepo(){
         flights = new ArrayList<>();
@@ -60,6 +59,6 @@ public class FlightRepo {
     }
 
     public int getId() {
-        return id;
+        return lastId;
     }
 }

@@ -40,7 +40,7 @@ public class SearchServlet extends HttpServlet {
 
         ClientSearchQuery csq = new ClientSearchQuery(params);
 
-        logger.debug("SRCH " + csq.originCode + " " + csq.destCode + " " + csq.date);
+        logger.info("SRCH " + csq.originCode + " " + csq.destCode + " " + csq.date);
 
         String res = manager.search(csq);
 

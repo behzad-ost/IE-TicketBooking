@@ -141,20 +141,21 @@ public class SearchServlet extends HttpServlet {
                         des = "مشهد";
                     }
 
+                    logger.debug("Model: " + model);
 
                     out.println("<i class=\"step\" >"+src + " " +convertNumToPersian(departure.substring(0,2))+":"+convertNumToPersian(departure.substring(2,4)) +"</i>");
-                    out.println("<i class=\"step fa fa-angle-double-left\" ></i>");
-                    out.println("<i class=\"step\" >"+des + " " +convertNumToPersian(departure.substring(0,2))+":"+convertNumToPersian(arrival.substring(2,4))+"</i></div>");
+                    out.println("<i class=\"step fa fa-angle-double-left\"></i>");
+                    out.println("<i class=\"step\" >"+des + " " +convertNumToPersian(departure.substring(0,2))+":"+convertNumToPersian(arrival.substring(2,4))+"</i></div>\n");
                     out.println("<div class=\"plane-class\">\n" +
                             "<div class=\"pull-right\">\n" +
-                            "                            <i class=\"fa fa-plane\" ></i>");
-                    out.println("<i class=\"info\" >"+model+"</i>");
-                    out.println("</div>");
+                            "<i class=\"fa fa-plane\"></i>\n");
+                    out.println("<i class=\"info\">"+model+"</i>\n");
+                    out.println("</div>\n");
                     out.println("<div class=\"pull-right\">\n" +
-                            "                            <i class=\"fa fa-suitcase\" ></i>");
-                    out.println("<i class=\"info\" >"+convertNumToPersian(seats.get(j).getAvailable())+"</i>");
+                            "<i class=\"fa fa-suitcase\" ></i>\n");
+                    out.println("<i class=\"info\" >"+convertNumToPersian(seats.get(j).getAvailable())+"</i>\n");
                     out.println("<i class=\"info\" > صندلی باقیمانده کلاس " +seats.get(j).getClassName()+"</i>\n</div>\n" +
-                            "                    </div>\n" + "</div>\n");
+                            "</div>\n" + "</div>\n");
                     int tPrice = csq.adults * seats.get(j).getAdultPrice() +
                             csq.childs * seats.get(j).getChildPrice() +
                             csq.infants * seats.get(j).getInfantPrice();

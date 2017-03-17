@@ -2,6 +2,7 @@ package common;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -14,7 +15,7 @@ import static junit.framework.TestCase.assertEquals;
  * Created by ali on 2/11/17.
  */
 
-
+@Ignore
 public class TrasceiverTest {
     private Transceiver ts;
     private String helperResponse;

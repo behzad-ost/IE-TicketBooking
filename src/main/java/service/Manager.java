@@ -105,6 +105,7 @@ public class Manager {
     }
 
     public Flight searchFlight(String number, String origin, String dest, String date) {
+
         return  flightRepo.searchFlight(number, origin, dest, date);
     }
 

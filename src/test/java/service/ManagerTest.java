@@ -13,6 +13,7 @@ import java.io.IOException;
 /**
  * Created by ali on 2/11/17.
  */
+@Ignore
 public class ManagerTest {
     CommandHandler ch;
     ClientReserveQuery crq;

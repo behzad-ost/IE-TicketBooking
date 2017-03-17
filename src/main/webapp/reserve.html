@@ -20,19 +20,19 @@
             <img alt="logo" src="imgs/LogoBlack.png" class="img">
         </div>
         <div id="companyName" class="headerItem">
-         <i>اکبر تیکت</i>
-         <i class="fa fa-registered" aria-hidden="true" id="registered"></i></div>
+            <i>اکبر تیکت</i>
+            <i class="fa fa-registered" aria-hidden="true" id="registered"></i></div>
         <div id="user" class="dropdown">
-                <div class="drop-button">
-                    <i class="fa fa-user" aria-hidden="true" id="userLogo"></i>
-                    <i id="user-name">نام کاربر</i>
-                </div>
-                <div class="dropdown-content">
-                    <a href="#">پروفایل</a>
-                    <a href="#">تنظیمات</a>
-                    <a href="#">خروج</a>                        
-                </div>
+            <div class="drop-button">
+                <i class="fa fa-user" aria-hidden="true" id="userLogo"></i>
+                <i id="user-name">نام کاربر</i>
             </div>
+            <div class="dropdown-content">
+                <a href="#">پروفایل</a>
+                <a href="#">تنظیمات</a>
+                <a href="#">خروج</a>
+            </div>
+        </div>
     </header>
 
     <div class="container">
@@ -45,7 +45,6 @@
             <i class="step fa fa-chevron-left active hiden" ></i>
             <i class="step hiden" >دریافت بلیت</i>
         </section>
-
 
         <section id="reserve-main">
             <div id="control-bar">
@@ -102,19 +101,46 @@
                         <tr>
                             <td class="text-right">بزرگسال</td>
                             <td class="text-right">۷,۷۰۷,۵۰۰ ریال</td>
-                            <td class="text-right">۲ نفر</td>
+                            <td class="text-right">
+                                <select id="adults" onchange="handlePassengers()">
+                                    <option value="1">۱</option>
+                                    <option value="2">۲</option>
+                                    <option value="3">۳</option>
+                                    <option value="4">۴</option>
+                                    <option value="5">۵</option>
+                                </select>
+                                نفر
+                            </td>
                             <td class="text-right">۷,۷۰۷,۵۰۰ ریال</td>
                         </tr>
                         <tr>
                             <td class="text-right">کودک زیر ۱۲ سال</td>
                             <td class="text-right">۷,۷۰۷,۵۰۰ ریال</td>
-                            <td class="text-right">۵ نفر</td>
+                            <td class="text-right">
+                                <select id="children" onchange="handlePassengers()">
+                                    <option value="1">۱</option>
+                                    <option value="2">۲</option>
+                                    <option value="3">۳</option>
+                                    <option value="4">۴</option>
+                                    <option value="5">۵</option>
+                                </select>
+                                نفر
+                            </td>
                             <td class="text-right">۷,۷۰۷,۵۰۰ ریال</td>
                         </tr>
                         <tr>
                             <td class="text-right">نوزاد زیر ۳ سال</td>
                             <td class="text-right">۷,۷۰۷,۵۰۰ ریال</td>
-                            <td class="text-right">۳ نفر</td>
+                            <td class="text-right">
+                                <select id="infants" onchange="handlePassengers()">
+                                    <option value="1">۱</option>
+                                    <option value="2">۲</option>
+                                    <option value="3">۳</option>
+                                    <option value="4">۴</option>
+                                    <option value="5">۵</option>
+                                </select>
+                                نفر
+                            </td>
                             <td class="text-right">۷,۷۰۷,۵۰۰ ریال</td>
                         </tr>
                         <tr id="sum">
@@ -129,29 +155,6 @@
                 <div id="passengers-label">اطلاعات</div>
                 <form id="passengers">
                     <div class="row info-fields">
-                        <div class="col-md-2 col-md-push-10 velvet">
-                            <i class="step fa fa-child " ></i>
-                            <i >۱- بزرگسال</i>
-                        </div>
-                        <div class="col-md-2 col-md-push-6">
-                            <select list="genders" class="field" >
-                                <option value="male">آقای</option>
-                                <option value="female">خانم</option>
-                            </select>
-                        </div>
-                        <div class="col-md-2 col-md-push-2">
-                            <input class="field" placeholder="نام (انگلیسی)">
-                        </div>
-                        <div class="col-md-3 col-md-pull-3" >
-                            <input class="field" placeholder="نام‌خانوادگی (انگلیسی)">
-                        </div>
-                        <div class="col-md-3 col-md-pull-9">
-                            <input class="field" placeholder="شماره ملی">
-                        </div>
-                        
-                    </div>
-                    <div class="row info-fields">
-
                         <div class="col-md-2 col-md-push-10 velvet">
                             <i class="step fa fa-male " ></i>
                             <i >۲- بزرگسال</i>
@@ -171,7 +174,6 @@
                         <div class="col-md-3 col-md-pull-9">
                             <input class="field" placeholder="شماره ملی">
                         </div>
-                        
                     </div>
                     <div class="row info-fields">
                         <div class="col-md-2 col-md-push-10 velvet">
@@ -193,7 +195,7 @@
                         <div class="col-md-3 col-md-pull-9">
                             <input class="field" placeholder="شماره ملی">
                         </div>
-                        
+
                     </div>
                     <div class="row info-fields">
 
@@ -309,7 +311,7 @@
 
                     </div>
                     <div class="row info-fields">
-                    
+
                         <div class="col-md-2 col-md-push-10 velvet">
                             <i class="step fa fa-child small-icon" ></i>
                             <i >۱۰- نوزاد</i>
@@ -336,7 +338,7 @@
                         <i class="step fa fa-angle-left" ></i>
                     </button>
                     <button type="submit" class="btn-cancel">انصراف</button>
-                    </form>
+                </form>
             </div>
         </section>
     </div>
@@ -344,6 +346,7 @@
         <p>سیدعلی اخوانی - بهزاد اوسط | دانشکده‌ی فنی دانشگاه تهران</p>
     </div>
 </div>
-
+<script src="js/reserve.js"></script>
+<script></script>
 </body>
 </html>

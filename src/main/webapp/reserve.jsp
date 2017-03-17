@@ -95,7 +95,10 @@
                                 </div>
                             </div>
                             <div id="payment-label">صورتحساب سفر</div>
-                            <div id="payment" >
+                            <div id="payment">
+                                <input type="hidden" id ="cprice" value=${requestScope.cprice} />
+                                <input type="hidden" id ="aprice" value=${requestScope.aprice} />
+                                <input type="hidden" id ="iprice" value=${requestScope.iprice} />
                                 <table class="table">
                                     <thead>
                                     <tr>
@@ -109,26 +112,53 @@
                                     <tr>
                                         <td class="text-right">بزرگسال</td>
                                         <td class="text-right">${requestScope.aprice} ریال</td>
-                                        <td class="text-right">${requestScope.adults} نفر</td>
-                                        <td class="text-right">${requestScope.adults * requestScope.aprice} ریال</td>
+                                        <td class="text-right">
+                                            <select id="adults" onchange="handlePassengers()">
+                                                <option value="1">۱</option>
+                                                <option value="2">۲</option>
+                                                <option value="3">۳</option>
+                                                <option value="4">۴</option>
+                                                <option value="5">۵</option>
+                                            </select>
+                                            نفر
+                                        </td>
+                                        <td id="atotalprice" class="text-right">${requestScope.adults * requestScope.aprice} ریال</td>
                                     </tr>
                                     <tr>
                                         <td class="text-right">کودک زیر ۱۲ سال</td>
                                         <td class="text-right">${requestScope.cprice} ریال</td>
-                                        <td class="text-right">${requestScope.children} نفر</td>
-                                        <td class="text-right">${requestScope.children * requestScope.cprice} ریال</td>
+                                        <td class="text-right">
+                                            <select id="children" onchange="handlePassengers()">
+                                                <option value="1">۱</option>
+                                                <option value="2">۲</option>
+                                                <option value="3">۳</option>
+                                                <option value="4">۴</option>
+                                                <option value="5">۵</option>
+                                            </select>
+                                            نفر
+                                        </td>
+                                        <td id="ctotalprice" class="text-right">${requestScope.children * requestScope.cprice} ریال</td>
                                     </tr>
                                     <tr>
                                         <td class="text-right">نوزاد زیر ۳ سال</td>
                                         <td class="text-right">${requestScope.iprice} ریال</td>
-                                        <td class="text-right">${requestScope.infants} نفر</td>
-                                        <td class="text-right">${requestScope.infants * requestScope.iprice} ریال</td>
+                                        <td class="text-right">
+                                            <select id="infants" onchange="handlePassengers()">
+                                                <option value="1">۱</option>
+                                                <option value="2">۲</option>
+                                                <option value="3">۳</option>
+                                                <option value="4">۴</option>
+                                                <option value="5">۵</option>
+                                            </select>
+                                            نفر
+                                        </td>
+                                        <td id="itotalprice" class="text-right">${requestScope.infants * requestScope.iprice} ریال</td>
                                     </tr>
                                     <tr id="sum">
                                         <td class="text-right">مجموع</td>
                                         <td></td>
                                         <td></td>
-                                        <td class="text-right">${requestScope.adults * requestScope.aprice + requestScope.infants * requestScope.iprice + requestScope.children * requestScope.cprice} ریال</td>
+                                        <td id="totalprice" class="text-right">${requestScope.adults * requestScope.aprice + requestScope.infants * requestScope.iprice + requestScope.children * requestScope.cprice} ریال</td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -232,5 +262,6 @@
     </div>
 </div>
 
+<script src="js/reserve.js"></script>
 </body>
 </html>

@@ -81,7 +81,7 @@ function setPrices(adults, children, infants){
  }
 
 function addButtons(passengersDiv) {
-    passengersDiv.innerHTML += '<button type="submit" class="btn-submit" value="پرداخت و ثبت نهایی"><i>پرداخت و ثبت نهایی</i><i class="step fa fa-angle-left" ></i></button><button type="submit" formaction="/ali" class="btn-cancel">انصراف</button>';
+    passengersDiv.innerHTML += '<button type="button" class="btn-submit" onclick="validateForm()" value="پرداخت و ثبت نهایی"><i>پرداخت و ثبت نهایی</i><i class="step fa fa-angle-left" ></i></button><button type="submit" formaction="/ali" class="btn-cancel" >انصراف</button>';
 }
 function addHiddenData(passengersDiv, origin, dest, airline, clas, date, number, adults, children, infants) {
 //    passengersDiv.innerHTML = "";
@@ -117,4 +117,42 @@ function setDefaults() {
         if(iSelect[i].value == infants)
             iSelect[i].selected = "true";
    }
+}
+
+function validateId(id) {
+    if(id.length != 10 || isNaN(id))
+        return false;
+
+    return true;
+}
+
+function validateForm(){
+    var adults = Number(document.getElementById("adults").value);
+    var children = Number(document.getElementById("children").value);
+    var infants = Number(document.getElementById("infants").value);
+
+    for(var i = 0 ; i < adults ; i++){
+        if(document.getElementsByName("aname"+i)[0].value.length < 3 ||
+           document.getElementsByName("alastname"+i)[0].value.length < 3 ||
+           !validateId(document.getElementsByName("aid"+i)[0].value)){
+             return alert("اطلاعات معتبر نیست.");
+           }
+    }
+    for(var i = 0 ; i < children ; i++){
+        if(document.getElementsByName("cname"+i)[0].value.length < 3 ||
+           document.getElementsByName("clastname"+i)[0].value.length < 3 ||
+           !validateId(document.getElementsByName("cid"+i)[0].value)){
+              return alert("اطلاعات معتبر نیست.");
+           }
+    }
+    for(var i = 0 ; i < infants ; i++){
+        if(document.getElementsByName("iname"+i)[0].value.length < 3 ||
+           document.getElementsByName("ilastname"+i)[0].value.length < 3 ||
+           !validateId(document.getElementsByName("iid"+i)[0].value)){
+              return alert("اطلاعات معتبر نیست.");
+           }
+    }
+
+    document.getElementById("passengers").submit();
+
 }

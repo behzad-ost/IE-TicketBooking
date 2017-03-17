@@ -249,11 +249,11 @@
                                 <input type="hidden" name="infants" value=${requestScope.infants} />
 
 
-                                <button type="submit" class="btn-submit" value="پرداخت و ثبت نهایی">
+                                <button type="button" class="btn-submit" onclick="validateForm()" value="پرداخت و ثبت نهایی">
                                     <i>پرداخت و ثبت نهایی</i>
                                     <i class="step fa fa-angle-left" ></i>
                                 </button>
-                                <button type="submit" formaction="/ali" class="btn-cancel">انصراف</button>
+                                <button type="submit" formaction="/ali" class="btn-cancel" >انصراف</button>
                                 </form>
                         </div>
                     </section>

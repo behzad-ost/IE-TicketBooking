@@ -24,7 +24,9 @@ public class SearchServlet extends HttpServlet {
             "    <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js\"></script>\n" +
             "    <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\"></script>\n" +
             "    <link rel=\"stylesheet\" href=\"css/layout.css\">\n" +
-            "    <link rel=\"stylesheet\" href=\"css/result.css\"> \n</head>\n";
+            "    <link rel=\"stylesheet\" href=\"css/result.css\"> +" +
+            " <script src=\"js/result.js\"></script> " +
+            " \n</head>\n";
 
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response)
@@ -99,6 +101,29 @@ public class SearchServlet extends HttpServlet {
                 "                </div>\n" +
                 "            </div>\n" +
                 "            <div id=\"main-grey\">");
+
+        out.println("                <div id=\"sorts\">\n" +
+                "                    <select class=\"sort-btn\" onchange=\"\" id=\"seat-classes\">\n" +
+                "                        <option>همه</option>\n" +
+                "                        <option>Y</option>\n" +
+                "                        <option>M</option>\n" +
+                "                        <option>F</option>\n" +
+                "                        <option>J</option>\n" +
+                "                    </select>\n" +
+                "                    \n" +
+                "                    <select id=\"sort-type\" class=\"sort-btn\" onchange=\"\">\n" +
+                "                        <option>صعودی</option>\n" +
+                "                        <option>نزولی</option>\n" +
+                "                    </select>\n" +
+                "                    \n" +
+                "                    <select id=\"airline-codes\" class=\"sort-btn\">\n" +
+                "                        <option>همه</option>\n" +
+                "                        <option>IR</option>\n" +
+                "                        <option>W5</option>\n" +
+                "                    </select>\n" +
+                "                    <button name=\"submit\" class=\"sort-btn\" onclick=\"filter()\">فیلتر کردن</button>\n" +
+                "                </div>");
+        out.println("<div id=\"all-tickets\">\n");
         for(int i = 0 ; i < flights.size() ; i++){
             String airlineCode = flights.get(i).getAirlineCode();
             String number = flights.get(i).getNumber();
@@ -126,13 +151,15 @@ public class SearchServlet extends HttpServlet {
             for(int j = 0 ; j < seats.size() ; j++){
                 if(seats.get(j).getAvailable() - (Integer.parseInt(params[4])+Integer.parseInt(params[5])+ Integer.parseInt(params[6]))>-1){
                     available++;
-                    out.println("<div class=\"row ticket\">\n" +
-                            "                    <div class=\"col-md-3 class-plane\">\n" +
-                            "                        <div class=\"info\">\n");
-                    out.println("<i>"+airlineCode + convertNumToPersian(number) + "</i> </div>");
+                    out.println("<div class=\"row ticket\" name=\"search-result\">\n" +
+                            "                        <div class=\"col-md-3 class-plane\">\n" +
+                            "                            <div class=\"info\">");
+                    out.println("<i class=\"step fa fa-eur\" ></i>");
+                    out.println("<i>" + airlineCode + "</i>");
+                    out.println("<i>" + number + "</i>\n</div>");
                     out.println("<div class=\"info\">\n" +
                             "                            <i class=\"step fa fa-calendar-o\" ></i>\n" );
-                    out.println("<i>"+newDate+"</i>\n</div> </div>");
+                    out.println("<i>"+newDate+"</i>\n</div>\n</div>");
                     out.println("<div class=\"col-md-6 from-to\" >\n" +
                             "                        <div class=\"src-dest\">");
                     String src = origin;
@@ -157,21 +184,24 @@ public class SearchServlet extends HttpServlet {
                     out.println("<i class=\"step fa fa-angle-double-left\"></i>");
                     out.println("<i class=\"step\" >"+des + " " +convertNumToPersian(departure.substring(0,2))+":"+convertNumToPersian(arrival.substring(2,4))+"</i></div>\n");
                     out.println("<div class=\"plane-class\">\n" +
-                            "<div class=\"pull-right\">\n" +
+//                            "<div class=\"pull-right\">\n" +
                             "<i class=\"fa fa-plane\"></i>\n");
-                    out.println("<i class=\"info\">"+model+"</i>\n");
-                    out.println("</div>\n");
-                    out.println("<div class=\"pull-right\">\n" +
+                    out.println("<i class=\"info\">"+model+"</i>");
+//                    out.println("</div>\n");
+                    out.println("" +
+//                            "<div class=\"pull-right\">\n" +
                             "<i class=\"fa fa-suitcase\" ></i>\n");
-                    out.println("<i class=\"info\" >"+convertNumToPersian(seats.get(j).getAvailable())+"</i>\n");
-                    out.println("<i class=\"info\" > صندلی باقیمانده کلاس " +seats.get(j).getClassName()+"</i>\n</div>\n" +
-                            "</div>\n" + "</div>\n");
+                    out.println("<i class=\"info\" >"+seats.get(j).getAvailable()+"</i>\n");
+                    out.println("<i class=\"info\" >صندلی باقیمانده کلاس</i>\n");
+                    out.println("<i class=\"info\">" + seats.get(j).getClassName() + "</i>\n");
+                    out.println("</div>\n</div>");
+
                     int tPrice = csq.adults * seats.get(j).getAdultPrice() +
                             csq.childs * seats.get(j).getChildPrice() +
                             csq.infants * seats.get(j).getInfantPrice();
 
 
-                    out.println("<form id=\"reserve\" action=\"/ali/reserve\" method=\"POST\">");
+                    out.println("<form class=\"col-md-3 price\" id=\"reserve\" action=\"/ali/reserve\" method=\"POST\">");
                     out.println("<input type=\"hidden\" name=\"number\" value=\""+number+"\" />");
                     out.println("<input type=\"hidden\" name=\"origin\" value=\""+origin+"\" />");
                     out.println("<input type=\"hidden\" name=\"dest\" value=\""+dest+"\" />");
@@ -181,18 +211,20 @@ public class SearchServlet extends HttpServlet {
                     out.println("<input type=\"hidden\" name=\"children\" value=\""+params[5]+"\" />");
                     out.println("<input type=\"hidden\" name=\"infants\" value=\""+params[6]+"\" />");
 
-                    out.println("<button class=\"col-md-3 price\" type=\"submit\" >\n" +
-                            "                        <div class=\"info\">\n" +
-                            "                            <i >"+convertNumToPersian(tPrice)+"ریال </i>\n" +
+                    out.println("<button class=\"col-md-3 price\" type=\"submit\" >");
+//                    out.println("<div class=\"col-md-3 price\">\n");
+                    out.println("<div class=\"price-info\">\n");
+                    out.println("<i name=\"price\">"+ tPrice + "</i>\n" +
+                            "<i>ریال</i>\n" +
                             "                        </div>\n" +
                             "                        <div class=\"info\">\n" +
                             "                            <i >رزرو آنلاین</i>\n" +
                             "                        </div>\n" +
-                            "                    </div>\n" +
-                            "                                </button>");
+                            "                                </button>\n</form>\n</div>");
                 }
             }
         }
+        out.println("</div>");
         if(flights.size()==0) {
             response.setStatus(404);
         }

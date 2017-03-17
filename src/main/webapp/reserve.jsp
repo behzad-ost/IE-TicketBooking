@@ -99,6 +99,9 @@
                                 <input type="hidden" id ="cprice" value=${requestScope.cprice} />
                                 <input type="hidden" id ="aprice" value=${requestScope.aprice} />
                                 <input type="hidden" id ="iprice" value=${requestScope.iprice} />
+                                <input type="hidden" id ="dadults" value=${requestScope.adults} />
+                                <input type="hidden" id ="dchildren" value=${requestScope.children} />
+                                <input type="hidden" id ="dinfants" value=${requestScope.infants} />
                                 <input type="hidden" id ="availableseats" value=${requestScope.availableseats} />
                                 <table class="table">
                                     <thead>
@@ -235,12 +238,12 @@
                                     </div>
                                 </div>
                                 <% r++;} %>
-                                <input type="hidden" name="origin" <% out.println("value="+request.getParameter("origin"));%> />
-                                <input type="hidden" name="dest" <% out.println("value="+request.getParameter("dest"));%> />
-                                <input type="hidden" name="date" value=${requestScope.date} />
-                                <input type="hidden" name="airline" value=${requestScope.airline} />
-                                <input type="hidden" name="number" value=${requestScope.number} />
-                                <input type="hidden" name="clas" value=${requestScope.clas} />
+                                <input type="hidden" name="origin" id="origin" <% out.println("value="+request.getParameter("origin"));%> />
+                                <input type="hidden" name="dest" id="dest" <% out.println("value="+request.getParameter("dest"));%> />
+                                <input type="hidden" name="date" id="date" value=${requestScope.date} />
+                                <input type="hidden" name="airline" id="airline" value=${requestScope.airline} />
+                                <input type="hidden" name="number" id="number" value=${requestScope.number} />
+                                <input type="hidden" name="clas" id="clas" value=${requestScope.clas} />
                                 <input type="hidden" name="adults" value=${requestScope.adults} />
                                 <input type="hidden" name="children" value=${requestScope.children} />
                                 <input type="hidden" name="infants" value=${requestScope.infants} />

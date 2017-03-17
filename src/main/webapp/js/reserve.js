@@ -1,12 +1,12 @@
 function handlePassengers(){
-
     var adults = document.getElementById("adults").value;
     var children = document.getElementById("children").value;
     var infants = document.getElementById("infants").value;
     var passengersDiv = document.getElementById("passengers");
-
+    if(checkAvailability(adults, children, infants) < 0){
+        return;
+    }
     setPrices(adults, children, infants);
-
     passengersDiv.innerHTML = "";
     var r = 1;
     addAdultsRows(passengersDiv, r, adults);
@@ -15,6 +15,16 @@ function handlePassengers(){
     r+=Number(children);
     addInfantsRows(passengersDiv, r, infants);
  }
+
+function checkAvailability(adults, children, infants){
+    var availableSeats = Number(document.getElementById("availableseats").value);
+    if(availableSeats < Number(adults) + Number(children) + Number(infants)){
+        alert("ظرفیت پرواز :" + availableSeats + "نفر");
+        return -1;
+    }
+    return 1;
+
+}
 
 function setPrices(adults, children, infants){
     var aprice = document.getElementById("aprice").value;

@@ -84,6 +84,7 @@ public class ReserveServlet extends HttpServlet {
         request.setAttribute("cprice",seat.getChildPrice());
         request.setAttribute("infants",infants);
         request.setAttribute("iprice",seat.getInfantPrice());
+        request.setAttribute("availableseats",seat.getAvailable());
 
         int id = manager.getCurrentId();
         flight.setId(id);

@@ -99,6 +99,7 @@
                                 <input type="hidden" id ="cprice" value=${requestScope.cprice} />
                                 <input type="hidden" id ="aprice" value=${requestScope.aprice} />
                                 <input type="hidden" id ="iprice" value=${requestScope.iprice} />
+                                <input type="hidden" id ="availableseats" value=${requestScope.availableseats} />
                                 <table class="table">
                                     <thead>
                                     <tr>

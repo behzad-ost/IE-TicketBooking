@@ -354,3 +354,14 @@ padding-right:5% ;
 .dropdown:hover .dropdown-content {
     display: block;
 }
+
+#sorts {
+    text-align: center;
+}
+
+.sort-btn {
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #676aa9;
+    color: white;
+}

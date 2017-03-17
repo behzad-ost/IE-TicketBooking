@@ -3,13 +3,14 @@
 
 <head>
     <meta charset="UTF-8">
-    <!--<link rel="styslesheet" href="css/font-awesome.min.css">-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/result.css">
+    <script src="js/result.js"></script>
+
     <title>اخوانی و اوسط</title>
 </head>
 
@@ -59,84 +60,123 @@
                 </div>
             </div>
             <div id="main-grey">
-                <div class="row ticket">
-                    <div class="col-md-3 class-plane">
-                        <div class="info">
-                            <i class="step fa fa-eur" ></i>
-                            <i >ایران ایر ۱۷۴۰</i>
-                        </div>
-                        <div class="info">
-                            <i class="step fa fa-calendar-o" ></i>
-                            <i >دوشنبه ۱۷ اسفند</i>
-                        </div>
-                    </div>
-                    <div class="col-md-6 from-to" >
-                        <div class="src-dest">
-                            <i class="step" >تهران ۱۷:۴۰</i>
-                            <i class="step fa fa-angle-double-left" ></i>
-                            <i class="step" >مشهد ۱۸:۵۰</i>
-                        </div>
-                        <div class="plane-class">
-                            <div class="pull-right">
-                                <i class="fa fa-plane"></i>
-                                <i class="info">M80</i>
+                <div id="sorts">
+                    <button onclick="sort('asc')" class="sort-btn">مرتب‌سازی صعودی</button>
+                    <button onclick="sort('desc')" class="sort-btn">مرتب‌سازی نزولی</button>
+                </div>
+                <div id="all-tickets">
+                    <div class="row ticket" name="search-result">
+                        <div class="col-md-3 class-plane">
+                            <div class="info">
+                                <i class="step fa fa-eur" ></i>
+                                <i >ایران ایر ۱۷۴۰</i>
                             </div>
-                            <div class="pull-right">
-                                <i class="fa fa-suitcase"></i>
-                                <i class="info">۸</i>
-                                <i class="info">صندلی باقیمانده کلاس Y</i>
+                            <div class="info">
+                                <i class="step fa fa-calendar-o" ></i>
+                                <i > دوشنبه ۱۷ اسفند</i>
                             </div>
-                        </div>                        
-                    </div>
-                    <a href="#">
+                        </div>
+                        <div class="col-md-6 from-to" >
+                            <div class="src-dest">
+                                <i class="step" >تهران ۱۷:۴۰</i>
+                                <i class="step fa fa-angle-double-left" ></i>
+                                <i class="step" >مشهد ۱۸:۵۰</i>
+                            </div>
+                            <div class="plane-class">
+                                <i class="fa fa-plane" ></i>
+                                <i class="info" >بوئینگ </i>
+                                &nbsp;
+                                &nbsp;
+                                <i class="fa fa-suitcase" ></i>
+                                <i class="info" >۸</i>
+                                <i class="info" > صندلی باقیمانده کلاس اقتصادی</i>
+                            </div>
+                        </div>
                         <div class="col-md-3 price">
-                            <div class="info">
-                                <i>۱/۳۵۰/۰۰۰ ریال</i>
+                            <div class="price-info">
+                                <i name="price">50</i>
+                                <i> ریال</i>
                             </div>
                             <div class="info">
-                                <i>رزرو آنلاین</i>
+                                <i >رزرو آنلاین</i>
                             </div>
                         </div>
-                    </a>
+                   </div>
+                    <div class="row ticket" name="search-result">
+                        <div class="col-md-3 class-plane">
+                            <div class="info">
+                                <i class="step fa fa-eur" ></i>
+                                <i >اماهان ۱۷۴۰</i>
+                            </div>
+                            <div class="info">
+                                <i class="step fa fa-calendar-o" ></i>
+                                <i > سه‌۱۸ اسفند</i>
+                            </div>
+                        </div>
+                        <div class="col-md-6 from-to" >
+                            <div class="src-dest">
+                                <i class="step" >تهران ۱۷:۴۰</i>
+                                <i class="step fa fa-angle-double-left" ></i>
+                                <i class="step" >اصفهان ۱۸:۵۰</i>
+                            </div>
+                            <div class="plane-class">
+                                <i class="fa fa-plane" ></i>
+                                <i class="info" >بوئینگ </i>
+                                &nbsp;
+                                &nbsp;
+                                <i class="fa fa-suitcase" ></i>
+                                <i class="info" >10</i>
+                                <i class="info" > صندلی باقیمانده کلاس اقتصادی</i>
+                            </div>
+                        </div>
+                        <div class="col-md-3 price">
+                            <div class="price-info">
+                                <i name="price">200</i>
+                                <i> ریال</i>
+                            </div>
+                            <div class="info">
+                                <i >رزرو آنلاین</i>
+                            </div>
+                        </div>
+                   </div>
+                    <div class="row ticket" name="search-result">
+                        <div class="col-md-3 class-plane">
+                            <div class="info">
+                                <i class="step fa fa-eur" ></i>
+                                <i >سگ ۱۷۴۰</i>
+                            </div>
+                            <div class="info">
+                                <i class="step fa fa-calendar-o" ></i>
+                                <i > سه‌۱۸ اسفند</i>
+                            </div>
+                        </div>
+                        <div class="col-md-6 from-to" >
+                            <div class="src-dest">
+                                <i class="step" >تهران ۱۷:۴۰</i>
+                                <i class="step fa fa-angle-double-left" ></i>
+                                <i class="step" >اصفهان ۱۸:۵۰</i>
+                            </div>
+                            <div class="plane-class">
+                                <i class="fa fa-plane" ></i>
+                                <i class="info" >بوئینگ </i>
+                                &nbsp;
+                                &nbsp;
+                                <i class="fa fa-suitcase" ></i>
+                                <i class="info" >10</i>
+                                <i class="info" > صندلی باقیمانده کلاس اقتصادی</i>
+                            </div>
+                        </div>
+                        <div class="col-md-3 price">
+                            <div class="price-info">
+                                <i name="price">100</i>
+                                <i> ریال</i>
+                            </div>
+                            <div class="info">
+                                <i >رزرو آنلاین</i>
+                            </div>
+                        </div>
+                   </div>                    
                 </div>
-                <div class="row ticket">
-                    <div class="col-md-3 class-plane">
-                        <div class="info">
-                            <i class="step fa fa-eur" ></i>
-                            <i >ایران ایر ۱۷۴۰</i>
-                        </div>
-                        <div class="info">
-                            <i class="step fa fa-calendar-o" ></i>
-                            <i > دوشنبه ۱۷ اسفند</i>
-                        </div>
-                    </div>
-                    <div class="col-md-6 from-to" >
-                        <div class="src-dest">
-                            <i class="step" >تهران ۱۷:۴۰</i>
-                            <i class="step fa fa-angle-double-left" ></i>
-                            <i class="step" >مشهد ۱۸:۵۰</i>
-                        </div>
-                        <div class="plane-class">
-                            <i class="fa fa-plane" ></i>
-                            <i class="info" >بوئینگ </i>
-                            &nbsp;
-                            &nbsp;
-                            <i class="fa fa-suitcase" ></i>
-                            <i class="info" >۸</i>
-                            <i class="info" > صندلی باقیمانده کلاس اقتصادی</i>
-                        </div>
-                    </div>
-                    <div class="col-md-3 price" >
-                        <div class="info">
-                            <i >۱/۳۵۰/۰۰۰ ریال </i>
-                        </div>
-                        <div class="info">
-                            <i >رزرو آنلاین</i>
-                        </div>
-                    </div>
-                </div>
-
-
             </div>
         </section>
     </div>

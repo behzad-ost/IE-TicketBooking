@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class Provider {
     private Transceiver transceiver;
     public Provider() throws IOException {
-        transceiver = new Transceiver("188.166.78.119", 8081);
+        transceiver = new Transceiver("178.62.207.47", 8081);
     }
     public ArrayList<Flight> getFlights(String originCode, String destCode, String date) throws IOException {
         String requestToHelper = "AV ";

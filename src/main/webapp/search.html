@@ -1,0 +1,144 @@
+
+<div id="container">
+    <header>
+        <div id="companyLogo" class="headerItem">
+            <img alt="logo" src="imgs/LogoWhite.png" class="img"></img>
+        </div>
+        <div id="companyName" class="headerItem">اکبر تیکت <i class="fa fa-registered" aria-hidden="true" id="registered"></i></div>
+        <div id="user" class="dropdown">
+            <div class="drop-button">
+                <i class="fa fa-user" aria-hidden="true" id="userLogo"></i>
+                <p id="user-name">نام کاربر</p>
+            </div>
+            <div class="dropdown-content">
+                <a href="#">پروفایل</a>
+                <a href="#">تنظیمات</a>
+                <a href="#">خروج</a>
+            </div>
+        </div>
+        <div class="clearFix"></div>
+    </header>
+    <section id="main">
+        <section id="right">
+            <div id="ticketType">
+                <a href="#"><div id="rightTicketType">یک‌طرفه</div></a>
+                <a href="#"><div id="leftTicketType">رفت و برگشت</div></a>
+                <div class="clearFix"></div>
+            </div>
+
+            <form ng-submit="searchFlights()">
+                <div id="searchBox">
+                    <div class="search-box-row first-row">
+                        <div class="right-logo">
+                            <i class="fa fa-plane" aria-hidden="true" id="plane"></i>
+                        </div>
+                        <p class="right-name">مبدا</p>
+                        <select ng-model="source" name="source-code" id="source" class="right-list">
+                            <option value="THR">تهران - فرودگاه مهرآباد</option>
+                            <option value="MHD">مشهد - فرودگاه اصلی</option>
+                        </select>
+
+                        <div class="clearFix"></div>
+                    </div>
+
+                    <div class="search-box-row">
+                        <div class="right-logo">
+                            <i class="fa fa-plane fa-rotate-90" aria-hidden="true" id="plane"></i>
+                        </div>
+                        <p class="right-name">مقصد</p>
+                        <select ng-model="dest" name="dest-code" id="dest" class="right-list">
+                            <option value="THR">تهران - فرودگاه مهرآباد</option>
+                            <option value="MHD">مشهد - فرودگاه اصلی</option>
+                        </select>
+                    </div>
+
+                    <div class="search-box-row">
+                        <div class="right-logo">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                        </div>
+                        <p class="right-name">رفت</p>
+                        <input ng-model="date" name="date" placeholder="۱۳۹۵/۱۱/۲۵" class="right-list date">
+                    </div>
+
+                    <div class="search-box-row">
+                        <div class="right-logo">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                        </div>
+                        <p class="right-name">برگشت</p>
+                        <input ng-model="date2" name="date2" placeholder="۱۳۹۵/۱۱/۲۵" class="right-list date" disabled="true">
+                    </div>
+
+                    <div id="age-types">
+                        <div class="age-entity">
+                            <p class="age-type-text">
+                                بزرگسال
+                            </p>
+                            <i class="fa fa-male fa-2x age-type-icon" aria-hidden="true"></i>
+                            <select ng-model="adults" name="adults" id="numbers" class="number-of-tickets">
+                                <option value="1">۱</option>
+                                <option value="2">۲</option>
+                                <option value="3">۳</option>
+                                <option value="4">۴</option>
+                                <option value="5">۵</option>
+                            </select>
+                        </div>
+
+                        <div class="age-entity">
+                            <p class="age-type-text">
+                                کودک زیر ۱۲ سال
+                            </p>
+                            <i class="fa fa-child fa-2x age-type-icon" aria-hidden="true"></i>
+                            <select ng-model="children" name="children" id="numbers" class="number-of-tickets">
+                                <option value="1">۱</option>
+                                <option value="2">۲</option>
+                                <option value="3">۳</option>
+                                <option value="4">۴</option>
+                                <option value="5">۵</option>
+                            </select>
+                        </div>
+
+                        <div class="age-entity last">
+                            <p class="age-type-text">
+                                نوزاد زیر ۲ سال
+                            </p>
+                            <i class="fa fa-child fa-1x age-type-icon small-icon" aria-hidden="true"></i>
+                            <select ng-model="infants" name="infants" id="numbers" class="number-of-tickets">
+                                <option value="1">۱</option>
+                                <option value="2">۲</option>
+                                <option value="3">۳</option>
+                                <option value="4">۴</option>
+                                <option value="5">۵</option>
+                            </select>
+                        </div>
+
+                        <div class="clearFix"></div>
+
+                    </div>
+
+                </div>
+                <input value="جستجو" type="submit" id="search-button"/>
+            </form>
+        </section>
+
+        <section id="left">
+            <div id="slider">
+                <img src="imgs/HomeSlideShow/1.png" class="photo firstanimation" alt="تصویر"/>
+                <img src="imgs/HomeSlideShow/2.png" class="photo secondanimation" alt="تصویر"/>
+                <img src="imgs/HomeSlideShow/3.png" class="photo thirdanimation" alt="تصویر"/>
+                <img src="imgs/HomeSlideShow/4.png" class="photo fourthanimation"  alt="تصویر"/>
+                <img src="imgs/HomeSlideShow/5.png" class="photo fifthanimation" alt="تصویر"/>
+                <img src="imgs/HomeSlideShow/6.png" class="photo sixthanimation" alt="تصویر"/>
+                <img src="imgs/HomeSlideShow/7.png" class="photo seventhanimation" alt="تصویر"/>
+                <img src="imgs/HomeSlideShow/8.png" class="photo eighthanimation" alt="تصویر"/>
+            </div>
+            <p id="slogan">
+                سفر ارزان و آسان با اخوانی و اوسط تیکت
+            </p>
+        </section>
+        <section class="clearFix"></section>
+    </section>
+
+    <footer>
+        <p class="footer">سیدعلی اخوانی - بهزاد اوسط | دانشکده‌ی فنی دانشگاه تهران</p>
+    </footer>
+</div>

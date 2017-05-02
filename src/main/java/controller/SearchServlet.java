@@ -25,7 +25,7 @@ public class SearchServlet extends HttpServlet {
             "    <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\"></script>\n" +
             "    <link rel=\"stylesheet\" href=\"css/layout.css\">\n" +
             "    <link rel=\"stylesheet\" href=\"css/result.css\"> +" +
-            " <script src=\"js/result.js\"></script> " +
+            " <script src=\"js/result-v1.js\"></script> " +
             " \n</head>\n";
 
     public void doPost(HttpServletRequest request,

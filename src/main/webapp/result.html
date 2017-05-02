@@ -1,39 +1,22 @@
-<!DOCTYPE html>
-<html lang="en" dir="rtl">
-
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="css/layout.css">
-    <link rel="stylesheet" href="css/result.css">
-    <script src="js/result.js"></script>
-
-    <title>اخوانی و اوسط</title>
-</head>
-
-<body>
 <div id="container">
     <header>
         <div id="companyLogo" class="headerItem">
             <img alt="logo" src="imgs/LogoBlack.png" class="img">
         </div>
         <div id="companyName" class="headerItem">
-         <i>اکبر تیکت</i>
-         <i class="fa fa-registered" aria-hidden="true" id="registered"></i></div>
+            <i>اکبر تیکت</i>
+            <i class="fa fa-registered" aria-hidden="true" id="registered"></i></div>
         <div id="user" class="dropdown">
-                <div class="drop-button">
-                    <i class="fa fa-user" aria-hidden="true" id="userLogo"></i>
-                    <i id="user-name">نام کاربر</i>
-                </div>
-                <div class="dropdown-content">
-                    <a href="#">پروفایل</a>
-                    <a href="#">تنظیمات</a>
-                    <a href="#">خروج</a>                        
-                </div>
+            <div class="drop-button">
+                <i class="fa fa-user" aria-hidden="true" id="userLogo"></i>
+                <i id="user-name">نام کاربر</i>
             </div>
+            <div class="dropdown-content">
+                <a href="#">پروفایل</a>
+                <a href="#">تنظیمات</a>
+                <a href="#">خروج</a>
+            </div>
+        </div>
     </header>
 
     <div class="container">
@@ -55,7 +38,7 @@
                     <i class="step" >بازگشت به صفحه جستجو</i>
                 </div>
                 <div id="numofflights">
-                    <i> ۱۰</i>
+                    <i>{{numOfFlights}}</i>
                     <i>پرواز با مشخصات دلخواه شما پیدا شد.  </i>
                 </div>
             </div>
@@ -68,12 +51,12 @@
                         <option>F</option>
                         <option>J</option>
                     </select>
-                    
+
                     <select id="sort-type" class="sort-btn" onchange="">
                         <option>صعودی</option>
                         <option>نزولی</option>
                     </select>
-                    
+
                     <select id="airline-codes" class="sort-btn">
                         <option>همه</option>
                         <option>IR</option>
@@ -82,121 +65,44 @@
                     <button name="submit" class="sort-btn" onclick="filter()">فیلتر کردن</button>
                 </div>
                 <div id="all-tickets">
-                    <div class="row ticket" name="search-result">
+                    <div class="row ticket" name="search-result" ng-repeat="flight in flights">
                         <div class="col-md-3 class-plane">
                             <div class="info">
                                 <i class="step fa fa-eur" ></i>
-                                <i>IR</i>
-                                <i >1740</i>
+                                <i>{{flight.airlineCode}}</i>
                             </div>
                             <div class="info">
                                 <i class="step fa fa-calendar-o" ></i>
-                                <i > دوشنبه ۱۷ اسفند</i>
+                                <i >{{flight.date}}</i>
                             </div>
                         </div>
                         <div class="col-md-6 from-to" >
                             <div class="src-dest">
-                                <i class="step" >تهران ۱۷:۴۰</i>
+                                <i class="step" >{{flight.origin + " " + flight.departureTime}}</i>
                                 <i class="step fa fa-angle-double-left" ></i>
-                                <i class="step" >مشهد ۱۸:۵۰</i>
+                                <i class="step" >{{flight.dest + " " + flight.arrivalTime}}</i>
                             </div>
                             <div class="plane-class">
                                 <i class="fa fa-plane" ></i>
-                                <i class="info" >بوئینگ </i>
+                                <i class="info" >{{flight.planeModel}} </i>
                                 &nbsp;
                                 &nbsp;
                                 <i class="fa fa-suitcase" ></i>
-                                <i class="info">۸</i>
+                                <i class="info">{{flight.numOfAvailableSeats}}</i>
                                 <i class="info"> صندلی باقیمانده کلاس</i>
-                                <i class="info">Y</i>
+                                <i class="info">{{flight.seatClassName}}</i>
                             </div>
                         </div>
                         <div class="col-md-3 price">
                             <div class="price-info">
-                                <i name="price">50</i>
+                                <i name="price">{{flight.totalPrice}}</i>
                                 <i> ریال</i>
                             </div>
                             <div class="info">
                                 <i >رزرو آنلاین</i>
                             </div>
                         </div>
-                   </div>
-                    <div class="row ticket" name="search-result">
-                        <div class="col-md-3 class-plane">
-                            <div class="info">
-                                <i class="step fa fa-eur" ></i>
-                                <i>W5</i>
-                                <i >1830</i>
-                            </div>
-                            <div class="info">
-                                <i class="step fa fa-calendar-o" ></i>
-                                <i > سه‌شنبه ۱۸ اسفند</i>
-                            </div>
-                        </div>
-                        <div class="col-md-6 from-to" >
-                            <div class="src-dest">
-                                <i class="step" >تهران ۱۷:۴۰</i>
-                                <i class="step fa fa-angle-double-left" ></i>
-                                <i class="step" >اصفهان ۱۸:۵۰</i>
-                            </div>
-                            <div class="plane-class">
-                                <i class="fa fa-plane" ></i>
-                                <i class="info" >بوئینگ </i>
-                                <i class="fa fa-suitcase" ></i>
-                                <i class="info" >10</i>
-                                <i class="info" > صندلی باقیمانده کلاس</i>
-                                <i class="info">M</i>
-                            </div>
-                        </div>
-                        <div class="col-md-3 price">
-                            <div class="price-info">
-                                <i name="price">200</i>
-                                <i> ریال</i>
-                            </div>
-                            <div class="info">
-                                <i >رزرو آنلاین</i>
-                            </div>
-                        </div>
-                   </div>
-                    <div class="row ticket" name="search-result">
-                        <div class="col-md-3 class-plane">
-                            <div class="info">
-                                <i class="step fa fa-eur" ></i>
-                                <i>IR</i>
-                                <i >1740</i>
-                            </div>
-                            <div class="info">
-                                <i class="step fa fa-calendar-o" ></i>
-                                <i > سه‌شنبه ۱۸ اسفند</i>
-                            </div>
-                        </div>
-                        <div class="col-md-6 from-to" >
-                            <div class="src-dest">
-                                <i class="step" >تهران ۱۷:۴۰</i>
-                                <i class="step fa fa-angle-double-left" ></i>
-                                <i class="step" >اصفهان ۱۸:۵۰</i>
-                            </div>
-                            <div class="plane-class">
-                                <i class="fa fa-plane" ></i>
-                                <i class="info" >بوئینگ </i>
-                                &nbsp;
-                                &nbsp;
-                                <i class="fa fa-suitcase" ></i>
-                                <i class="info" >10</i>
-                                <i class="info" > صندلی باقیمانده کلاس</i>
-                                <i class="info">Y</i>
-                            </div>
-                        </div>
-                        <div class="col-md-3 price">
-                            <div class="price-info">
-                                <i name="price">100</i>
-                                <i> ریال</i>
-                            </div>
-                            <div class="info">
-                                <i >رزرو آنلاین</i>
-                            </div>
-                        </div>
-                   </div>                    
+                    </div>
                 </div>
             </div>
         </section>
@@ -205,6 +111,3 @@
         <p>سیدعلی اخوانی - بهزاد اوسط | دانشکده‌ی فنی دانشگاه تهران</p>
     </div>
 </div>
-
-</body>
-</html>

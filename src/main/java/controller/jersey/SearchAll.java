@@ -52,13 +52,16 @@ public class SearchAll {
             FlightInfo fi = new FlightInfo();
             Flight f = flights.get(i);
 
-            fi.setAirlineCode(airlineCodeToPersian(f.getAirlineCode()));
-
+//            fi.setAirlineCode(airlineCodeToPersian(f.getAirlineCode()));
+            fi.setAirlineCode(f.getAirlineCode());
             fi.setFlightNumber(f.getNumber());
-            fi.setDate(dateToPersian(f.getDate()));
+//            fi.setDate(dateToPersian(f.getDate()));
+            fi.setDate(f.getDate());
 
-            fi.setOrigin(locationConvertToPersian(f.getOrigin()));
-            fi.setDest(locationConvertToPersian(f.getOrigin()));
+//            fi.setOrigin(locationConvertToPersian(f.getOrigin()));
+            fi.setOrigin(f.getOrigin());
+//            fi.setDest(locationConvertToPersian(f.getOrigin()));
+            fi.setDest(f.getOrigin());
 
             fi.setDepartureTime(f.getdTime());
             fi.setArrivalTime(f.getaTime());
@@ -67,13 +70,15 @@ public class SearchAll {
             for (int j = 0; j < f.getSeats().size(); j++) {
                 if (f.getSeats().get(j).getAvailable() - (Integer.parseInt(params[4])+Integer.parseInt(params[5])+ Integer.parseInt(params[6]))>-1) {
                     logger.debug("Seat No. " + j + "Flight: " + f.getAirlineCode() + " Class: " + f.getSeats().get(j).getClassName());
+
                     numOfFlights++;
                     int totalPrice = csq.adults * f.getSeats().get(j).getAdultPrice() +
                             csq.childs * f.getSeats().get(j).getChildPrice() +
                             csq.infants * f.getSeats().get(j).getInfantPrice();
 
                     fi.setTotalPrice(totalPrice);
-                    fi.setSeatClassName(seatClassToPersian(f.getSeats().get(j).getClassName()));
+//                    fi.setSeatClassName(seatClassToPersian(f.getSeats().get(j).getClassName()));
+                    fi.setSeatClassName(f.getSeats().get(j).getClassName());
                     fi.setNumOfAvailableSeats(f.getSeats().get(j).getAvailable());
                     gg.getFlights().add(fi);
                 }

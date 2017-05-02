@@ -1,4 +1,4 @@
-package controller;
+package controller.jersey;
 
 /**
  * Created by ali on 5/2/17.
@@ -8,9 +8,9 @@ public class SearchAllInfo {
     String dest;
     String startDate;
     String endDate;
-    int numOfInfants;
-    int numOfChildren;
-    int numOfAdults;
+    String numOfInfants;
+    String numOfChildren;
+    String numOfAdults;
 
     public String getSrc() {
         return src;
@@ -44,27 +44,27 @@ public class SearchAllInfo {
         this.endDate = endDate;
     }
 
-    public int getNumOfInfants() {
+    public String getNumOfInfants() {
         return numOfInfants;
     }
 
-    public void setNumOfInfants(int numOfInfants) {
+    public void setNumOfInfants(String numOfInfants) {
         this.numOfInfants = numOfInfants;
     }
 
-    public int getNumOfChildren() {
+    public String getNumOfChildren() {
         return numOfChildren;
     }
 
-    public void setNumOfChildren(int numOfChildren) {
+    public void setNumOfChildren(String numOfChildren) {
         this.numOfChildren = numOfChildren;
     }
 
-    public int getNumOfAdults() {
+    public String getNumOfAdults() {
         return numOfAdults;
     }
 
-    public void setNumOfAdults(int numOfAdults) {
+    public void setNumOfAdults(String numOfAdults) {
         this.numOfAdults = numOfAdults;
     }
 }

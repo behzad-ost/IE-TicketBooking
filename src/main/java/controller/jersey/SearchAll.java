@@ -9,6 +9,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Created by ali on 5/1/17.
@@ -36,11 +37,10 @@ public class SearchAll {
         params[6] = searchAllInfo.getNumOfInfants();
 
         ClientSearchQuery csq = new ClientSearchQuery(params);
-        String res = manager.search(csq);
+        manager.search(csq);
 
         ArrayList<Flight> flights = manager.getFlights();
 
-//        gg.setNumOfFlights(flights.size());
         if (flights.size() < 1) {
             gg.setSuccess(false);
             gg.setErrorMessage("No Flights Found!");
@@ -52,11 +52,14 @@ public class SearchAll {
             FlightInfo fi = new FlightInfo();
             Flight f = flights.get(i);
 
-            fi.setAirlineCode(f.getAirlineCode());
+            fi.setAirlineCode(airlineCodeToPersian(f.getAirlineCode()));
+
             fi.setFlightNumber(f.getNumber());
-            fi.setDate(f.getDate());
-            fi.setOrigin(f.getOrigin());
-            fi.setDest(f.getDestination());
+            fi.setDate(dateToPersian(f.getDate()));
+
+            fi.setOrigin(locationConvertToPersian(f.getOrigin()));
+            fi.setDest(locationConvertToPersian(f.getOrigin()));
+
             fi.setDepartureTime(f.getdTime());
             fi.setArrivalTime(f.getaTime());
             fi.setPlaneModel(f.getPlaneModel());
@@ -70,7 +73,7 @@ public class SearchAll {
                             csq.infants * f.getSeats().get(j).getInfantPrice();
 
                     fi.setTotalPrice(totalPrice);
-                    fi.setSeatClassName(f.getSeats().get(j).getClassName());
+                    fi.setSeatClassName(seatClassToPersian(f.getSeats().get(j).getClassName()));
                     fi.setNumOfAvailableSeats(f.getSeats().get(j).getAvailable());
                     gg.getFlights().add(fi);
                 }
@@ -80,5 +83,49 @@ public class SearchAll {
         }
 
         return gg;
+    }
+
+    private String locationConvertToPersian(String input) {
+        if (Objects.equals(input, "THR")) {
+            return "تهران";
+        } else if (Objects.equals(input, "MHD")) {
+            return "مشهد";
+        } else {
+            return input;
+        }
+    }
+
+    private String airlineCodeToPersian(String input) {
+        if (Objects.equals(input, "IR")) {
+            return "ایران ایر";
+        } else if (Objects.equals(input, "W5")) {
+            return "ماهان";
+        } else {
+            return input;
+        }
+    }
+
+    private String seatClassToPersian(String input) {
+        if (Objects.equals(input, "Y")) {
+            return "اقتصادی";
+        } else if (Objects.equals(input, "F")) {
+            return "درجه ۱";
+        } else if (Objects.equals(input, "M")) {
+            return "ایزی";
+        } else {
+            return input;
+        }
+    }
+
+    private String dateToPersian(String input) {
+        if (Objects.equals(input, "05Feb")) {
+            return "۱۱ بهمن";
+        } else if (Objects.equals(input, "06Feb")) {
+            return "۱۲ بهمن";
+        } else if (Objects.equals(input, "04Feb")) {
+            return "۱۰ بهمن";
+        } else {
+            return input;
+        }
     }
 }

@@ -229,6 +229,7 @@ header {
     width: 50%;
     border-radius: 5px;
     float: right;
+    color:black;
 }
 
 #search-button {

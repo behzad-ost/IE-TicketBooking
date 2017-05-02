@@ -60,8 +60,8 @@ public class SearchAll {
 
 //            fi.setOrigin(locationConvertToPersian(f.getOrigin()));
             fi.setOrigin(f.getOrigin());
-//            fi.setDest(locationConvertToPersian(f.getOrigin()));
-            fi.setDest(f.getOrigin());
+//            fi.setDest(locationConvertToPersian(f.getDestination()));
+            fi.setDest(f.getDestination());
 
             fi.setDepartureTime(f.getdTime());
             fi.setArrivalTime(f.getaTime());

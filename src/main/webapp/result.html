@@ -78,9 +78,9 @@
                         </div>
                         <div class="col-md-6 from-to" >
                             <div class="src-dest">
-                                <i class="step" >{{flight.origin | city  + " " + flight.departureTime}}</i>
+                                <i class="step" >{{flight.origin | city}} {{flight.departureTime | time}}</i>
                                 <i class="step fa fa-angle-double-left" ></i>
-                                <i class="step" >{{flight.dest | city  + " " + flight.arrivalTime}}</i>
+                                <i class="step" >{{flight.dest | city}} {{flight.arrivalTime | time}}</i>
                             </div>
                             <div class="plane-class">
                                 <i class="fa fa-plane" ></i>

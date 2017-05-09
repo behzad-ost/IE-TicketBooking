@@ -40,68 +40,69 @@
                 <div id="numofflights">
                     <i>{{numOfFlights}}</i>
                     <i>پرواز با مشخصات دلخواه شما پیدا شد.  </i>
-                </div>
+                    </div>
             </div>
             <div id="main-grey">
                 <div id="sorts">
-                    <select class="sort-btn" onchange="" id="seat-classes">
-                        <option>همه</option>
-                        <option>Y</option>
-                        <option>M</option>
-                        <option>F</option>
-                        <option>J</option>
+                    <select ng-init="showClass='all'" class="sort-btn" ng-model="showClass" onchange="" id="seat-classes">
+                        <option value="all">همه</option>
+                        <option value="Y">Y</option>
+                        <option value="M">M</option>
+                        <option value="F">F</option>
+                        <option value="J">J</option>
                     </select>
 
-                    <select id="sort-type" class="sort-btn" onchange="">
-                        <option>صعودی</option>
-                        <option>نزولی</option>
+                    <select id="sort-type" ng-model="order" class="sort-btn" ng-change="cangeOrder()">
+                        <option value="0">صعودی</option>
+                        <option value="1">نزولی</option>
                     </select>
 
-                    <select id="airline-codes" class="sort-btn">
-                        <option>همه</option>
-                        <option>IR</option>
-                        <option>W5</option>
+                    <select ng-init="showAirline='all'" id="airline-codes" ng-model="showAirline" class="sort-btn">
+                        <option value="all">همه</option>
+                        <option value="IR">IR</option>
+                        <option value="W5">W5</option>
                     </select>
-                    <button name="submit" class="sort-btn" onclick="filter()">فیلتر کردن</button>
                 </div>
                 <div id="all-tickets">
-                    <div class="row ticket" name="search-result" ng-repeat="flight in flights">
-                        <div class="col-md-3 class-plane">
-                            <div class="info">
-                                <i class="step fa fa-eur" ></i>
-                                <i>{{flight.airlineCode}}</i>
+                    <div ng-show="checkSelected(flight)" class="row ticket" name="search-result" ng-repeat="flight in flights | orderBy:'totalPrice':order">
+                        <!-- <div > -->
+                            <div class="col-md-3 class-plane">
+                                <div class="info">
+                                    <i class="step fa fa-eur" ></i>
+                                    <i>{{flight.airlineCode}}</i>
+                                </div>
+                                <div class="info">
+                                    <i class="step fa fa-calendar-o" ></i>
+                                    <i >{{flight.date}}</i>
+                                </div>
                             </div>
-                            <div class="info">
-                                <i class="step fa fa-calendar-o" ></i>
-                                <i >{{flight.date}}</i>
+                            <div class="col-md-6 from-to" >
+                                <div class="src-dest">
+                                    <i class="step" >{{flight.origin | city}} {{flight.departureTime | time}}</i>
+                                    <i class="step fa fa-angle-double-left" ></i>
+                                    <i class="step" >{{flight.dest | city}} {{flight.arrivalTime | time}}</i>
+                                </div>
+                                <div class="plane-class">
+                                    <i class="fa fa-plane" ></i>
+                                    <i class="info" >{{flight.planeModel}} </i>
+                                    &nbsp;
+                                    &nbsp;
+                                    <i class="fa fa-suitcase" ></i>
+                                    <i class="info">{{flight.numOfAvailableSeats}}</i>
+                                    <i class="info"> صندلی باقیمانده کلاس</i>
+                                    <i class="info">{{flight.seatClassName}}</i>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 from-to" >
-                            <div class="src-dest">
-                                <i class="step" >{{flight.origin | city}} {{flight.departureTime | time}}</i>
-                                <i class="step fa fa-angle-double-left" ></i>
-                                <i class="step" >{{flight.dest | city}} {{flight.arrivalTime | time}}</i>
-                            </div>
-                            <div class="plane-class">
-                                <i class="fa fa-plane" ></i>
-                                <i class="info" >{{flight.planeModel}} </i>
-                                &nbsp;
-                                &nbsp;
-                                <i class="fa fa-suitcase" ></i>
-                                <i class="info">{{flight.numOfAvailableSeats}}</i>
-                                <i class="info"> صندلی باقیمانده کلاس</i>
-                                <i class="info">{{flight.seatClassName}}</i>
-                            </div>
-                        </div>
-                        <div class="col-md-3 price" ng-click="reserveFlight($index)">
-                            <div class="price-info">
-                                <i name="price">{{flight.totalPrice}}</i>
-                                <i> ریال</i>
-                            </div>
-                            <div class="info">
-                                <i >رزرو آنلاین</i>
-                            </div>
-                        </div>
+                            <div class="col-md-3 price" ng-click="reserveFlight($index)">
+                                <div class="price-info">
+                                    <i name="price">{{flight.totalPrice}}</i>
+                                    <i> ریال</i>
+                                </div>
+                                <div class="info">
+                                    <i >رزرو آنلاین</i>
+                                </div>
+                            </div>                          
+                        <!-- </div> -->
                     </div>
                 </div>
             </div>

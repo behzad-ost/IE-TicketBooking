@@ -138,7 +138,7 @@
                 </div>
 
                 <div id="passengers-label">اطلاعات</div>
-                <form id="passengers" ng-submit="submitPassengers()">
+                <form id="passengers" ng-submit="submitPassengers()" novalidate>
                     <div ng-repeat="x in makeArray(numAdults) track by $index" class="row info-fields">
                         <div class="col-md-2 col-md-push-10 velvet">
                             <i class="step fa fa-male " ></i>
@@ -152,13 +152,13 @@
                             </select>
                         </div>
                         <div class="col-md-2 col-md-push-2">
-                            <input class="field" placeholder="نام (انگلیسی)" ng-model="adultsNames[$index]">
+                            <input class="field" placeholder="نام (انگلیسی)" ng-model="adultsNames[$index]" ng-minlength="3">
                         </div>
                         <div class="col-md-3 col-md-pull-3" >
-                            <input class="field" placeholder="نام‌خانوادگی (انگلیسی)" ng-model="adultsSurnames[$index]">
+                            <input class="field" placeholder="نام‌خانوادگی (انگلیسی)" ng-model="adultsSurnames[$index]" ng-minlength="3">
                         </div>
                         <div class="col-md-3 col-md-pull-9">
-                            <input class="field" placeholder="شماره ملی" ng-model="adultsIds[$index]">
+                            <input class="field" placeholder="شماره ملی" ng-model="adultsIds[$index]" ng-minlength="10" ng-maxlength="10" ng-pattern="/^-?[0-9][^\.]*$/">
                         </div>
                     </div>
                     <div ng-repeat="y in makeArray(numChildren) track by $index" class="row info-fields">
@@ -174,13 +174,13 @@
                             </select>
                         </div>
                         <d2iv class="col-md-2 col-md-push-2">
-                            <input class="field" placeholder="نام (انگلیسی)" ng-model="childrenNames[$index]">
+                            <input class="field" placeholder="نام (انگلیسی)" ng-model="childrenNames[$index]" ng-minlength="3">
                         </d2iv>
                         <div class="col-md-3 col-md-pull-3" >
-                            <input class="field" placeholder="نام‌خانوادگی (انگلیسی)" ng-model="childrenSurnames[$index]">
+                            <input class="field" placeholder="نام‌خانوادگی (انگلیسی)" ng-model="childrenSurnames[$index]" ng-minlength="3">
                         </div>
                         <div class="col-md-3 col-md-pull-9">
-                            <input class="field" placeholder="شماره ملی" ng-model="childrenIds[$index]">
+                            <input class="field" placeholder="شماره ملی" ng-model="childrenIds[$index]" ng-minlength="10" ng-maxlength="10" ng-pattern="/^-?[0-9][^\.]*$/">
                         </div>
                     </div>
 
@@ -197,14 +197,15 @@
                             </select>
                         </div>
                         <div class="col-md-2 col-md-push-2">
-                            <input class="field" placeholder="نام (انگلیسی)" ng-model="infantsNames[$index]">
+                            <input class="field" placeholder="نام (انگلیسی)" ng-model="infantsNames[$index]" ng-minlength="3">
                         </div>
                         <div class="col-md-3 col-md-pull-3" >
-                            <input class="field" placeholder="نام‌خانوادگی (انگلیسی)" ng-model="infantsSurnames[$index]">
+                            <input class="field" placeholder="نام‌خانوادگی (انگلیسی)" ng-model="infantsSurnames[$index]" ng-minlength="3" >
                         </div>
                         <div class="col-md-3 col-md-pull-9">
-                            <input class="field" placeholder="شماره ملی" ng-model="infantsIds[$index]">
+                            <input class="field" placeholder="شماره ملی" ng-model="infantsIds[$index]" ng-minlength="10" ng-maxlength="10">
                         </div>
+                        <h1>{{passengers.$valid}}</h1>
                     </div>
                     <button type="submit" class="btn-submit" value="پرداخت و ثبت نهایی">
                         <i>پرداخت و ثبت نهایی</i>

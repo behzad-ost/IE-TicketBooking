@@ -110,6 +110,7 @@ app.controller("searchCtrl", function($scope, $rootScope, $http, $location, $rou
 
 app.controller("resultCtrl", function($scope, $rootScope, $http, $location, $route) {
   $rootScope.CSS = $route.current.$$route.css;
+  console.log($scope.sortVar);
   console.log($rootScope.CSS);
   $scope.reserveFlight = function(index) {
     console.log(index);
@@ -141,6 +142,18 @@ app.controller("resultCtrl", function($scope, $rootScope, $http, $location, $rou
         $location.url('/reserve');
       });
   }
+  $scope.changeOrder = function() {
+    console.log($scope.order);
+    // $scope.order = !$scope.order;
+    // console.log($scope.order);
+  }
+  $scope.checkSelected = function(flight) {
+    if (flight.airlineCode == $scope.showAirline || $scope.showAirline == "all")
+      if ($scope.showClass == "all" || flight.seatClassName == $scope.showClass)
+        return true;
+    return false;
+  }
+
 });
 
 app.controller("reserveCtrl", function($scope, $rootScope, $http, $location, $route) {

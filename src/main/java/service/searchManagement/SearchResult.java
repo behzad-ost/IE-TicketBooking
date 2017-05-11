@@ -1,6 +1,6 @@
-package controller.jersey;
+package service.searchManagement;
 
-import service.Flight;
+import service.common.FlightInfo;
 
 import java.util.ArrayList;
 

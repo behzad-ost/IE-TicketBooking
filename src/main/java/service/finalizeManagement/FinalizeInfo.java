@@ -1,6 +1,7 @@
-package controller.jersey;
+package service.finalizeManagement;
 
-import common.Person;
+import data.Person;
+import service.reserveManagement.ReserveInfo;
 
 import java.util.ArrayList;
 

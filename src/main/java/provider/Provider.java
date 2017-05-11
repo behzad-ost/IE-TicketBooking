@@ -2,11 +2,9 @@ package provider;
 
 import common.Transceiver;
 import query.ClientReserveQuery;
-import service.Flight;
-import service.Reservation;
-import service.Ticket;
+import data.Flight;
+import data.Reservation;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 

@@ -1,8 +1,4 @@
-package controller.jersey;
-
-import service.Flight;
-
-import java.util.ArrayList;
+package service.common;
 
 /**
  * Created by ali on 5/2/17.

@@ -1,4 +1,4 @@
-package controller.jersey;
+package service.reserveManagement;
 
 /**
  * Created by ali on 5/2/17.

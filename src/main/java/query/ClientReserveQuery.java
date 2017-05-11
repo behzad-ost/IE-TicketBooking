@@ -1,6 +1,6 @@
 package query;
 
-import common.Person;
+import data.Person;
 
 import java.util.ArrayList;
 

@@ -1,17 +1,14 @@
-package controller.jersey;
+package service.finalizeManagement;
 
-import controller.ReserveServlet;
 import org.apache.log4j.Logger;
 import query.ClientFinalizeQuery;
 import query.ClientReserveQuery;
-import service.Manager;
-import service.Reservation;
+import data.Manager;
+import data.Reservation;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.Objects;
 
 /**

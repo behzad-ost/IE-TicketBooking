@@ -1,4 +1,4 @@
-package controller.jersey;
+package service.searchManagement;
 
 /**
  * Created by ali on 5/2/17.

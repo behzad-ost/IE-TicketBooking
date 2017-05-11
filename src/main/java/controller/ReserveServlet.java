@@ -1,11 +1,8 @@
 package controller;
 
 import org.apache.log4j.Logger;
-import query.ClientFinalizeQuery;
-import query.ClientReserveQuery;
-import service.Flight;
-import service.Manager;
-import service.Reservation;
+import data.Flight;
+import data.Manager;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

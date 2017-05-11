@@ -1,4 +1,6 @@
-package controller.jersey;
+package service.reserveManagement;
+
+import service.common.FlightInfo;
 
 /**
  * Created by ali on 5/2/17.

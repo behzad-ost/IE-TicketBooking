@@ -1,8 +1,8 @@
-package controller.jersey;
+package service.reserveManagement;
 
 import org.apache.log4j.Logger;
-import service.Flight;
-import service.Manager;
+import data.Flight;
+import data.Manager;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

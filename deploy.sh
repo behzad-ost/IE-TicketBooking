@@ -1,3 +1,3 @@
-rm /home/behzad/tomcat/webapps/ali.war
-rm /home/behzad/tomcat/webapps/ali -r
-cp target/ali.war /home/behzad/tomcat/webapps/ali.war
+rm $CATALINA_HOME/webapps/ali.war
+rm $CATALINA_HOME/webapps/ali -r
+cp target/ali.war $CATALINA_HOME/webapps/ali.war

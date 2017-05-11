@@ -1,8 +1,8 @@
 package controller;
 import org.apache.log4j.Logger;
 import query.ClientSearchQuery;
-import service.Flight;
-import service.Manager;
+import data.Flight;
+import data.Manager;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;

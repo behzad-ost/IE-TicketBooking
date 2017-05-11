@@ -1,9 +1,7 @@
-package service;
+package data;
 
-import common.Person;
 import query.ClientReserveQuery;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 

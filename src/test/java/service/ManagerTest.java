@@ -2,7 +2,7 @@ package service;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Before;
+import data.Reservation;
 import org.junit.Ignore;
 import org.junit.Test;
 import query.ClientReserveQuery;

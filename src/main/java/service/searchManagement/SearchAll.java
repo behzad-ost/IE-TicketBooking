@@ -1,13 +1,17 @@
-package controller.jersey;
+package service.searchManagement;
 
 import org.apache.log4j.Logger;
 import query.ClientSearchQuery;
-import service.Flight;
-import service.Manager;
+import data.Flight;
+import data.Manager;
+import service.common.FlightInfo;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -22,7 +26,7 @@ public class SearchAll {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public SearchResult parseSearchAndSendResponse(SearchAllInfo searchAllInfo) throws IOException {
+    public SearchResult parseSearchAndSendResponse(SearchAllInfo searchAllInfo) throws IOException, SQLException {
         SearchResult gg = new SearchResult();
         String[] params = new String[7];
         int numOfFlights = 0;
@@ -37,6 +41,8 @@ public class SearchAll {
         params[6] = searchAllInfo.getNumOfInfants();
 
         ClientSearchQuery csq = new ClientSearchQuery(params);
+
+
         manager.search(csq);
 
         ArrayList<Flight> flights = manager.getFlights();

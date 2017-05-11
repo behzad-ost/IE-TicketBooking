@@ -1,7 +1,6 @@
-package controller.jersey;
+package service.finalizeManagement;
 
-import service.Reservation;
-import service.Ticket;
+import data.Ticket;
 
 import java.util.ArrayList;
 

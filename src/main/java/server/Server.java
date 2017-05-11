@@ -5,7 +5,7 @@ import query.ClientFinalizeQuery;
 import query.ClientReserveQuery;
 import query.ClientSearchQuery;
 import query.CommandHandler;
-import service.Manager;
+import data.Manager;
 
 import java.io.*;
 

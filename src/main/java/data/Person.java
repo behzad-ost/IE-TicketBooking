@@ -1,4 +1,4 @@
-package common;
+package data;
 
 /**
  * Created by behzad on 2/10/17.

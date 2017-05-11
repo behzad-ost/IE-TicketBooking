@@ -1,4 +1,4 @@
-package service;
+package data;
 
 import org.apache.log4j.Logger;
 import query.ClientFinalizeQuery;

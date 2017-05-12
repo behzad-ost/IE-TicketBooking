@@ -9,9 +9,7 @@ import service.common.FlightInfo;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -43,6 +41,42 @@ public class SearchAll {
         ClientSearchQuery csq = new ClientSearchQuery(params);
 
 
+        String url = "jdbc:hsqldb:hsql://localhost/testdb";
+        String username = "SA";
+        String password = "";
+        logger.info("Connecting to Database");
+        try {
+            Class.forName("org.hsqldb.jdbc.JDBCDriver" );
+        } catch (Exception e) {
+            logger.error("ERROR: failed to load HSQLDB JDBC driver.");
+        }
+        Connection connection = DriverManager.getConnection(url, username, password);
+        logger.info("Connected To Database!");
+
+        Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+
+        String sql;
+        sql = "SELECT * from flight";
+        ResultSet resultSet = statement.executeQuery(sql);
+
+        if (!resultSet.next()) {
+            logger.info("DB is empty");
+            // TODO: 5/12/17 fillTheDatabase();
+        } else {
+            logger.info("DB is not empty");
+            resultSet.first();
+//            readFromDatabase(resultSet);
+            // TODO: 5/12/17 readFromDatabase();
+            while(resultSet.next()) {
+                logger.debug(resultSet.getInt("fid"));
+            }
+        }
+
+        resultSet.close();
+        statement.close();
+        connection.close();
+
+        /*
         manager.search(csq);
 
         ArrayList<Flight> flights = manager.getFlights();
@@ -92,9 +126,13 @@ public class SearchAll {
 
             gg.setNumOfFlights(numOfFlights);
         }
-
+        */
         return gg;
     }
+
+//    private boolean updateFlightsDB(Connection connection) {
+//
+//    }
 
     private String locationConvertToPersian(String input) {
         if (Objects.equals(input, "THR")) {

@@ -34,7 +34,7 @@ public class SearchAll {
 
             if (!resultSet.next()) {
                 logger.info("Could Not Find it in DB");
-//                shouldRefillDB = true;
+                shouldRefillDB = true;
             }
             // TODO: 5/12/17 check time
 //            else if (dataIsOutDated(resultSet)) {
@@ -44,10 +44,10 @@ public class SearchAll {
             if (shouldRefillDB) {
                 logger.info("refill");
                 resultSet.close();
-//                gg = refillDatabase(gg, searchAllInfo);
+                gg = refillDatabase(gg, searchAllInfo);
                 // TODO: 5/12/17 refillDB
             } else {
-                // TODO: 5/12/17 readFromDatabase();
+                //  TODO: 5/12/17 readFromDatabase();
                 readFromDatabase(resultSet, connection, gg, searchAllInfo);
             }
 
@@ -55,6 +55,8 @@ public class SearchAll {
 
         } catch (SQLException | ClassNotFoundException e) {
             logger.error(e.getMessage());
+            gg.setSuccess(false);
+            gg.setErrorMessage("Error in DB");
         }
         return gg;
     }
@@ -135,9 +137,6 @@ public class SearchAll {
 
     private boolean fillFlightsTable(Connection connection, SearchAllInfo searchAllInfo) throws SQLException {
         Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-
-
-
         String sql;
         sql = "INSERT INTO flight " +
                 "( AIRLINE_CODE, FLIGHT_NUM, FLIGHT_DATE, ORIGIN, DEST, DEP_TIME, ARR_TIME, AIRPLANE_MODEL )" +
@@ -157,6 +156,7 @@ public class SearchAll {
         params[4] = searchAllInfo.getNumOfAdults();
         params[5] = searchAllInfo.getNumOfChildren();
         params[6] = searchAllInfo.getNumOfInfants();
+
         ClientSearchQuery csq = new ClientSearchQuery(params);
         Manager manager = Manager.getInstance();
 

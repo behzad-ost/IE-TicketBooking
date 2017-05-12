@@ -76,6 +76,8 @@ app.config(function($routeProvider) {
       templateUrl: "tickets.html",
       controller: "ticketsCtrl",
       css: "tickets.css"
+    }).when("/loading", {
+      templateUrl: "loading.html",
     });
 });
 
@@ -95,6 +97,7 @@ app.controller("searchCtrl", function($scope, $rootScope, $http, $location, $rou
     };
     console.log(body);
 
+    $location.url('/loading');
     $http.post('http://localhost:8080/ali/booking/searchAll', body)
       .then(function(response) {
         $rootScope.flights = response.data.flights;
@@ -240,6 +243,7 @@ app.controller("reserveCtrl", function($scope, $rootScope, $http, $location, $ro
     $http.post('http://localhost:8080/ali/booking/finalize', body)
       .then(function(response) {
         console.log(response.data);
+        return;
         $rootScope.tickets = response.data.tickets;
         $location.url('/tickets');
       });

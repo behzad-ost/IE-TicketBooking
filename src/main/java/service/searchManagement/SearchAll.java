@@ -26,10 +26,130 @@ public class SearchAll {
     @Produces(MediaType.APPLICATION_JSON)
     public SearchResult parseSearchAndSendResponse(SearchAllInfo searchAllInfo) throws IOException, SQLException {
         SearchResult gg = new SearchResult();
-        String[] params = new String[7];
-        int numOfFlights = 0;
+        boolean shouldRefillDB = false;
 
-        Manager manager = Manager.getInstance();
+        try {
+            Connection connection = setupDB();
+            ResultSet resultSet = searchForFlights(connection, searchAllInfo);
+
+            if (!resultSet.next()) {
+                logger.info("Could Not Find it in DB");
+//                shouldRefillDB = true;
+            }
+            // TODO: 5/12/17 check time
+//            else if (dataIsOutDated(resultSet)) {
+//                shouldRefillDB = true;
+//            }
+
+            if (shouldRefillDB) {
+                logger.info("refill");
+                resultSet.close();
+//                gg = refillDatabase(gg, searchAllInfo);
+                // TODO: 5/12/17 refillDB
+            } else {
+                // TODO: 5/12/17 readFromDatabase();
+                readFromDatabase(resultSet, connection, gg, searchAllInfo);
+            }
+
+            connection.close();
+
+        } catch (SQLException | ClassNotFoundException e) {
+            logger.error(e.getMessage());
+        }
+        return gg;
+    }
+
+
+
+    private Connection setupDB() throws ClassNotFoundException, SQLException {
+        String url = "jdbc:hsqldb:hsql://localhost/testdb";
+        String username = "SA";
+        String password = "";
+        logger.info("Connecting to Database");
+        Class.forName("org.hsqldb.jdbc.JDBCDriver");
+        Connection connection = DriverManager.getConnection(url, username, password);
+        logger.info("Connected To Database!");
+        return connection;
+    }
+
+    private ResultSet searchForFlights(Connection connection, SearchAllInfo searchAllInfo) throws SQLException {
+        Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        String sql;
+        sql = "SELECT * FROM flight WHERE FLIGHT_DATE = \'" + searchAllInfo.getStartDate() +
+                "\' AND ORIGIN = \'" + searchAllInfo.getSrc() +
+                "\' AND DEST = \'" + searchAllInfo.getDest() + "\'";
+        ResultSet resultSet = statement.executeQuery(sql);
+        return resultSet;
+    }
+
+    private SearchResult readFromDatabase(ResultSet resultSet, Connection connection, SearchResult gg, SearchAllInfo searchAllInfo) throws SQLException {
+        logger.debug("Start reading from db");
+        String sql, sql2;
+        int numOfFlights = 0;
+        resultSet.beforeFirst();
+        while (resultSet.next()) {
+            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            sql = "SELECT * FROM flight_seat_class WHERE FID = " + resultSet.getInt("FID");
+            ResultSet rs = statement.executeQuery(sql);
+
+            while (rs.next()) {
+                int seatId = rs.getInt("SID");
+                Statement st = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                sql2 = "SELECT * FROM seat_class WHERE SID = " + seatId;
+                ResultSet finalRs = st.executeQuery(sql2);
+
+                while (finalRs.next()) {
+                    numOfFlights++;
+                    FlightInfo fi = new FlightInfo();
+                    fi.setAirlineCode(resultSet.getString("AIRLINE_CODE"));
+                    fi.setFlightNumber(resultSet.getString("FLIGHT_NUM"));
+                    fi.setDate(resultSet.getString("FLIGHT_DATE"));
+                    fi.setOrigin(resultSet.getString("ORIGIN"));
+                    fi.setDest(resultSet.getString("DEST"));
+                    fi.setDepartureTime(resultSet.getString("DEP_TIME"));
+                    fi.setArrivalTime(resultSet.getString("ARR_TIME"));
+                    fi.setAirlineCode(resultSet.getString("AIRLINE_CODE"));
+                    fi.setPlaneModel(resultSet.getString("AIRPLANE_MODEL"));
+
+
+                    fi.setSeatClassName(finalRs.getString("CLASS_NAME"));
+
+                    int totalPrice = 0;
+                    totalPrice += Integer.parseInt(searchAllInfo.getNumOfAdults()) * finalRs.getInt("ADULT_PRICE");
+                    totalPrice += Integer.parseInt(searchAllInfo.getNumOfChildren()) * finalRs.getInt("CHILD_PRICE");
+                    totalPrice += Integer.parseInt(searchAllInfo.getNumOfInfants()) * finalRs.getInt("INFANT_PRICE");
+                    fi.setTotalPrice(totalPrice);
+
+                    gg.getFlights().add(fi);
+                }
+                finalRs.close();
+                st.close();
+            }
+            rs.close();
+            statement.close();
+        }
+        gg.setNumOfFlights(numOfFlights);
+        resultSet.close();
+        return gg;
+    }
+
+    private boolean fillFlightsTable(Connection connection, SearchAllInfo searchAllInfo) throws SQLException {
+        Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+
+
+
+        String sql;
+        sql = "INSERT INTO flight " +
+                "( AIRLINE_CODE, FLIGHT_NUM, FLIGHT_DATE, ORIGIN, DEST, DEP_TIME, ARR_TIME, AIRPLANE_MODEL )" +
+                "(?, ?, ?, ?, ?, ?, ?, ?)";
+
+        ResultSet resultSet = statement.executeQuery(sql);
+
+        return true;
+    }
+
+    private SearchResult refillDatabase(SearchResult gg, SearchAllInfo searchAllInfo) throws IOException {
+        String[] params = new String[7];
 
         params[1] = searchAllInfo.getSrc();
         params[2] = searchAllInfo.getDest();
@@ -37,46 +157,9 @@ public class SearchAll {
         params[4] = searchAllInfo.getNumOfAdults();
         params[5] = searchAllInfo.getNumOfChildren();
         params[6] = searchAllInfo.getNumOfInfants();
-
         ClientSearchQuery csq = new ClientSearchQuery(params);
+        Manager manager = Manager.getInstance();
 
-
-        String url = "jdbc:hsqldb:hsql://localhost/testdb";
-        String username = "SA";
-        String password = "";
-        logger.info("Connecting to Database");
-        try {
-            Class.forName("org.hsqldb.jdbc.JDBCDriver" );
-        } catch (Exception e) {
-            logger.error("ERROR: failed to load HSQLDB JDBC driver.");
-        }
-        Connection connection = DriverManager.getConnection(url, username, password);
-        logger.info("Connected To Database!");
-
-        Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-
-        String sql;
-        sql = "SELECT * from flight";
-        ResultSet resultSet = statement.executeQuery(sql);
-
-        if (!resultSet.next()) {
-            logger.info("DB is empty");
-            // TODO: 5/12/17 fillTheDatabase();
-        } else {
-            logger.info("DB is not empty");
-            resultSet.first();
-//            readFromDatabase(resultSet);
-            // TODO: 5/12/17 readFromDatabase();
-            while(resultSet.next()) {
-                logger.debug(resultSet.getInt("fid"));
-            }
-        }
-
-        resultSet.close();
-        statement.close();
-        connection.close();
-
-        /*
         manager.search(csq);
 
         ArrayList<Flight> flights = manager.getFlights();
@@ -87,7 +170,7 @@ public class SearchAll {
             return gg;
         }
 
-
+        int numOfFlights = 0;
         for(int i = 0 ; i < flights.size() ; i++) {
             FlightInfo fi = new FlightInfo();
             Flight f = flights.get(i);
@@ -108,7 +191,7 @@ public class SearchAll {
             fi.setPlaneModel(f.getPlaneModel());
 
             for (int j = 0; j < f.getSeats().size(); j++) {
-                if (f.getSeats().get(j).getAvailable() - (Integer.parseInt(params[4])+Integer.parseInt(params[5])+ Integer.parseInt(params[6]))>-1) {
+                if (f.getSeats().get(j).getAvailable() - (Integer.parseInt(params[4]) + Integer.parseInt(params[5]) + Integer.parseInt(params[6])) > -1) {
                     logger.debug("Seat No. " + j + "Flight: " + f.getAirlineCode() + " Class: " + f.getSeats().get(j).getClassName());
 
                     numOfFlights++;
@@ -126,14 +209,13 @@ public class SearchAll {
 
             gg.setNumOfFlights(numOfFlights);
         }
-        */
         return gg;
     }
 
-//    private boolean updateFlightsDB(Connection connection) {
-//
-//    }
 
+
+
+    //  persian converters
     private String locationConvertToPersian(String input) {
         if (Objects.equals(input, "THR")) {
             return "تهران";

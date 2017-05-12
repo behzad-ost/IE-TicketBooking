@@ -185,7 +185,11 @@ app.controller("reserveCtrl", function($scope, $rootScope, $http, $location, $ro
   $scope.infantsSurnames = new Array(parseInt($scope.numInfants));
   $scope.infantsIds = new Array(parseInt($scope.numInfants));
 
-  $scope.submitPassengers = function() {
+  $scope.submitPassengers = function(isValid) {
+    if (!isValid) {
+      alert("داده‌های ورودی نامعتبر");
+      return;
+    }
     var people = [];
     for (var i = 0; i < $scope.numAdults; i++) {
       people.push({

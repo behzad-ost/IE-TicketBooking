@@ -50,7 +50,6 @@ public class SearchAll {
                 gg = refillDatabase(gg, searchAllInfo);
                 // TODO: 5/12/17 refillDB
             } else {
-                //  TODO: 5/12/17 readFromDatabase();
                 readFromDatabase(resultSet, connection, gg, searchAllInfo);
             }
 
@@ -77,6 +76,10 @@ public class SearchAll {
                 ResultSet finalRs = query.getSeatData(connection, seatId);
 
                 while (finalRs.next()) {
+                    if (seatId == finalRs.getInt("SID")) {
+
+                    }
+
                     numOfFlights++;
                     FlightInfo fi = new FlightInfo();
                     fi.setAirlineCode(resultSet.getString("AIRLINE_CODE"));

@@ -24,6 +24,24 @@ public class DBQuery {
         return connection;
     }
 
+    public ResultSet getSeatData(Connection connection, int sid) throws SQLException {
+        Statement st = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        String sql = "SELECT * FROM seat_class WHERE SID = " + sid;
+        logger.debug("GET Seat: " + sql);
+        return st.executeQuery(sql);
+    }
+
+    public ResultSet getFlight(Connection connection, String flightNum, String origin, String dest, String date) throws SQLException {
+        Statement st = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        String sql = "SELECT * FROM flight WHERE flight_num = \'" + flightNum +
+                "\' AND origin = \'" + origin +
+                "\' AND dest = \'" + dest +
+                "\' AND flight_date = \'" + date + "\'";
+
+        logger.debug("GET Flight: " + sql);
+        return st.executeQuery(sql);
+    }
+
     public ResultSet searchForFlights(Connection connection, String startDate, String src, String dest) throws SQLException {
         Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         String sql;
@@ -38,11 +56,5 @@ public class DBQuery {
         Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         String sql = "SELECT * FROM flight_seat_class WHERE FID = " + fid;
         return statement.executeQuery(sql);
-    }
-
-    public ResultSet getSeatData(Connection connection, int sid) throws SQLException {
-        Statement st = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        String sql = "SELECT * FROM seat_class WHERE SID = " + sid;
-        return st.executeQuery(sql);
     }
 }

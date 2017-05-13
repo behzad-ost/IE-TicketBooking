@@ -61,6 +61,9 @@ CREATE TABLE ticket (
 			  FOREIGN KEY (rid) REFERENCES reserve ON DELETE CASCADE,
 			  FOREIGN KEY (pid) REFERENCES person ON DELETE CASCADE);
 
+CREATE TABLE behx (
+  sid int,
+	time timestamp default current_timestamp)
 
 DROP TABLE flight_seat_class
 DROP TABLE flight

@@ -31,6 +31,8 @@ public class ReserveTicket {
         try {
             Connection connection = query.setupDB();
             response = getDataFromDB(connection, ri);
+            // TODO: 5/13/17 insert persons
+            // TODO: 5/13/17 create tickets
         }  catch (SQLException | ClassNotFoundException e) {
             logger.error(e.getMessage());
             response.setSuccess(false);
@@ -78,30 +80,34 @@ public class ReserveTicket {
 
 
     private ReserveResult getDataFromDB(Connection connection, ReserveInfo ri) throws SQLException {
-        ReserveResult response = null;
-        ResultSet resultSet = query.searchForFlights(connection, ri.getDate(), ri.getOrigin(), ri.getDest());
-        int sid = -1;
+        ReserveResult response = new ReserveResult();
+        int sid;
+        boolean found = false;
 
-        while (resultSet.next()) {
-            int fid = resultSet.getInt("FID");
-            ResultSet rs = query.searchForSeatsInFlight(connection, fid);
-            while (rs.next()) {
-                sid = rs.getInt("SID");
-                if (sid != -1) {
+        ResultSet flightsRs = query.getFlight(connection, ri.getFlightNumber(), ri.getOrigin(), ri.getDest(), ri.getDate());
+        while (flightsRs.next()) {
+            // Flight
+            logger.debug("FID: " + flightsRs.getInt("FID"));
 
-                    ResultSet finalRs = query.getSeatData(connection, sid);
-                    while (finalRs.next()) {
+            int fid = flightsRs.getInt("FID");
 
-                    }
+            ResultSet flightSeatsRs = query.searchForSeatsInFlight(connection, fid);
+            while (flightSeatsRs.next()) {
+                // Flight_Seat
+                logger.debug("SID: " + flightSeatsRs.getInt("SID"));
 
+                sid = flightSeatsRs.getInt("SID");
+                ResultSet seatRs = query.getSeatData(connection, sid);
+                while (seatRs.next()) {
+                    // Seat
+                    logger.debug("SEAT: " + seatRs.getString("CLASS_NAME"));
 
-                    if (ri.getSeatClassName() == rs.getString("CLASS_NAME")) {
-                        break;
-                    }
-                    if (finalRs.next()) {
-                        int adultFee = finalRs.getInt("adult_price");
-                        int childFee = finalRs.getInt("child_price");
-                        int infantFee = finalRs.getInt("infant_price");
+                    if (Objects.equals(ri.getSeatClassName(), seatRs.getString("CLASS_NAME"))) {
+                        found = true;
+                        int adultFee = seatRs.getInt("adult_price");
+                        int childFee = seatRs.getInt("child_price");
+                        int infantFee = seatRs.getInt("infant_price");
+                        logger.debug("adult: " + adultFee);
                         int adultSum = adultFee * ri.getNumOfAdults();
                         int childSum = childFee * ri.getNumOfChildren();
                         int infantSum = infantFee * ri.getNumOfInfants();
@@ -113,21 +119,19 @@ public class ReserveTicket {
                         response.setChildSum(childSum);
                         response.setInfantSum(infantSum);
                         response.setTotalSum(adultSum + childSum + infantSum);
+                        break;
                     }
-
-                    rs.close();
-                    break;
                 }
+                seatRs.close();
             }
-            rs.close();
+            flightSeatsRs.close();
         }
+        flightsRs.close();
 
-        if (sid == -1) {
+        if (!found) {
             response.setErrorMessage("صندلی یافت نشد!");
             response.setSuccess(false);
         }
-
-        resultSet.close();
         return response;
     }
 }

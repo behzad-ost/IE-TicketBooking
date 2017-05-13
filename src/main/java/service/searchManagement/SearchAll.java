@@ -1,5 +1,6 @@
 package service.searchManagement;
 
+
 import org.apache.log4j.Logger;
 import query.ClientSearchQuery;
 import data.Flight;
@@ -47,7 +48,7 @@ public class SearchAll {
             if (shouldRefillDB) {
                 logger.info("refill");
                 resultSet.close();
-                gg = refillDatabase(gg, searchAllInfo);
+                gg = refillDatabase(gg, searchAllInfo, connection);
                 // TODO: 5/12/17 refillDB
             } else {
                 readFromDatabase(resultSet, connection, gg, searchAllInfo);
@@ -124,7 +125,7 @@ public class SearchAll {
         return true;
     }
 
-    private SearchResult refillDatabase(SearchResult gg, SearchAllInfo searchAllInfo) throws IOException {
+    private SearchResult refillDatabase(SearchResult gg, SearchAllInfo searchAllInfo, Connection connection) throws IOException, SQLException {
         String[] params = new String[7];
 
         params[1] = searchAllInfo.getSrc();
@@ -180,12 +181,29 @@ public class SearchAll {
 //                    fi.setSeatClassName(seatClassToPersian(f.getSeats().get(j).getClassName()));
                     fi.setSeatClassName(f.getSeats().get(j).getClassName());
                     fi.setNumOfAvailableSeats(f.getSeats().get(j).getAvailable());
+                    PreparedStatement preparedStatement;
+                    String sql;
+                    sql = "INSERT INTO flight " +
+                            "( AIRLINE_CODE, FLIGHT_NUM, FLIGHT_DATE, ORIGIN, DEST, DEP_TIME, ARR_TIME, AIRPLANE_MODEL )"+
+                            " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                    preparedStatement = connection.prepareStatement(sql);
+                    preparedStatement.setInt(1, i);
+                    preparedStatement.setString(2, fi.getAirlineCode());
+                    preparedStatement.setString(3, fi.getFlightNumber());
+                    preparedStatement.setString(4, fi.getDate());
+                    preparedStatement.setString(5, fi.getOrigin());
+                    preparedStatement.setString(6, fi.getDest());
+                    preparedStatement.setString(7, fi.getDepartureTime());
+                    preparedStatement.setString(8, fi.getArrivalTime());
+                    preparedStatement.setString(8, fi.getPlaneModel());
+                    preparedStatement.executeUpdate();
+                    logger.info("Inserted flight with number"+fi.getFlightNumber()+"to database!");
                     gg.getFlights().add(fi);
                 }
             }
-
             gg.setNumOfFlights(numOfFlights);
         }
+        connection.close();
         return gg;
     }
 

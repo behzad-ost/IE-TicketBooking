@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import query.ClientSearchQuery;
 import data.Flight;
 import data.Manager;
+import service.common.DBQuery;
 import service.common.FlightInfo;
 
 import javax.ws.rs.*;
@@ -20,6 +21,7 @@ import java.util.Objects;
 @Path("/searchAll")
 public class SearchAll {
     final static Logger logger = Logger.getLogger(SearchAll.class);
+    private DBQuery query = new DBQuery();
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -29,8 +31,9 @@ public class SearchAll {
         boolean shouldRefillDB = false;
 
         try {
-            Connection connection = setupDB();
-            ResultSet resultSet = searchForFlights(connection, searchAllInfo);
+            Connection connection = query.setupDB();
+            ResultSet resultSet = query.searchForFlights(connection, searchAllInfo.getStartDate(), searchAllInfo.getSrc(),
+                    searchAllInfo.getDest());
 
             if (!resultSet.next()) {
                 logger.info("Could Not Find it in DB");
@@ -62,43 +65,16 @@ public class SearchAll {
     }
 
 
-
-    private Connection setupDB() throws ClassNotFoundException, SQLException {
-        String url = "jdbc:hsqldb:hsql://localhost/testdb";
-        String username = "SA";
-        String password = "";
-        logger.info("Connecting to Database");
-        Class.forName("org.hsqldb.jdbc.JDBCDriver");
-        Connection connection = DriverManager.getConnection(url, username, password);
-        logger.info("Connected To Database!");
-        return connection;
-    }
-
-    private ResultSet searchForFlights(Connection connection, SearchAllInfo searchAllInfo) throws SQLException {
-        Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        String sql;
-        sql = "SELECT * FROM flight WHERE FLIGHT_DATE = \'" + searchAllInfo.getStartDate() +
-                "\' AND ORIGIN = \'" + searchAllInfo.getSrc() +
-                "\' AND DEST = \'" + searchAllInfo.getDest() + "\'";
-        ResultSet resultSet = statement.executeQuery(sql);
-        return resultSet;
-    }
-
     private SearchResult readFromDatabase(ResultSet resultSet, Connection connection, SearchResult gg, SearchAllInfo searchAllInfo) throws SQLException {
         logger.debug("Start reading from db");
-        String sql, sql2;
         int numOfFlights = 0;
         resultSet.beforeFirst();
         while (resultSet.next()) {
-            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            sql = "SELECT * FROM flight_seat_class WHERE FID = " + resultSet.getInt("FID");
-            ResultSet rs = statement.executeQuery(sql);
+            ResultSet rs = query.searchForSeatsInFlight(connection, resultSet.getInt("FID"));
 
             while (rs.next()) {
                 int seatId = rs.getInt("SID");
-                Statement st = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-                sql2 = "SELECT * FROM seat_class WHERE SID = " + seatId;
-                ResultSet finalRs = st.executeQuery(sql2);
+                ResultSet finalRs = query.getSeatData(connection, seatId);
 
                 while (finalRs.next()) {
                     numOfFlights++;
@@ -125,10 +101,8 @@ public class SearchAll {
                     gg.getFlights().add(fi);
                 }
                 finalRs.close();
-                st.close();
             }
             rs.close();
-            statement.close();
         }
         gg.setNumOfFlights(numOfFlights);
         resultSet.close();

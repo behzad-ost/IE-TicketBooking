@@ -9,14 +9,16 @@ public class Person {
     private String surName;
     private String nationalId;
     private String ageType;
+    private String gender;
 
     public Person() {}
 
-    public Person(String firstName, String surName, String nationalId, String ageType) {
+    public Person(String firstName, String surName, String nationalId, String ageType, String gender) {
         this.firstName = firstName;
         this.surName = surName;
         this.nationalId = nationalId;
         this.ageType = ageType;
+        this.gender = gender;
     }
 
     public String getFirstName(){ return this.firstName; }
@@ -40,5 +42,13 @@ public class Person {
 
     public void setAgeType(String ageType) {
         this.ageType = ageType;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }

@@ -1,5 +1,6 @@
 package service.common;
 
+import data.Person;
 import org.apache.log4j.Logger;
 import service.searchManagement.SearchAll;
 import service.searchManagement.SearchAllInfo;
@@ -48,6 +49,7 @@ public class DBQuery {
         sql = "SELECT * FROM flight WHERE FLIGHT_DATE = \'" + startDate +
                 "\' AND ORIGIN = \'" + src +
                 "\' AND DEST = \'" + dest + "\'";
+        logger.debug(sql);
         ResultSet resultSet = statement.executeQuery(sql);
         return resultSet;
     }
@@ -56,5 +58,22 @@ public class DBQuery {
         Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         String sql = "SELECT * FROM flight_seat_class WHERE FID = " + fid;
         return statement.executeQuery(sql);
+    }
+
+    public void addPerson(Connection connection, Person person, String tid) throws SQLException {
+        PreparedStatement preparedStatement;
+        String sql;
+        sql = "INSERT INTO PERSON " +
+                "(PID, TID, FIRST_NAME, SUR_NAME, GENDER, AGE_TYPE)\n" +
+                "VALUES (?, ?, ?, ?, ?, ?)";
+        preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, person.getNationalId());
+        preparedStatement.setString(2, tid);
+        preparedStatement.setString(3, person.getFirstName());
+        preparedStatement.setString(4, person.getSurName());
+        preparedStatement.setString(5, person.getGender());
+        preparedStatement.setString(6, person.getAgeType());
+
+        logger.debug("return type: " + preparedStatement.executeUpdate());
     }
 }

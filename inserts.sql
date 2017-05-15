@@ -23,3 +23,7 @@ VALUES (0, 1);
 INSERT INTO PERSON
 (PID, TID, FIRST_NAME, SUR_NAME, GENDER, AGE_TYPE)
 VALUES ('1234567890', 'behx-ali-boom', 'Ali', 'Akhavani', 'male', 'infant')
+
+INSERT INTO reserve
+(token, fid, sid, adult_count, child_count, infant_count)
+('123', 12, 34, 1, 2, 1)

@@ -70,8 +70,8 @@ public class FinalizeServlet extends HttpServlet {
             paramName = (String)paramNames.nextElement();
             person[1] = request.getParameter(paramName);
             paramName = (String)paramNames.nextElement();
-            person[2] = request.getParameter(paramName);
-            crq.addPerson(person, "adult");
+//            person[2] = request.getParameter(paramName);
+//            crq.addPerson(person, "adult");
         }
         for (int i = 0; i < crq.childs; i++) {
             String[] person = new String[3];
@@ -80,10 +80,10 @@ public class FinalizeServlet extends HttpServlet {
             paramName = (String)paramNames.nextElement();
             person[0] = request.getParameter(paramName);
             paramName = (String)paramNames.nextElement();
-            person[1] = request.getParameter(paramName);
+//            person[1] = request.getParameter(paramName);
             paramName = (String)paramNames.nextElement();
-            person[2] = request.getParameter(paramName);
-            crq.addPerson(person, "child");
+//            person[2] = request.getParameter(paramName);
+//            crq.addPerson(person, "child");
         }
         for (int i = 0; i < crq.infants; i++) {
             String[] person = new String[3];
@@ -95,7 +95,7 @@ public class FinalizeServlet extends HttpServlet {
             person[1] = request.getParameter(paramName);
             paramName = (String)paramNames.nextElement();
             person[2] = request.getParameter(paramName);
-            crq.addPerson(person, "infant");
+//            crq.addPerson(person, "infant");
         }
     }
 }

@@ -63,17 +63,17 @@ public class Server {
                         for (int i = 0; i < crq.adults; i++) {
                             String personInfo = server.receive();
                             String[] person = personInfo.split("\\s+");
-                            crq.addPerson(person, "adult");
+//                            crq.addPerson(person, "adult");
                         }
                         for (int i = 0; i < crq.childs; i++) {
                             String personInfo = server.receive();
                             String[] person = personInfo.split("\\s+");
-                            crq.addPerson(person, "child");
+//                            crq.addPerson(person, "child");
                         }
                         for (int i = 0; i < crq.infants; i++) {
                             String personInfo = server.receive();
                             String[] person = personInfo.split("\\s+");
-                            crq.addPerson(person, "infant");
+//                            crq.addPerson(person, "infant");
                         }
                         response = manager.makeReservation(crq);
                         server.send(response);

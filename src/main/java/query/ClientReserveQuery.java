@@ -34,8 +34,8 @@ public class ClientReserveQuery {
     }
 
 
-    public void addPerson(String[] person, String ageType) {
-        Person newPerson = new Person(person[0], person[1], person[2], ageType);
+    public void addPerson(String[] person, String ageType, String gender) {
+        Person newPerson = new Person(person[0], person[1], person[2], ageType, gender);
         this.people.add(newPerson);
     }
 

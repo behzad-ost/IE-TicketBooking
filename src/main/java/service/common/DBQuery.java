@@ -76,4 +76,20 @@ public class DBQuery {
 
         logger.debug("return type: " + preparedStatement.executeUpdate());
     }
+
+    public void addReservation(Connection connection, String token, int fid, int sid, int adults, int infants, int childs) throws SQLException {
+        PreparedStatement preparedStatement;
+        String sql;
+        sql = "INSERT INTO reserve " +
+                "(token, fid, sid, adult_count, child_count, infant_count) " +
+                "VALUES (?, ?, ?, ?, ?, ?)";
+        preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, token);
+        preparedStatement.setInt(2, fid);
+        preparedStatement.setInt(3, sid);
+        preparedStatement.setInt(4, adults);
+        preparedStatement.setInt(5, childs);
+        preparedStatement.setInt(6, infants);
+        preparedStatement.executeUpdate();
+    }
 }

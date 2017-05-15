@@ -89,7 +89,8 @@ public class Manager {
             String firstName =reservation.getPeople().get(i-1).getFirstName();
             String lastName = reservation.getPeople().get(i-1).getSurName();
 //            Ticket newTicket = new Ticket(args[0],args[i],firstName, lastName);
-            Ticket newTicket = new Ticket(args[0], args[1], reservation.getPeople().get(i-1));
+            logger.debug("ARGS[i]: " + args[i]);
+            Ticket newTicket = new Ticket(args[0], args[i], reservation.getPeople().get(i-1));
             logger.info("TICKET " + newTicket.getRefCode()+ " " + newTicket.getNumber() + " " +
                     reservation.getPeople().get(i-1).getNationalId()+ " " + reservation.getPeople().get(i-1).getAgeType());
             reservation.addTicket(newTicket);

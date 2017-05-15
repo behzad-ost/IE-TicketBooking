@@ -64,15 +64,15 @@ public class DBQuery {
         PreparedStatement preparedStatement;
         String sql;
         sql = "INSERT INTO PERSON " +
-                "(PID, TID, FIRST_NAME, SUR_NAME, GENDER, AGE_TYPE)\n" +
+                "(PID, FIRST_NAME, SUR_NAME, GENDER, AGE_TYPE, NATIONALID)\n" +
                 "VALUES (?, ?, ?, ?, ?, ?)";
         preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setString(1, person.getNationalId());
-        preparedStatement.setString(2, tid);
-        preparedStatement.setString(3, person.getFirstName());
-        preparedStatement.setString(4, person.getSurName());
-        preparedStatement.setString(5, person.getGender());
-        preparedStatement.setString(6, person.getAgeType());
+        preparedStatement.setString(1, tid);
+        preparedStatement.setString(2, person.getFirstName());
+        preparedStatement.setString(3, person.getSurName());
+        preparedStatement.setString(4, person.getGender());
+        preparedStatement.setString(5, person.getAgeType());
+        preparedStatement.setString(6, person.getNationalId());
 
         logger.debug("return type: " + preparedStatement.executeUpdate());
     }

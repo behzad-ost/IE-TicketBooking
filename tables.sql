@@ -47,8 +47,8 @@ CREATE TABLE person (
       		pid VARCHAR(50),
       		first_name VARCHAR(50) NOT NULL,
       		sur_name VARCHAR(50) NOT NULL,
-      		gender VARCHAR(4) NOT NULL,
-      		type VARCHAR(7) NOT NULL,
+      		gender VARCHAR(10) NOT NULL,
+      		age_type VARCHAR(7) NOT NULL,
       		nationalId VARCHAR(20) NOT NULL,
       		  PRIMARY KEY (pid));
 

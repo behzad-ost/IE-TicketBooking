@@ -21,8 +21,8 @@ INSERT INTO FLIGHT_SEAT_CLASS
 VALUES (0, 1);
 
 INSERT INTO PERSON
-(PID, TID, FIRST_NAME, SUR_NAME, GENDER, AGE_TYPE)
-VALUES ('1234567890', 'behx-ali-boom', 'Ali', 'Akhavani', 'male', 'infant')
+(PID, FIRST_NAME, SUR_NAME, GENDER, age_type, nationalId)
+VALUES ('1234567890', 'Ali', 'Akhavani', 'male', 'infant', '124567890')
 
 INSERT INTO reserve
 (token, fid, sid, adult_count, child_count, infant_count)

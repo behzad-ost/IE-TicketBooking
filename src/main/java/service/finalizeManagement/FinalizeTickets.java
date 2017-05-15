@@ -39,7 +39,7 @@ public class FinalizeTickets {
             String tokenAndTotalPrice = sendDataToProvider(finalizeInfo);
             addReserveToDB(connection, tokenAndTotalPrice, finalizeInfo);
             String ress = finalizeAll(tokenAndTotalPrice, response);
-//            addPeopleToDB(connection, response);
+            addPeopleToDB(connection, response);
         } catch (SQLException | ClassNotFoundException e) {
             logger.error(e.getMessage());
             response.setSuccess(false);
@@ -143,8 +143,8 @@ public class FinalizeTickets {
         logger.info("Adding People to DB");
         for (Ticket t :
                 response.getTickets()) {
-            Person p = t.getPerson();
-            query.addPerson(connection, p, t.getNumber());
+            logger.debug("ticket number: " + t.getNumber());
+            query.addPerson(connection, t.getPerson(), t.getNumber());
         }
         
 //        for (int i = 0; i < fi.getPeople().size(); i++) {

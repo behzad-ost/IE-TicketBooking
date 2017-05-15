@@ -77,7 +77,7 @@ app.config(function($routeProvider) {
       controller: "ticketsCtrl",
       css: "tickets.css"
     }).when("/loading", {
-      templateUrl: "loading.html",
+      templateUrl: "loading.html"
     });
 });
 
@@ -172,6 +172,10 @@ app.controller("reserveCtrl", function($scope, $rootScope, $http, $location, $ro
   $scope.numChildren = $rootScope.children;
   $scope.numInfants = $rootScope.infants;
 
+  $scope.stableNumInfants = $scope.numInfants;
+  $scope.stableNumChildren = $scope.numChildren;
+  $scope.stableNumAdults = $scope.numAdults;
+
 
   $scope.adultsGenders = new Array(parseInt($scope.numAdults));
   $scope.adultsNames = new Array(parseInt($scope.numAdults));
@@ -189,6 +193,10 @@ app.controller("reserveCtrl", function($scope, $rootScope, $http, $location, $ro
   $scope.infantsIds = new Array(parseInt($scope.numInfants));
 
   $scope.submitPassengers = function(isValid) {
+    if (parseInt($scope.numAdults) + parseInt($scope.numChildren) + parseInt($scope.numInfants) > 4) {
+      alert("تعداد صندلی‌ها بیش از صندلی‌های موجود\n" + "تعداد صندلی‌های موجود: " + 4);
+      return;
+    }
     if (!isValid) {
       alert("داده‌های ورودی نامعتبر");
       return;
@@ -199,7 +207,8 @@ app.controller("reserveCtrl", function($scope, $rootScope, $http, $location, $ro
         firstName: $scope.adultsNames[i],
         surName: $scope.adultsSurnames[i],
         nationalId: $scope.adultsIds[i],
-        ageType: "adult"
+        ageType: "adult",
+        gender: $scope.adultsGenders[i]
       });
     }
 
@@ -208,7 +217,8 @@ app.controller("reserveCtrl", function($scope, $rootScope, $http, $location, $ro
         firstName: $scope.childrenNames[i],
         surName: $scope.childrenSurnames[i],
         nationalId: $scope.childrenIds[i],
-        ageType: "child"
+        ageType: "child",
+        gender: $scope.childrenGenders[i]
       });
     }
 
@@ -217,12 +227,12 @@ app.controller("reserveCtrl", function($scope, $rootScope, $http, $location, $ro
         firstName: $scope.infantsNames[i],
         surName: $scope.infantsSurnames[i],
         nationalId: $scope.infantsIds[i],
-        ageType: "infant"
+        ageType: "infant",
+        gender: $scope.infantsGenders[i]
       });
     }
 
     console.log(people);
-
 
     var body = {
       arrivalTime: $rootScope.flight.arrivalTime,
@@ -248,6 +258,7 @@ app.controller("reserveCtrl", function($scope, $rootScope, $http, $location, $ro
         $location.url('/tickets');
       });
   }
+
   $scope.makeArray = function(num) {
     var r = new Array(parseInt(num));
     return r;

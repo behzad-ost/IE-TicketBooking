@@ -224,7 +224,6 @@ public class SearchAll {
                     preparedStatement_Relation.setInt(1, i);
                     preparedStatement_Relation.setInt(2, i*f.getSeats().size()+j);
                     preparedStatement_Relation.executeUpdate();
-
                     gg.getFlights().add(fi);
                 }
             }

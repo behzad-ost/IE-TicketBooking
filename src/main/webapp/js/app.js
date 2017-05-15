@@ -253,7 +253,6 @@ app.controller("reserveCtrl", function($scope, $rootScope, $http, $location, $ro
     $http.post('http://localhost:8080/ali/booking/finalize', body)
       .then(function(response) {
         console.log(response.data);
-        return;
         $rootScope.tickets = response.data.tickets;
         $location.url('/tickets');
       });
@@ -269,5 +268,4 @@ app.controller("reserveCtrl", function($scope, $rootScope, $http, $location, $ro
 app.controller("ticketsCtrl", function($scope, $rootScope, $http, $location, $route) {
   $rootScope.CSS = $route.current.$$route.css;
   console.log($rootScope.CSS);
-
 });

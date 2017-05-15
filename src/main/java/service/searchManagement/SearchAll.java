@@ -187,17 +187,24 @@ public class SearchAll {
             for (int j = 0; j < f.getSeats().size(); j++) {
                 if (f.getSeats().get(j).getAvailable() - (Integer.parseInt(params[4]) + Integer.parseInt(params[5]) + Integer.parseInt(params[6])) > -1) {
                     logger.debug("Seat No. " + j + " Flight: " + f.getAirlineCode() + " Class: " + f.getSeats().get(j).getClassName());
-
                     numOfFlights++;
                     int totalPrice = csq.adults * f.getSeats().get(j).getAdultPrice() +
                             csq.childs * f.getSeats().get(j).getChildPrice() +
                             csq.infants * f.getSeats().get(j).getInfantPrice();
-
                     fi.setTotalPrice(totalPrice);
 //                    fi.setSeatClassName(seatClassToPersian(f.getSeats().get(j).getClassName()));
-
-                    fi.setSeatClassName(f.getSeats().get(j).getClassName());
-                    fi.setNumOfAvailableSeats(f.getSeats().get(j).getAvailable());
+                    FlightInfo fi_prim = new FlightInfo();
+                    fi_prim.setAirlineCode(fi.getAirlineCode());
+                    fi_prim.setArrivalTime(fi.getArrivalTime());
+                    fi_prim.setDate(fi.getDate());
+                    fi_prim.setDepartureTime(fi.getDepartureTime());
+                    fi_prim.setDest(fi.getDest());
+                    fi_prim.setOrigin(fi.getOrigin());
+                    fi_prim.setFlightNumber(fi.getFlightNumber());
+                    fi_prim.setPlaneModel(fi.getPlaneModel());
+                    fi_prim.setTotalPrice(fi.getTotalPrice());
+                    fi_prim.setSeatClassName(f.getSeats().get(j).getClassName());
+                    fi_prim.setNumOfAvailableSeats(f.getSeats().get(j).getAvailable());
                     PreparedStatement preparedStatement_Seats;
                     String sql_seats;
                     sql_seats = "INSERT INTO seat_class " +
@@ -224,10 +231,11 @@ public class SearchAll {
                     preparedStatement_Relation.setInt(1, i);
                     preparedStatement_Relation.setInt(2, i*f.getSeats().size()+j);
                     preparedStatement_Relation.executeUpdate();
-                    gg.getFlights().add(fi);
+                    logger.debug("FI Prim : "+ fi_prim.getSeatClassName());
+                    gg.getFlights().add(fi_prim);
                 }
             }
-            logger.debug("Last GG : "+gg.getFlights().get(i).getSeatClassName());
+            logger.debug("Last GG : "+ i +": "+gg.getFlights().get(i).getSeatClassName() +":"+ gg.getFlights().get(i).getNumOfAvailableSeats());
             gg.setNumOfFlights(numOfFlights);
         }
         connection.close();

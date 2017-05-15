@@ -33,7 +33,6 @@ public class FlightInfo {
 
     private int numOfAvailableSeats;
 
-
     public int getTotalPrice() {
         return totalPrice;
     }

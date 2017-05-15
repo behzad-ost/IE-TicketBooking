@@ -27,3 +27,5 @@ VALUES ('1234567890', 'Ali', 'Akhavani', 'male', 'infant', '124567890')
 INSERT INTO reserve
 (token, fid, sid, adult_count, child_count, infant_count)
 ('123', 12, 34, 1, 2, 1)
+
+INSERT INTO ticket (tid, rid, pid) VALUES ('asdf', 'zxc', 'vbn');

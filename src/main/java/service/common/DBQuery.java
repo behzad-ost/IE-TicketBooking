@@ -1,6 +1,7 @@
 package service.common;
 
 import data.Person;
+import data.Ticket;
 import org.apache.log4j.Logger;
 import service.searchManagement.SearchAll;
 import service.searchManagement.SearchAllInfo;
@@ -90,6 +91,18 @@ public class DBQuery {
         preparedStatement.setInt(4, adults);
         preparedStatement.setInt(5, childs);
         preparedStatement.setInt(6, infants);
+        preparedStatement.executeUpdate();
+    }
+
+    public void addTicket(Connection connection, Ticket ticket, String token) throws SQLException {
+        PreparedStatement preparedStatement;
+        String sql;
+        sql = "INSERT INTO ticket (tid, rid, pid) " +
+        " VALUES (?, ?, ?)";
+        preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, ticket.getRefCode());
+        preparedStatement.setString(2, token);
+        preparedStatement.setString(3, ticket.getNumber());
         preparedStatement.executeUpdate();
     }
 }

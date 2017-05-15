@@ -38,23 +38,15 @@ public class FinalizeTickets {
             Connection connection = query.setupDB();
             String tokenAndTotalPrice = sendDataToProvider(finalizeInfo);
             addReserveToDB(connection, tokenAndTotalPrice, finalizeInfo);
-            String ress = finalizeAll(tokenAndTotalPrice, response);
+            finalizeAll(tokenAndTotalPrice, response);
             addPeopleToDB(connection, response);
+            String token = tokenAndTotalPrice.split("\\s")[0];
+            addTicketToDB(connection, response, token);
         } catch (SQLException | ClassNotFoundException e) {
             logger.error(e.getMessage());
             response.setSuccess(false);
             response.setErrorMessage(e.getMessage());
         }
-
-
-//        String[] p = new String[2];
-//        String[] tp = res.split("\\s+");
-//        p[1] = tp[0]; // token
-//        ClientFinalizeQuery cfq = new ClientFinalizeQuery(p);
-//        Manager.getInstance().finalizeReservation(cfq);
-//
-//        Reservation reservation = Manager.getInstance().findReserveByToken(tp[0]);
-//        response.setTickets(reservation.getTickets());
         return response;
     }
 
@@ -146,19 +138,13 @@ public class FinalizeTickets {
             logger.debug("ticket number: " + t.getNumber());
             query.addPerson(connection, t.getPerson(), t.getNumber());
         }
-        
-//        for (int i = 0; i < fi.getPeople().size(); i++) {
-//            if (Objects.equals(fi.getPeople().get(i).getAgeType(), "adult")) {
-//                Person person = new Person(fi.getPeople().get(i).getFirstName(),
-//                        fi.getPeople().get(i).getSurName(),
-//                        fi.getPeople().get(i).getNationalId(),
-//                        "adult", "male");
-//                query.addPerson(connection, person, fi.getPeople().get(i), );
-//                // TODO: 5/14/17 get tid
-//            } else if (Objects.equals(fi.getPeople().get(i).getAgeType(), "child")) {
-//            } else if (Objects.equals(fi.getPeople().get(i).getAgeType(), "infant")) {
-//
-//            }
-//        }
+    }
+
+    private void addTicketToDB(Connection connection, FinalizeResult response, String token) throws SQLException {
+        logger.info("Adding Ticket to DB");
+        for (Ticket t :
+                response.getTickets()) {
+            query.addTicket(connection, t, token);
+        }
     }
 }

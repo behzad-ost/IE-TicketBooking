@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by ali on 5/1/17.
@@ -55,6 +56,12 @@ public class SearchAll {
             }
 
             connection.close();
+
+            for (FlightInfo f :
+                    gg.getFlights()) {
+                int sum = Integer.parseInt(searchAllInfo.getNumOfAdults()) + Integer.parseInt(searchAllInfo.getNumOfChildren()) + Integer.parseInt(searchAllInfo.getNumOfInfants());
+                f.setNumOfAvailableSeats(ThreadLocalRandom.current().nextInt(sum, 9));
+            }
 
         } catch (SQLException | ClassNotFoundException e) {
             logger.error(e.getMessage());

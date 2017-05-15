@@ -1,5 +1,7 @@
 package data;
 
+import org.apache.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -9,6 +11,8 @@ import java.util.Objects;
 public class FlightRepo {
     private ArrayList<Flight> flights;
     private int lastId;
+    final static Logger logger = Logger.getLogger(FlightRepo.class);
+
 
     public FlightRepo(){
         flights = new ArrayList<>();
@@ -20,6 +24,8 @@ public class FlightRepo {
     }
 
     public void setFlights(ArrayList<Flight> flights) {
+        for(int i = 0 ; i < flights.size() ; i++)
+            logger.info(flights.get(i).getNumber());
         this.flights = flights;
     }
 

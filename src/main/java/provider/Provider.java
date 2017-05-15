@@ -1,6 +1,7 @@
 package provider;
 
 import common.Transceiver;
+import org.apache.log4j.Logger;
 import query.ClientReserveQuery;
 import data.Flight;
 import data.Reservation;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
  * Created by behzad on 3/5/17.
  */
 public class Provider {
+    final static Logger logger = Logger.getLogger(Provider.class);
     private Transceiver transceiver;
     public Provider() throws IOException {
         transceiver = new Transceiver("178.62.207.47", 8081);
@@ -35,6 +37,8 @@ public class Provider {
             setPrices(newFlight);
             flights.add(newFlight);
         }
+        for(int i = 0 ; i < flights.size() ; i++)
+            logger.info(flights.get(i).getNumber());
         return flights;
     }
     private void setPrices(Flight newFlight) throws IOException {

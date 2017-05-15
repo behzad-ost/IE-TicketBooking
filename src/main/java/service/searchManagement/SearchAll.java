@@ -167,10 +167,26 @@ public class SearchAll {
             fi.setDepartureTime(f.getdTime());
             fi.setArrivalTime(f.getaTime());
             fi.setPlaneModel(f.getPlaneModel());
-
+            PreparedStatement preparedStatement;
+            String sql;
+            sql = "INSERT INTO flight " +
+                    "( FID, AIRLINE_CODE, FLIGHT_NUM, FLIGHT_DATE, ORIGIN, DEST, DEP_TIME, ARR_TIME, AIRPLANE_MODEL )"+
+                    " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, i);
+            preparedStatement.setString(2, fi.getAirlineCode());
+            preparedStatement.setString(3, fi.getFlightNumber());
+            preparedStatement.setString(4, fi.getDate());
+            preparedStatement.setString(5, fi.getOrigin());
+            preparedStatement.setString(6, fi.getDest());
+            preparedStatement.setString(7, fi.getDepartureTime());
+            preparedStatement.setString(8, fi.getArrivalTime());
+            preparedStatement.setString(9, fi.getPlaneModel());
+            preparedStatement.executeUpdate();
+            logger.info("Inserted flight with number "+fi.getFlightNumber()+" to database!");
             for (int j = 0; j < f.getSeats().size(); j++) {
                 if (f.getSeats().get(j).getAvailable() - (Integer.parseInt(params[4]) + Integer.parseInt(params[5]) + Integer.parseInt(params[6])) > -1) {
-                    logger.debug("Seat No. " + j + "Flight: " + f.getAirlineCode() + " Class: " + f.getSeats().get(j).getClassName());
+                    logger.debug("Seat No. " + j + " Flight: " + f.getAirlineCode() + " Class: " + f.getSeats().get(j).getClassName());
 
                     numOfFlights++;
                     int totalPrice = csq.adults * f.getSeats().get(j).getAdultPrice() +
@@ -179,36 +195,45 @@ public class SearchAll {
 
                     fi.setTotalPrice(totalPrice);
 //                    fi.setSeatClassName(seatClassToPersian(f.getSeats().get(j).getClassName()));
+
                     fi.setSeatClassName(f.getSeats().get(j).getClassName());
                     fi.setNumOfAvailableSeats(f.getSeats().get(j).getAvailable());
-                    PreparedStatement preparedStatement;
-                    String sql;
-                    sql = "INSERT INTO flight " +
-                            "( AIRLINE_CODE, FLIGHT_NUM, FLIGHT_DATE, ORIGIN, DEST, DEP_TIME, ARR_TIME, AIRPLANE_MODEL )"+
+                    PreparedStatement preparedStatement_Seats;
+                    String sql_seats;
+                    sql_seats = "INSERT INTO seat_class " +
+                            "(SID, CLASS_NAME, ORIGIN, DEST, AIRLINE_CODE, ADULT_PRICE, CHILD_PRICE, INFANT_PRICE)"+
                             " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-                    preparedStatement = connection.prepareStatement(sql);
-                    preparedStatement.setInt(1, i);
-                    preparedStatement.setString(2, fi.getAirlineCode());
-                    preparedStatement.setString(3, fi.getFlightNumber());
-                    preparedStatement.setString(4, fi.getDate());
-                    preparedStatement.setString(5, fi.getOrigin());
-                    preparedStatement.setString(6, fi.getDest());
-                    preparedStatement.setString(7, fi.getDepartureTime());
-                    preparedStatement.setString(8, fi.getArrivalTime());
-                    preparedStatement.setString(8, fi.getPlaneModel());
-                    preparedStatement.executeUpdate();
-                    logger.info("Inserted flight with number"+fi.getFlightNumber()+"to database!");
+                    preparedStatement_Seats = connection.prepareStatement(sql_seats);
+                    preparedStatement_Seats.setInt(1, i*f.getSeats().size()+j);
+                    preparedStatement_Seats.setString(2, f.getSeats().get(j).getClassName());
+                    preparedStatement_Seats.setString(3, fi.getOrigin());
+                    preparedStatement_Seats.setString(4, fi.getDest());
+                    preparedStatement_Seats.setString(5, fi.getAirlineCode());
+                    preparedStatement_Seats.setInt(6, f.getSeats().get(j).getAdultPrice());
+                    preparedStatement_Seats.setInt(7, f.getSeats().get(j).getChildPrice());
+                    preparedStatement_Seats.setInt(8, f.getSeats().get(j).getInfantPrice());
+                    preparedStatement_Seats.executeUpdate();
+                    logger.info("Inserted seat "+(i*f.getSeats().size()+j)+" to database!");
+
+                    PreparedStatement preparedStatement_Relation;
+                    String sql_relation;
+                    sql_relation = "INSERT INTO flight_seat_class" +
+                            "(FID, SID)"+
+                            " VALUES (?, ?)";
+                    preparedStatement_Relation = connection.prepareStatement(sql_relation);
+                    preparedStatement_Relation.setInt(1, i);
+                    preparedStatement_Relation.setInt(2, i*f.getSeats().size()+j);
+                    preparedStatement_Relation.executeUpdate();
+
                     gg.getFlights().add(fi);
                 }
             }
+            logger.debug("Last GG : "+gg.getFlights().get(i).getSeatClassName());
             gg.setNumOfFlights(numOfFlights);
         }
         connection.close();
         return gg;
     }
-
-
-
 
     //  persian converters
     private String locationConvertToPersian(String input) {

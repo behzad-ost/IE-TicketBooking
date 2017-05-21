@@ -20,6 +20,25 @@
         <url-pattern>/booking/*</url-pattern>
     </servlet-mapping>
 
+    <filter>
+        <filter-name>AdminFilter</filter-name>
+        <filter-class>service.authentication.AdminFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AdminFilter</filter-name> <!-- mandatory -->
+        <url-pattern>/booking/alltickets</url-pattern>
+        <!--<dispatcher>REQUEST</dispatcher>-->
+    </filter-mapping>
+    <filter>
+        <filter-name>ClientFilter</filter-name>
+        <filter-class>service.authentication.ClientFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>ClientFilter</filter-name> <!-- mandatory -->
+        <url-pattern>/booking/reserve</url-pattern>
+        <url-pattern>/booking/finalize</url-pattern>
+        <!--<dispatcher>REQUEST</dispatcher>-->
+    </filter-mapping>
 
     <error-page>
         <error-code>404</error-code>

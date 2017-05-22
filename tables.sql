@@ -61,6 +61,15 @@ CREATE TABLE ticket (
 			  FOREIGN KEY (rid) REFERENCES reserve ON DELETE CASCADE,
 			  FOREIGN KEY (pid) REFERENCES person ON DELETE CASCADE);
 
+CREATE TABLE users (
+      uid VARCHAR(20),
+      password VARCHAR(20),
+      role VARCHAR(10),
+        PRIMARY KEY (uid));
+
+INSERT INTO users VALUES ('abc123', '123456', 'admin');
+INSERT INTO users VALUES ('behx', '123456', 'client');
+
 CREATE TABLE behx (
   sid int,
 	time timestamp default current_timestamp)

@@ -13,6 +13,10 @@ import java.io.IOException;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 import io.jsonwebtoken.*;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 
 import io.jsonwebtoken.Jwts;
@@ -21,13 +25,14 @@ import java.security.Key;
 import java.util.Objects;
 
 import io.jsonwebtoken.impl.crypto.MacProvider;
+import service.common.DBQuery;
 
 @Path("/login")
 public class Authentication {
     final static String KEY = "behzad";
     final static Logger logger = Logger.getLogger(Authentication.class);
 
-
+    private DBQuery query = new DBQuery();
     @POST
 //    @Secured
     @Consumes(MediaType.APPLICATION_JSON)
@@ -57,15 +62,29 @@ public class Authentication {
         return response;
     }
 
-    private String validateUser(String username, String password) throws Exception {
-        if(Objects.equals(username, "admin") && Objects.equals(password, "admin")) {
-            return "Admin";
+    private String validateUser(String username, String password) {
+        try {
+            Connection connection = query.setupDB();
+            ResultSet rs = query.searchForUser(connection, username, password);
+            if (rs.next()) {
+                return rs.getString("role");
+            } else {
+                return "user";
+                // TODO: 5/22/17 throw auth failure
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            return "user";
+            // TODO: 5/22/17 throw auth failure
         }
-        else if (Objects.equals(username, "client") && Objects.equals(password, "client")){
-            return "Client";
-        }
-        else
-            return "User";
+
+//        if(Objects.equals(username, "admin") && Objects.equals(password, "admin")) {
+//            return "Admin";
+//        }
+//        else if (Objects.equals(username, "client") && Objects.equals(password, "client")){
+//            return "Client";
+//        }
+//        else
+//            return "User";
 //            throw AuthFailure();
     }
 

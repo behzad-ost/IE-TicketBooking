@@ -8,13 +8,13 @@ import java.util.ArrayList;
  * Created by behzad on 5/21/17.
  */
 
-public class TicketResult {
+public class TicketsResult {
     private boolean success;
     private String errorMessage;
     private ArrayList<TicketInfo> tickets;
 
 
-    public TicketResult(boolean success, String errorMessage) {
+    public TicketsResult(boolean success, String errorMessage) {
         this.success = success;
         this.errorMessage = errorMessage;
         this.tickets = new ArrayList<>();

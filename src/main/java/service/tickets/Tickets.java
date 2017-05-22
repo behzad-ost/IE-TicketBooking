@@ -19,9 +19,9 @@ public class Tickets {
 //    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
 
-    public TicketResult getAllTickets(){
+    public TicketsResult getAllTickets(){
         //TODO : Find in DB
-        TicketResult result = new TicketResult(true ,"All tickets are here");
+        TicketsResult result = new TicketsResult(true ,"All tickets are here");
         return result;
     }
 

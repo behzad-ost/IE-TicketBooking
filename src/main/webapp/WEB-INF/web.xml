@@ -25,7 +25,7 @@
         <filter-class>service.authentication.AdminFilter</filter-class>
     </filter>
     <filter-mapping>
-        <filter-name>AdminFilter</filter-name> <!-- mandatory -->
+        <filter-name>AdminFilter</filter-name>
         <url-pattern>/booking/alltickets</url-pattern>
         <!--<dispatcher>REQUEST</dispatcher>-->
     </filter-mapping>
@@ -34,9 +34,19 @@
         <filter-class>service.authentication.ClientFilter</filter-class>
     </filter>
     <filter-mapping>
-        <filter-name>ClientFilter</filter-name> <!-- mandatory -->
+        <filter-name>ClientFilter</filter-name>
         <url-pattern>/booking/reserve</url-pattern>
         <url-pattern>/booking/finalize</url-pattern>
+        <!--<dispatcher>REQUEST</dispatcher>-->
+    </filter-mapping>
+
+    <filter>
+        <filter-name>AccessFilter</filter-name>
+        <filter-class>service.authentication.AccessFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AccessFilter</filter-name>
+        <url-pattern>/booking/ticket/*</url-pattern>
         <!--<dispatcher>REQUEST</dispatcher>-->
     </filter-mapping>
 

@@ -24,6 +24,7 @@ import io.jsonwebtoken.impl.crypto.MacProvider;
 
 @Path("/login")
 public class Authentication {
+    final static String KEY = "behzad";
     final static Logger logger = Logger.getLogger(Authentication.class);
 
 
@@ -31,7 +32,6 @@ public class Authentication {
 //    @Secured
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-//    @Produces(MediaType.TEXT_HTML)
 
 //    public String returnVersion() {
 //        return "JwtSecurityExample Status is OK...";
@@ -70,15 +70,12 @@ public class Authentication {
     }
 
     private String createJWT(String role) {
-        String key = "behzad";
-//        Key key = MacProvider.generateKey();
-
         return Jwts.builder()
                 .setSubject(role)
                 .setId("1")
                 .setHeaderParam("key","Value")
                 .setHeaderParam("name","12345")
-                .signWith(SignatureAlgorithm.HS512, key)
+                .signWith(SignatureAlgorithm.HS512, KEY)
                 .compact();
     }
 

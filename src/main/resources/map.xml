@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<map>
+    <url role="client">
+        <url-pattern>booking/ticket</url-pattern>
+    </url>
+    <url role="admin">
+        <url-pattern>booking/alltickets</url-pattern>
+    </url>
+    <url role="client">
+        <url-pattern>booking/reserve</url-pattern>
+    </url>
+    <url role="client">
+        <url-pattern>booking/finalize</url-pattern>
+    </url>
+</map>

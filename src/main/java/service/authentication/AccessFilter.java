@@ -82,7 +82,7 @@ public class AccessFilter implements Filter{
             logger.info("Token Subject: " + tokenBody.getSubject());
             logger.info("Token ID: " + tokenBody.getId());
 
-            if(Objects.equals(tokenBody.getSubject(), roleAllowed)){
+            if(Objects.equals(tokenBody.getSubject(), roleAllowed) || roleAllowed==null ){
                 httpResponse.addHeader("role",tokenBody.getSubject());
                 httpResponse.addHeader("id",tokenBody.getId());
                 chain.doFilter(request, response);

@@ -20,12 +20,17 @@ public class GetTicket {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public TicketResult getTicket(@QueryParam(value = "id") String id, @HeaderParam(value = "token") String token) {
+    public TicketResult getTicket(@QueryParam(value = "id") String id,
+                                  @HeaderParam(value = "token") String token ,
+                                  @HeaderParam(value = "role") String urole,
+                                  @HeaderParam(value = "id") String uid) {
         TicketResult response = new TicketResult();
-
+        logger.info("Token on /ticket : " + token);
+        logger.info("Role on /ticket : " + urole);
+        logger.info("Id on /ticket : " + uid);
         // TODO: 5/22/17 get national id and user role from token
-        String nationalId = "";
-        String role = "";
+        String nationalId = uid;
+        String role = urole;
 
         try {
             Connection connection = query.setupDB();

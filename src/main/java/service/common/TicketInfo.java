@@ -7,10 +7,12 @@ public class TicketInfo {
 
     private String tokenId;
     private String refId;
+    private String personId;
 
-    public TicketInfo(String tokenId, String refId) {
+    public TicketInfo(String tokenId, String refId, String personId) {
         this.tokenId = tokenId;
         this.refId = refId;
+        this.personId = personId;
     }
 
     public String getTokenId() {
@@ -27,5 +29,13 @@ public class TicketInfo {
 
     public void setRefId(String refId) {
         this.refId = refId;
+    }
+
+    public String getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(String personId) {
+        this.personId = personId;
     }
 }

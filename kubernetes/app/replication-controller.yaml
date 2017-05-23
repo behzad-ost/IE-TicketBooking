@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: akbar-app
+  labels:
+    name: akbar-app
+spec:
+  replicas: 4
+  selector:
+    name: akbar-app
+  template:
+    metadata:
+      labels:
+        name: akbar-app
+    spec:
+      containers:
+        - name: akbar-app
+          # image: akbar-web
+          image: registry.gitlab.com/sa_akhavani/akbarticket-appcontainer/image
+          env:
+            - name: CATALINA_HOME
+              value: /usr/local/tomcat
+            - name: DATABASE_NAME
+              value: hsqldb
+            - name: DATABASE_USER
+              value: SA
+            - name: DATABASE_PASSWORD
+              value: 
+          ports:
+            - containerPort: 8080

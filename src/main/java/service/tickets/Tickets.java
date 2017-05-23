@@ -33,11 +33,12 @@ public class Tickets {
         }
         else {
             result.setSuccess(true);
-            while (resultSet.next()) {
+            do{
                 String tokenId = resultSet.getString("tid");
                 String refId = resultSet.getString("rid");
-                result.getTickets().add(new TicketInfo(tokenId, refId));
-            }
+                String pId = resultSet.getString("pid");
+                result.getTickets().add(new TicketInfo(tokenId, refId, pId));
+            }while (resultSet.next());
         }
         return result;
     }

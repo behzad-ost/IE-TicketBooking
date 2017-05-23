@@ -85,7 +85,6 @@ app.config(function($routeProvider) {
     });
 });
 
-
 app.controller('authCtrl', function($scope, $rootScope, $http, $location, $route) {
   $rootScope.CSS = $route.current.$$route.css;
   $scope.login = function() {
@@ -93,20 +92,42 @@ app.controller('authCtrl', function($scope, $rootScope, $http, $location, $route
       username: $scope.username,
       password: $scope.password
     };
-
     $http.post('http://localhost:8080/ali/booking/login', body)
       .then(function(response) {
         if (response.data.status == "failed") {
-            alert("نام کاربری یا رمز عبور نامعتبر")
+          alert("نام کاربری یا رمز عبور نامعتبر")
         } else {
-          $rootScope.token = response.data.token;
-          alert($rootScope.token);
+          if ($rootScope.backToReserve == 1) {
+            $rootScope.token = response.data.token;
+            alert($rootScope.token);
+            // $http.defaults.headers.token = $rootScope.token;
+            $http.defaults.headers.common['token'] = $rootScope.token;
+            // alert($http.defaults.headers.common['token']);
+            $http.post('http://localhost:8080/ali/booking/reserve', {
+                  headers: {
+                    'token': $rootScope.token
+                  }
+                },
+                body)
+              .then(function(response) {
+                $rootScope.adultSum = response.data.adultSum;
+                $rootScope.infantSum = response.data.infantSum;
+                $rootScope.childSum = response.data.childSum;
+                $rootScope.totalSum = response.data.totalSum;
+                $rootScope.adultFee = response.data.adultFee;
+                $rootScope.childFee = response.data.childFee;
+                $rootScope.infantFee = response.data.infantFee;
+                $location.url('/reserve');
+              });
+          } else {
+            $rootScope.token = response.data.token;
+            alert($rootScope.token);
+          }
         }
-
         // $location.url('/result');
       });
   };
-})
+});
 
 app.controller("searchCtrl", function($scope, $rootScope, $http, $location, $route) {
   $rootScope.CSS = $route.current.$$route.css;
@@ -122,9 +143,8 @@ app.controller("searchCtrl", function($scope, $rootScope, $http, $location, $rou
       numOfChildren: $scope.children,
       numOfInfants: $scope.infants
     };
-    console.log(body);
-
     $location.url('/loading');
+    console.log(body);
     $http.post('http://localhost:8080/ali/booking/searchAll', body)
       .then(function(response) {
         $rootScope.flights = response.data.flights;
@@ -143,7 +163,6 @@ app.controller("resultCtrl", function($scope, $rootScope, $http, $location, $rou
   console.log($scope.sortVar);
   console.log($rootScope.CSS);
   $scope.reserveFlight = function(index) {
-    console.log(index);
     $rootScope.flight = $rootScope.flights[index];
     var body = {
       arrivalTime: $rootScope.flights[index].arrivalTime,
@@ -162,14 +181,24 @@ app.controller("resultCtrl", function($scope, $rootScope, $http, $location, $rou
     console.log(body);
     $http.post('http://localhost:8080/ali/booking/reserve', body)
       .then(function(response) {
-        $rootScope.adultSum = response.data.adultSum;
-        $rootScope.infantSum = response.data.infantSum;
-        $rootScope.childSum = response.data.childSum;
-        $rootScope.totalSum = response.data.totalSum;
-        $rootScope.adultFee = response.data.adultFee;
-        $rootScope.childFee = response.data.childFee;
-        $rootScope.infantFee = response.data.infantFee;
-        $location.url('/reserve');
+        console.log("=================");
+        console.log(response.data);
+        console.log("=================");
+        if (response.data.error) {
+          $rootScope.backToReserve = 1;
+          $location.url('/auth');
+        } else {
+          console.log(response.data);
+          $rootScope.adultSum = response.data.adultSum;
+          $rootScope.infantSum = response.data.infantSum;
+          $rootScope.childSum = response.data.childSum;
+          $rootScope.totalSum = response.data.totalSum;
+          $rootScope.adultFee = response.data.adultFee;
+          $rootScope.childFee = response.data.childFee;
+          $rootScope.infantFee = response.data.infantFee;
+          $location.url('/reserve');
+        }
+
       });
   }
   $scope.changeOrder = function() {

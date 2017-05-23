@@ -29,6 +29,7 @@ public class SearchAll {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public SearchResult parseSearchAndSendResponse(SearchAllInfo searchAllInfo) throws IOException, SQLException {
+        logger.debug("In Searchall");
         SearchResult gg = new SearchResult();
         boolean shouldRefillDB = false;
 

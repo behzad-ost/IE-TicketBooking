@@ -73,8 +73,8 @@ public class AccessFilter implements Filter{
         logger.info("Allowed Role: " + roleAllowed);
 
         if(token == null) {
-            ((HttpServletResponse) response).setStatus(401);
-            response.getWriter().write("{'error':'please provide a token'}");
+//            ((HttpServletResponse) response).setStatus(401);
+            response.getWriter().write("{\"error\":\"please provide a token\"}");
             return;
         }
         try {
@@ -83,19 +83,21 @@ public class AccessFilter implements Filter{
             logger.info("Token ID: " + tokenBody.getId());
 
             if(Objects.equals(tokenBody.getSubject(), roleAllowed) || roleAllowed==null ){
+                logger.info("added Subject: " + tokenBody.getSubject());
+                logger.info("added ID: " + tokenBody.getId());
                 httpResponse.addHeader("role",tokenBody.getSubject());
                 httpResponse.addHeader("id",tokenBody.getId());
                 chain.doFilter(request, response);
+                httpResponse.addHeader("role",tokenBody.getSubject());
+                httpResponse.addHeader("id",tokenBody.getId());
             } else {
-                ((HttpServletResponse) response).setStatus(401);
-                response.getWriter().write("{'error':'you do have access to this area'}");
+                response.getWriter().write("{\"error\":\"please provide a token\"}");
             }
         } catch (MissingClaimException e) {
-            ((HttpServletResponse) response).setStatus(401);
-            response.getWriter().write("{'error':'please provide a token'}");
+            response.getWriter().write("{\"error\":\"please provide a token\"}");
         } catch (IncorrectClaimException e) {
-            ((HttpServletResponse) response).setStatus(401);
-            response.getWriter().write("{'error':'please provide a valid token'}");
+            logger.warn("!!!ACCESS DENIED : INVALID Token!!!" + token);
+            response.getWriter().write("{\"error\":\"please provide valid token\"}");
         }
     }
 

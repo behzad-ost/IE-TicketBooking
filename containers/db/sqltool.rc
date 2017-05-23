@@ -1,0 +1,4 @@
+urlid testdb
+url jdbc:hsqldb:hsql://localhost/testdb;shutdown=true
+username SA
+password 

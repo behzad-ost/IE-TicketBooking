@@ -62,10 +62,16 @@ public class DBQuery {
     }
 
     public ResultSet searchForUser(Connection connection, String uid, String password) throws SQLException {
-        Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        String sql = "SELECT * FROM users WHERE UID = \'" + uid +
-                "\' AND " + "password = \'" + password + "\'";
-        return statement.executeQuery(sql);
+//        Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+//        String sql = "SELECT * FROM users WHERE UID = \'" + uid +
+//                "\' AND " + "password = \'" + password + "\'";
+//        return statement.executeQuery(sql);
+//
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE uid = ? AND password = ?");
+        preparedStatement.setString(1, uid);
+        preparedStatement.setString(2, password);
+        return preparedStatement.executeQuery();
+        // TODO: 5/22/17 test!
     }
 
     public ResultSet getTicket(Connection connection, String id) throws SQLException {

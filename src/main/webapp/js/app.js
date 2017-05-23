@@ -78,8 +78,35 @@ app.config(function($routeProvider) {
       css: "tickets.css"
     }).when("/loading", {
       templateUrl: "loading.html"
+    }).when("/auth", {
+      templateUrl: "loginForm.html",
+      controller: "authCtrl",
+      css: "login.css"
     });
 });
+
+
+app.controller('authCtrl', function($scope, $rootScope, $http, $location, $route) {
+  $rootScope.CSS = $route.current.$$route.css;
+  $scope.login = function() {
+    var body = {
+      username: $scope.username,
+      password: $scope.password
+    };
+
+    $http.post('http://localhost:8080/ali/booking/login', body)
+      .then(function(response) {
+        if (response.data.status == "failed") {
+            alert("نام کاربری یا رمز عبور نامعتبر")
+        } else {
+          $rootScope.token = response.data.token;
+          alert($rootScope.token);
+        }
+
+        // $location.url('/result');
+      });
+  };
+})
 
 app.controller("searchCtrl", function($scope, $rootScope, $http, $location, $route) {
   $rootScope.CSS = $route.current.$$route.css;

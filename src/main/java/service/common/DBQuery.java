@@ -130,4 +130,9 @@ public class DBQuery {
         preparedStatement.setString(3, ticket.getNumber());
         preparedStatement.executeUpdate();
     }
+
+    public ResultSet searchAllTickets(Connection connection) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM ticket");
+        return preparedStatement.executeQuery();
+    }
 }

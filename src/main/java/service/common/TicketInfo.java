@@ -5,24 +5,27 @@ package service.common;
  */
 public class TicketInfo {
 
-    private String personId;
-    private String refCode;
-    private String number;
+    private String tokenId;
+    private String refId;
 
-    public void setPersonId(String personId) {
-        this.personId = personId;
+    public TicketInfo(String tokenId, String refId) {
+        this.tokenId = tokenId;
+        this.refId = refId;
     }
 
-    public String getPersonId() {
-
-        return personId;
+    public String getTokenId() {
+        return tokenId;
     }
 
-    public String getRefCode() {
-        return refCode;
+    public String getRefId() {
+        return refId;
     }
 
-    public String getNumber() {
-        return number;
+    public void setTokenId(String tokenId) {
+        this.tokenId = tokenId;
+    }
+
+    public void setRefId(String refId) {
+        this.refId = refId;
     }
 }

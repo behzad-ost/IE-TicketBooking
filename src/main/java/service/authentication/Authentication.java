@@ -6,6 +6,7 @@ package service.authentication;
 
 import org.apache.log4j.Logger;
 
+import javax.print.attribute.standard.Media;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
@@ -25,6 +26,7 @@ import java.security.Key;
 import java.util.Objects;
 
 import io.jsonwebtoken.impl.crypto.MacProvider;
+import org.hsqldb.rights.User;
 import service.common.DBQuery;
 
 @Path("/login")
@@ -32,69 +34,54 @@ public class Authentication {
     final static String KEY = "behzad";
     final static Logger logger = Logger.getLogger(Authentication.class);
 
+
     private DBQuery query = new DBQuery();
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-
-//    public String returnVersion() {
-//        return "JwtSecurityExample Status is OK...";
-//    }
-    public AuthResponse authenticateCredentials(AuthCredentials authCredentials)
-            throws Exception {
+    public AuthResponse authenticateCredentials(AuthCredentials authCredentials) {
+        logger.debug("Logging In ...");
         String username = authCredentials.getUsername();
         String password = authCredentials.getPassword();
 
         AuthResponse response = new AuthResponse();
-        String role;
-        try {
-            role = validateUser(username, password);
-        }catch (Exception e){
+        UserInfo userInfo;
+        userInfo = validateUser(username, password);
+        if(userInfo == null) {
             response.setStatus("failed");
             return response;
         }
-
         response.setStatus("success");
-        String compactJws =  createJWT(role);
+        String compactJws =  createJWT(userInfo.getRole(),userInfo.getId());
         response.setToken(compactJws);
         logger.debug("JWS: " + compactJws);
         return response;
     }
 
-    private String validateUser(String username, String password) {
+    private UserInfo validateUser(String username, String password) {
+        logger.debug("Validation: " + username + password);
         try {
             Connection connection = query.setupDB();
             ResultSet rs = query.searchForUser(connection, username, password);
             if (rs.next()) {
-                return rs.getString("role");
+                UserInfo userInfo = new UserInfo(rs.getString("uid"),rs.getString("role"));
+                return userInfo;
             } else {
-                return "user";
-                // TODO: 5/22/17 throw auth failure
+                logger.debug("Not Found!");
+                return null;
             }
         } catch (SQLException | ClassNotFoundException e) {
-            return "user";
-            // TODO: 5/22/17 throw auth failure
+            logger.debug(e.getMessage());
+            return null;
         }
-
-//        if(Objects.equals(username, "admin") && Objects.equals(password, "admin")) {
-//            return "Admin";
-//        }
-//        else if (Objects.equals(username, "client") && Objects.equals(password, "client")){
-//            return "Client";
-//        }
-//        else
-//            return "User";
-//            throw AuthFailure();
     }
 
-    private String createJWT(String role) {
+    private String createJWT(String role, String id) {
         return Jwts.builder()
                 .setSubject(role)
-                .setId("1")
-                .setHeaderParam("key","Value")
-                .setHeaderParam("name","12345")
+                .setId(id)
                 .signWith(SignatureAlgorithm.HS512, KEY)
                 .compact();
     }
-
 }

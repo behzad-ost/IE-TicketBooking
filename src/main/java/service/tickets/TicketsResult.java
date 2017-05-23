@@ -14,9 +14,9 @@ public class TicketsResult {
     private ArrayList<TicketInfo> tickets;
 
 
-    public TicketsResult(boolean success, String errorMessage) {
-        this.success = success;
-        this.errorMessage = errorMessage;
+    public TicketsResult() {
+        this.success = false;
+        this.errorMessage = "";
         this.tickets = new ArrayList<>();
     }
 

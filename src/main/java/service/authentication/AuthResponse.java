@@ -7,19 +7,24 @@ public class AuthResponse {
     private String token;
     private String status;
 
-    public String getStatus(){
+    public AuthResponse() {
+        this.token = "";
+        this.status = "";
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(String _status){
-        status = _status;
+    public void setToken(String token) {
+        this.token = token;
     }
 
-    public String getToken(){
-        return token;
+    public void setStatus(String status) {
+        this.status = status;
     }
-    public void setToken(String _token){
-        token = _token;
-    }
-
 }

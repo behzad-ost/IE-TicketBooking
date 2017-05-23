@@ -34,7 +34,6 @@ public class Authentication {
 
     private DBQuery query = new DBQuery();
     @POST
-//    @Secured
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
 
